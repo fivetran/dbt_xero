@@ -8,6 +8,11 @@ with journals as (
     select *
     from {{ ref('stg_xero__journal_line') }}
 
+), accounts as (
+
+    select *
+    from {{ ref('stg_xero__account') }}
+
 ), joined as (
 
     select 
@@ -31,11 +36,12 @@ with journals as (
         journal_lines.tax_name,
         journal_lines.tax_type,
 
-        case when journal_lines.net_amount < 0 then abs(journal_lines.net_amount) end as credit,
-        case when journal_lines.net_amount >= 0 then abs(journal_lines.net_amount) end as debit
+        accounts.account_class  
     from journals
     left join journal_lines
         on journals.journal_id = journal_lines.journal_id
+    left join accounts
+        on accounts.account_id = journal_lines.account_id
 
 )
 

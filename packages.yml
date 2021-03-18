@@ -2,5 +2,5 @@ packages:
   # - local: ../../xero_source
 
   - git: "https://github.com/fivetran/dbt_xero_source"
-    revision: master
+    revision: main
     warn-unpinned: false

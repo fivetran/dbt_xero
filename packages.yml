@@ -1,2 +1,2 @@
 packages:
-  - local: ../xero_source
+  - local: ../../xero_source

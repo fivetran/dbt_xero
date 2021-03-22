@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: xero__profit_and_loss_report
+    columns:
+      - name: profit_and_loss_id
+        tests:
+          - unique
+          - not_null
+
+  - name: xero__invoice_line_items
+    columns:
+      - name: line_item_id
+        tests:
+          - unique
+          - not_null
+
+  - name: xero__general_ledger
+    columns:
+      - name: journal_line_id
+        tests:
+          - unique
+          - not_null

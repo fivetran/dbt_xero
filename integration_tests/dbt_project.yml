@@ -8,3 +8,6 @@ vars:
     account: "{{ ref('xero_account_data') }}"
     journal_line: "{{ ref('xero_journal_line_data') }}"
     journal: "{{ ref('xero_journal_data') }}"
+    contact: "{{ ref('xero_contact_data') }}"
+    invoice: "{{ ref('xero_invoice_data') }}"
+    invoice_line_item: "{{ ref('xero_invoice_line_item_data') }}"

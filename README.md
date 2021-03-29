@@ -21,7 +21,7 @@ Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instruction
 
 ## Configuration
 
-By default, this package will look for your Xero data in the `xero` schema of your [target database](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile). If this is not where your Xero data is, please add the following configuration to your `dbt_project.yml` file:
+By default, this package will look for your Xero data in the `xero` schema of your [target database](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile). If this is not where your Xero data is,add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -38,7 +38,7 @@ For additional configurations for the source models, visit the [Xero source pack
 
 ## Contributions
 
-Don't see a model or specific metric you would have liked to be included? Notice any bugs when installing and running the package? If so, we highly encourage and welcome contributions to this package! Please create issues or open PRs against `master`. See the [Discourse post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+Additional contributions to this package are very welcome! Please create issues or open PRs against `master`. See the [Discourse post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
 
 ## Resources:
 - Provide [feedback](https://www.surveymonkey.com/r/DQ7K7WW) on our existing dbt packages or what you'd like to see next

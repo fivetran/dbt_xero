@@ -38,7 +38,7 @@ For additional configurations for the source models, visit the [Xero source pack
 
 ## Contributions
 
-Additional contributions to this package are very welcome! Please create issues or open PRs against `master`. Check out [this post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+Additional contributions to this package are very welcome! Please create issues or open PRs against `master`. See the [Discourse post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
 
 ## Resources:
 - Provide [feedback](https://www.surveymonkey.com/r/DQ7K7WW) on our existing dbt packages or what you'd like to see next

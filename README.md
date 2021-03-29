@@ -21,7 +21,7 @@ Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instruction
 
 ## Configuration
 
-By default, this package will look for your Xero data in the `xero` schema of your [target database](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile). If this is not where your Xero Ads data is, please add the following configuration to your `dbt_project.yml` file:
+By default, this package will look for your Xero data in the `xero` schema of your [target database](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile). If this is not where your Xero data is, please add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml

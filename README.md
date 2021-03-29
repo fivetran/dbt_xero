@@ -2,7 +2,7 @@
 
 This package models Xero data from [Fivetran's connector](https://fivetran.com/docs/applications/xero). It uses data in the format described by [this ERD](https://docs.google.com/presentation/d/1eJ5eLTWyG2ozdZYLf4oy887anCvLtoE8RhJ1VLmFrbI/edit?usp=sharing).
 
-The main focus of the package is to transform the core tables into analytics-ready models, including an profit and loss report, general ledger and balance sheet report.
+This package enables you to transform the core tables into analytics-ready models, including an profit and loss report, general ledger, and balance sheet report.
 
 ## Models
 
@@ -10,10 +10,10 @@ This package contains transformation models, designed to work simultaneously wit
 
 | **model**                     | **description**                                                                                                        |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| xero__general_ledger          | Each record represents a journal line item. This ledger is used to create the balance sheet and profit and loss.       |
-| xero__profit_and_loss_report  | Each record represents a P&L line item at the month and account level.                                                 |
+| xero__general_ledger          | Each record represents a journal line item. The ledger is used to create the balance sheet and the profit and loss statement. |
+| xero__profit_and_loss_report  | Each record represents a profit and loss line item at the month and account level.                                     |
 | xero__balance_sheet_report    | Each record represents the state of the balance sheet for a given account on a given month.                            |
-| xero__invoice_line_items      | Each record represents an invoice line item, enriched with account, contact and invoice information.                   |
+| xero__invoice_line_items      | Each record represents an invoice line item, enriched with account, contact, and invoice information.                   |
 
 ## Installation Instructions
 
@@ -38,12 +38,12 @@ For additional configurations for the source models, visit the [Xero source pack
 
 ## Contributions
 
-Additional contributions to this package are very welcome! Please create issues or open PRs against `master`. See the [Discourse post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+Don't see a model or specific metric you would have liked to be included? Notice any bugs when installing and running the package? If so, we highly encourage and welcome contributions to this package! Please create issues or open PRs against `master`. See the [Discourse post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
 
 ## Resources:
 - Provide [feedback](https://www.surveymonkey.com/r/DQ7K7WW) on our existing dbt packages or what you'd like to see next
 - Find all of Fivetran's pre-built dbt packages in our [dbt hub](https://hub.getdbt.com/fivetran/)
-- Learn more about Fivetran [in the Fivetran docs](https://fivetran.com/docs)
+- Learn more about Fivetran [in our docs](https://fivetran.com/docs)
 - Check out [Fivetran's blog](https://fivetran.com/blog)
 - Learn more about dbt [in the dbt docs](https://docs.getdbt.com/docs/introduction)
 - Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers

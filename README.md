@@ -2,7 +2,7 @@
 
 This package models Xero data from [Fivetran's connector](https://fivetran.com/docs/applications/xero). It uses data in the format described by [this ERD](https://docs.google.com/presentation/d/1eJ5eLTWyG2ozdZYLf4oy887anCvLtoE8RhJ1VLmFrbI/edit?usp=sharing).
 
-This package enables you to transform the core tables into analytics-ready models, including an profit and loss report, general ledger, and balance sheet report.
+The package’s primary focus is to transform the core tables into analytics-ready models, including a profit and loss report, general ledger, and balance sheet report.
 
 ## Models
 
@@ -10,10 +10,10 @@ This package contains transformation models, designed to work simultaneously wit
 
 | **model**                     | **description**                                                                                                        |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| xero__general_ledger          | Each record represents a journal line item. The ledger is used to create the balance sheet and the profit and loss statement. |
+| xero__general_ledger          | Each record represents a journal line item. Use the ledger to create the balance sheet and the profit and loss statement. |
 | xero__profit_and_loss_report  | Each record represents a profit and loss line item at the month and account level.                                     |
 | xero__balance_sheet_report    | Each record represents the state of the balance sheet for a given account on a given month.                            |
-| xero__invoice_line_items      | Each record represents an invoice line item, enriched with account, contact, and invoice information.                   |
+| xero__invoice_line_items      | Each record represents an invoice line item enriched with the account, contact, and invoice information.                   |
 
 ## Installation Instructions
 

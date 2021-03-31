@@ -36,6 +36,7 @@ with line_items as (
         invoices.invoice_status,
         invoices.type,
         invoices.url,
+        invoices.reference as invoice_reference,
 
         accounts.account_name,
         accounts.account_type,

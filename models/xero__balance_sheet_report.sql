@@ -19,7 +19,7 @@ with calendar as (
         case
             when cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date) >= current_date
             then cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
-            else cast(extract(year from date_add(current_date, interval -1 year)) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
+            else cast(extract(year from {{ dbt_utils.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
         end as current_year_end_date
     from organisation
 
@@ -29,7 +29,7 @@ with calendar as (
         calendar.date_month,
         case
             when ledger.account_class in ('ASSET','EQUITY','LIABILITY') then ledger.account_name
-            when ledger.journal_date <= date_add(year_end.current_year_end_date, interval -1 year) then 'Retained Earnings'
+            when ledger.journal_date <= {{ dbt_utils.dateadd('year', -1, 'year_end.current_year_end_date') }} then 'Retained Earnings'
             else 'Current Year Earnings'
         end as account_name,
         case

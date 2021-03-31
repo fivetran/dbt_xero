@@ -11,3 +11,4 @@ vars:
     contact: "{{ ref('xero_contact_data') }}"
     invoice: "{{ ref('xero_invoice_data') }}"
     invoice_line_item: "{{ ref('xero_invoice_line_item_data') }}"
+    organization: "{{ ref('xero_organization_data') }}"

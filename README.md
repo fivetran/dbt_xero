@@ -15,6 +15,10 @@ This package contains transformation models, designed to work simultaneously wit
 | xero__balance_sheet_report    | Each record represents the state of the balance sheet for a given account on a given month.                            |
 | xero__invoice_line_items      | Each record represents an invoice line item, enriched with account, contact and invoice information.                   |
 
+## Note about currency gains
+
+If you are using multi-currency accounting in Xero, you are likely to have unrealised currency gains as part of your profit and loss statement. These gains/losses do not exist within the actual journals in Xero. As a result, you will find that those lines are missing from the outputs of this package. All realised currency gains will be present and your balance sheet will still balance.
+
 ## Installation Instructions
 
 Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.

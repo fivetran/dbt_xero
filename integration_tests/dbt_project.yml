@@ -1,5 +1,5 @@
 name: 'xero_integration_tests'
-version: '1.0.0'
+version: '0.1.0'
 profile: 'integration_tests'
 config-version: 2
 

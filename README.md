@@ -17,7 +17,7 @@ This package contains transformation models, designed to work simultaneously wit
 
 ## Note about currency gains
 
-If you are using multi-currency accounting in Xero, you are likely to have unrealised currency gains as part of your profit and loss statement. These gains/losses do not exist within the actual journals in Xero. As a result, you will find that those lines are missing from the outputs of this package. All realised currency gains will be present and your balance sheet will still balance.
+If you are using multi-currency accounting in Xero, you are likely to have unrealized currency gains as part of your profit and loss statement. These gains/losses do not exist within the actual journals in Xero. As a result, you will find that those lines are missing from the outputs of this package. All realised currency gains will be present and your balance sheet will still balance.
 
 ## Installation Instructions
 
@@ -40,14 +40,36 @@ vars:
 
 For additional configurations for the source models, visit the [Xero source package](https://github.com/fivetran/xero_source).
 
-## Contributions
+### Changing the Build Schema
+By default this package will build the Xero Source staging models within a schema titled (<target_schema> + `_stg_xero`) and the Xero final transform models within a schema titled (<target_schema> + `_xero`) in your target database. 
+To overwrite this behavior, add the following configuration to your `dbt_project.yml` file:
 
-Additional contributions to this package are very welcome! Please create issues or open PRs against `master`. See the [Discourse post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+```yml
+# dbt_project.yml
+
+...
+models:
+    xero:
+        +schema: my_new_final_models_schema # leave blank for just the target_schema
+    xero_source:
+        +schema: my_new_staging_models_schema # leave blank for just the target_schema
+
+```
+
+## Contributions
+Don't see a model or specific metric you would have liked to be included? Notice any bugs when installing 
+and running the package? If so, we highly encourage and welcome contributions to this package! 
+Please create issues or open PRs against `master`. See [the Discourse post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) for information on how to contribute to a package.
+
+## Database Support
+This package has been tested on BigQuery, Snowflake, Postgres and Redshift.
 
 ## Resources:
 - Provide [feedback](https://www.surveymonkey.com/r/DQ7K7WW) on our existing dbt packages or what you'd like to see next
+- Have questions, feedback, or need help? Book a time during our office hours [using Calendly](https://calendly.com/fivetran-solutions-team/fivetran-solutions-team-office-hours) or email us at solutions@fivetran.com
 - Find all of Fivetran's pre-built dbt packages in our [dbt hub](https://hub.getdbt.com/fivetran/)
-- Learn more about Fivetran [in the Fivetran docs](https://fivetran.com/docs) 
+- Learn how to orchestrate [dbt transformations with Fivetran](https://fivetran.com/docs/transformations/dbt)
+- Learn more about Fivetran overall [in our docs](https://fivetran.com/docs)
 - Check out [Fivetran's blog](https://fivetran.com/blog)
 - Learn more about dbt [in the dbt docs](https://docs.getdbt.com/docs/introduction)
 - Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers

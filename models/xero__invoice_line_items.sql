@@ -1,22 +1,22 @@
 with line_items as (
 
     select *
-    from {{ ref('stg_xero__invoice_line_item') }}
+    from {{ var('invoice_line_item') }}
 
 ), invoices as (
 
     select *
-    from {{ ref('stg_xero__invoice') }}
+    from {{ var('invoice') }}
 
 ), accounts as (
 
     select *
-    from {{ ref('stg_xero__account') }}
+    from {{ var('account') }}
 
 ), contacts as (
 
     select *
-    from {{ ref('stg_xero__contact') }}
+    from {{ var('contact') }}
 
 ), joined as (
 
@@ -38,6 +38,7 @@ with line_items as (
         invoices.url,
         invoices.reference as invoice_reference,
 
+        accounts.account_id,
         accounts.account_name,
         accounts.account_type,
         accounts.account_class,

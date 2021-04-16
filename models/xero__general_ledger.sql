@@ -1,17 +1,17 @@
 with journals as (
 
     select *
-    from {{ ref('stg_xero__journal') }}
+    from {{ var('journal') }}
 
 ), journal_lines as (
 
     select *
-    from {{ ref('stg_xero__journal_line') }}
+    from {{ var('journal_line') }}
 
 ), accounts as (
 
     select *
-    from {{ ref('stg_xero__account') }}
+    from {{ var('account') }}
 
 ), joined as (
 

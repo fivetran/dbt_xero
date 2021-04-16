@@ -19,6 +19,8 @@ models:
         description: The code of the related account in Xero.
       - name: account_type
         description: The type of the related account in Xero.
+      - name: account_class
+        description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
       - name: net_amount
         description: The net movement amount.
 
@@ -82,6 +84,8 @@ models:
         description: The type of the invoice.
       - name: url
         description: URL link to a source document
+      - name: account_id
+        description: The Xero identifier for the related account.
       - name: account_name
         description: The name of the account.
       - name: account_code
@@ -100,9 +104,10 @@ models:
         description: Xero identifier for the journal line.
         tests:
           - unique
-          - not_null
       - name: journal_id
         description: Xero identifier for the journal entry
+        tests:
+          - not_null
       - name: created_date_utc
         description: The created date of the journal entry
       - name: journal_date
@@ -161,5 +166,9 @@ models:
         description: The code of the related account in Xero.
       - name: account_class
         description: The class of the related account in Xero.
+      - name: account_id
+        description: The Xero identifier for the related account.
+      - name: account_type
+        description: The type of the related account.
       - name: net_amount
         description: The net balance amount.

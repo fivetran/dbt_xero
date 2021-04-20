@@ -6,7 +6,7 @@ The package’s primary focus is to transform the core tables into analytics-rea
 
 ## Models
 
-This package contains transformation models, designed to work simultaneously with our [Xero source package](https://github.com/fivetran/xero_source). A dependency on the source package is declared in this package's `packages.yml` file, so it will automatically download when you run `dbt deps`. The primary outputs of this package are described below.
+This package contains transformation models, designed to work simultaneously with our [Xero source package](https://github.com/fivetran/dbt_xero_source/tree/v0.1.0/). A dependency on the source package is declared in this package's `packages.yml` file, so it will automatically download when you run `dbt deps`. The primary outputs of this package are described below.
 
 | **model**                     | **description**                                                                                                        |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- |

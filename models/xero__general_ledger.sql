@@ -13,6 +13,21 @@ with journals as (
     select *
     from {{ var('account') }}
 
+), invoices as (
+
+    select *
+    from {{ ref('stg_xero__invoice') }}
+
+), bank_transactions as (
+
+    select *
+    from {{ ref('stg_xero__bank_transaction') }}
+
+), credit_notes as (
+
+    select *
+    from {{ ref('stg_xero__credit_note') }}
+
 ), joined as (
 
     select 
@@ -51,7 +66,24 @@ with journals as (
     left join accounts
         on accounts.account_id = journal_lines.account_id
 
+), contacts as (
+
+    select 
+        joined.*,
+        coalesce(
+            invoices.contact_id,
+            bank_transactions.contact_id,
+            credit_notes.contact_id
+        ) as contact_id
+    from joined
+    left join invoices
+        using (invoice_id)
+    left join bank_transactions
+        using (bank_transaction_id)
+    left join credit_notes
+        using (credit_note_id)
+
 )
 
 select *
-from joined 
+from contacts 

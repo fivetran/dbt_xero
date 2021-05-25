@@ -12,6 +12,8 @@ vars:
     invoice: "{{ ref('xero_invoice_data') }}"
     invoice_line_item: "{{ ref('xero_invoice_line_item_data') }}"
     organization: "{{ ref('xero_organization_data') }}"
+    credit_note: "{{ ref('xero_credit_note_data') }}"
+    bank_transaction: "{{ ref('xero_bank_transaction_data') }}"
 
   xero:
     account: "{{ ref('stg_xero__account') }}" 

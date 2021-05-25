@@ -154,6 +154,8 @@ models:
         description: Source ID where it can be joined to the payment table.
       - name: credit_note_id
         description: Source ID where it can be joined to the credit note table.
+      - name: contact_id
+        description: ID of the associated contact, where relevant.
 
   - name: xero__balance_sheet_report
     description: Each record represents the state of the balance sheet for a given account on a given month.

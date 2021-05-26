@@ -28,6 +28,11 @@ with journals as (
     select *
     from {{ ref('stg_xero__credit_note') }}
 
+), contacts as (
+
+    select *
+    from {{ ref('stg_xero__contact') }}
+
 ), joined as (
 
     select 
@@ -66,7 +71,7 @@ with journals as (
     left join accounts
         on accounts.account_id = journal_lines.account_id
 
-), contacts as (
+), first_contact as (
 
     select 
         joined.*,
@@ -83,7 +88,16 @@ with journals as (
     left join credit_notes
         using (credit_note_id)
 
+), second_contact as (
+
+    select 
+        first_contact.*,
+        contacts.contact_name
+    from first_contact
+    left join contacts 
+        using (contact_id)
+
 )
 
 select *
-from contacts 
+from second_contact

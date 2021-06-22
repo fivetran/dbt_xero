@@ -38,6 +38,21 @@ vars:
     xero_database: your_database_name 
 ```
 
+### Disabling and Enabling Models
+
+When setting up your Xero connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality in Xero or have actively decided to not sync some tables. In order to disable the relevant functionality in the package, you will need to add the relevant variables.
+
+By default, all variables are assumed to be `true`. You only need to add variables for the tables you would like to disable:
+
+```yml
+# dbt_project.yml
+
+config-version: 2
+
+vars:
+    xero__using_credit_note: false                    # default is true
+```
+
 For additional configurations for the source models, visit the [Xero source package](https://github.com/fivetran/xero_source).
 
 ### Changing the Build Schema

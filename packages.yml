@@ -1,7 +1,3 @@
 packages:
-  # - package: fivetran/xero_source
-  #   version: [">=0.1.0","<0.2.0"]
-
-  - git: https://github.com/fivetran/dbt_xero_source.git
-    revision: feature/credit-note-var
-    warn-unpinned: false
+  - package: fivetran/xero_source
+    version: [">=0.1.0","<0.2.0"]

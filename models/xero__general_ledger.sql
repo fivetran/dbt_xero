@@ -16,22 +16,24 @@ with journals as (
 ), invoices as (
 
     select *
-    from {{ ref('stg_xero__invoice') }}
+    from {{ var('invoice') }}
 
 ), bank_transactions as (
 
     select *
-    from {{ ref('stg_xero__bank_transaction') }}
+    from {{ var('bank_transaction') }}
 
+{% if var('xero__using_credit_note', True) %}
 ), credit_notes as (
 
     select *
-    from {{ ref('stg_xero__credit_note') }}
+    from {{ var('credit_note') }}
+{% endif %}
 
 ), contacts as (
 
     select *
-    from {{ ref('stg_xero__contact') }}
+    from {{ var('contact') }}
 
 ), joined as (
 
@@ -77,16 +79,23 @@ with journals as (
         joined.*,
         coalesce(
             invoices.contact_id,
-            bank_transactions.contact_id,
-            credit_notes.contact_id
+            bank_transactions.contact_id
+
+            {% if var('xero__using_credit_note', True) %}
+            , credit_notes.contact_id
+            {% endif %}
+
         ) as contact_id
     from joined
     left join invoices
         using (invoice_id)
     left join bank_transactions
         using (bank_transaction_id)
+
+    {% if var('xero__using_credit_note', True) %}
     left join credit_notes
         using (credit_note_id)
+    {% endif %}
 
 ), second_contact as (
 

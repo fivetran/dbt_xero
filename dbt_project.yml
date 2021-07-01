@@ -1,5 +1,5 @@
 name: 'xero'
-version: '0.1.0'
+version: '0.1.2'
 config-version: 2
 require-dbt-version: [">=0.19.0", "<0.20.0"]
 
@@ -12,6 +12,8 @@ vars:
     journal_line: "{{ ref('stg_xero__journal_line') }}" 
     journal: "{{ ref('stg_xero__journal') }}" 
     organization: "{{ ref('stg_xero__organization') }}" 
+    credit_note: "{{ ref('stg_xero__credit_note') }}" 
+    bank_transaction: "{{ ref('stg_xero__bank_transaction') }}" 
 
 models:
   xero:

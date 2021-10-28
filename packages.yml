@@ -4,7 +4,7 @@ packages:
 
   
   - git: https://github.com/fivetran/dbt_xero_source.git
-    revision: feature/union-source-data
+    revision: feature/union_source_data
     warn-unpinned: false 
 
   # - local: ../dbt_xero_source

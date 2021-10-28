@@ -11,6 +11,8 @@ models:
     columns:
       - name: profit_and_loss_id
         description: Unique identifier for each record in the profit and loss report model.
+        tests:
+          - not_null
       - name: date_month
         description: The month of activity.
       - name: account_id
@@ -57,6 +59,8 @@ models:
         description: The line amount reflects the discounted price if a DiscountRate has been used.
       - name: line_item_id
         description: Xero identifier for the line item.
+        tests:
+          - not_null
       - name: quantity
         description: The quantity of the line item.
       - name: tax_amount

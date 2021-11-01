@@ -3,15 +3,11 @@ version: 2
 models:
   - name: xero__profit_and_loss_report
     description: Each record represents a P&L line item at the month and account level.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - profit_and_loss_id
-            - source_relation
     columns:
       - name: profit_and_loss_id
         description: Unique identifier for each record in the profit and loss report model.
         tests:
+          - unique  
           - not_null
       - name: date_month
         description: The month of activity.
@@ -187,10 +183,12 @@ models:
 
   - name: xero__balance_sheet_report
     description: Each record represents the state of the balance sheet for a given account on a given month.
-    # tests:
-      # - dbt_utils.unique_combination_of_columns:
-      #     combination_of_columns:
-      #       - source_relation
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - date_month
+            - account_name
     columns:
       - name: date_month
         description: The month a given record is reporting on.

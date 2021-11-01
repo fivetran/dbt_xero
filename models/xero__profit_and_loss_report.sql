@@ -11,7 +11,7 @@ with calendar as (
 ), joined as (
 
     select 
-        {{ dbt_utils.surrogate_key(['calendar.date_month','ledger.account_id']) }} as profit_and_loss_id,
+        {{ dbt_utils.surrogate_key(['calendar.date_month','ledger.account_id','ledger.source_relation']) }} as profit_and_loss_id,
         calendar.date_month, 
         ledger.account_id,
         ledger.account_name,

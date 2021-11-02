@@ -3,7 +3,7 @@
 ## Features
 - Allow for multiple sources by unioning source tables across multiple Xero connectors.
 ([#11](https://github.com/fivetran/dbt_xero_source/pull/11))
-  - Refer to the README for more details. (See ### Unioning Multiple Xero Connectors).
+  - Refer to the unioning multiple Xero connectors section of the [README](https://github.com/fivetran/dbt_xero/tree/main#unioning-multiple-xero-connectors) for more details.
 
 ## Under the Hood
 - Unioning: The unioning occurs in Xero source package using the `fivetran_utils.union_data` macro. ([#16](https://github.com/fivetran/dbt_xero/pull/16))

@@ -45,6 +45,7 @@ with journals as (
         journals.reference,
         journals.source_id,
         journals.source_type,
+        journals.source_relation, 
 
         journal_lines.journal_line_id,
         journal_lines.account_code,
@@ -69,9 +70,11 @@ with journals as (
 
     from journals
     left join journal_lines
-        on journals.journal_id = journal_lines.journal_id
+        on (journals.journal_id = journal_lines.journal_id
+        and journals.source_relation = journal_lines.source_relation)
     left join accounts
-        on accounts.account_id = journal_lines.account_id
+        on (accounts.account_id = journal_lines.account_id
+        and accounts.source_relation = journal_lines.source_relation)
 
 ), first_contact as (
 
@@ -87,14 +90,17 @@ with journals as (
 
         ) as contact_id
     from joined
-    left join invoices
-        using (invoice_id)
+    left join invoices 
+        on (joined.invoice_id = invoices.invoice_id
+        and joined.source_relation = invoices.source_relation)
     left join bank_transactions
-        using (bank_transaction_id)
+        on (joined.bank_transaction_id = bank_transactions.bank_transaction_id
+        and joined.source_relation = bank_transactions.source_relation)
 
     {% if var('xero__using_credit_note', True) %}
-    left join credit_notes
-        using (credit_note_id)
+    left join credit_notes 
+        on (joined.credit_note_id = credit_notes.credit_note_id
+        and joined.source_relation = credit_notes.source_relation)
     {% endif %}
 
 ), second_contact as (
@@ -104,7 +110,8 @@ with journals as (
         contacts.contact_name
     from first_contact
     left join contacts 
-        using (contact_id)
+        on (first_contact.contact_id = contacts.contact_id
+        and first_contact.source_relation = contacts.source_relation)
 
 )
 

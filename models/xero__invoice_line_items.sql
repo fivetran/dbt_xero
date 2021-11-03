@@ -47,11 +47,14 @@ with line_items as (
 
     from line_items
     left join invoices
-        using (invoice_id)
+        on (line_items.invoice_id = invoices.invoice_id
+        and line_items.source_relation = invoices.source_relation)
     left join accounts
-        using (account_code)
+        on (line_items.account_code = accounts.account_code
+        and line_items.source_relation = accounts.source_relation)
     left join contacts
-        using (contact_id)
+        on (invoices.contact_id = contacts.contact_id
+        and invoices.source_relation = contacts.source_relation)
 
 )
 

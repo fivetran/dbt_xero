@@ -29,7 +29,7 @@ Include in your `packages.yml`
 ```yaml
 packages:
   - package: fivetran/xero
-    version: [">=0.2.0", "<0.3.0"]
+    version: [">=0.3.0", "<0.4.0"]
 ```
 
 ## Configuration
@@ -45,6 +45,19 @@ config-version: 2
 vars:
     xero_schema: your_schema_name
     xero_database: your_database_name 
+```
+
+### Unioning Multiple Xero Connectors
+If you have multiple Xero connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set **either** (**note that you cannot use both**) the `union_schemas` or `union_databases` variables:
+
+```yml
+# dbt_project.yml
+...
+config-version: 2
+vars:
+  xero_source:
+    union_schemas: ['xero_us','xero_ca'] # use this if the data is in different schemas/datasets of the same database/project
+    union_databases: ['xero_us','xero_ca'] # use this if the data is in different databases/projects but uses the same schema name
 ```
 
 ### Disabling and Enabling Models

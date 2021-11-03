@@ -1,5 +1,5 @@
 name: 'xero'
-version: '0.2.0'
+version: '0.3.0'
 config-version: 2
 require-dbt-version: [">=0.20.0"]
 
@@ -19,3 +19,5 @@ models:
   xero:
     +materialized: table
     +schema: xero
+    utilities:
+       +materialized: ephemeral

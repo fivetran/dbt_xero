@@ -48,12 +48,13 @@ with calendar as (
             when ledger.account_class in ('ASSET','EQUITY','LIABILITY') then ledger.account_class
             else 'EQUITY'
         end as account_class,
+        ledger.source_relation, 
         sum(ledger.net_amount) as net_amount
     from calendar
     inner join ledger
         on calendar.date_month >= cast({{ dbt_utils.date_trunc('month', 'ledger.journal_date') }} as date)
     cross join year_end
-    {{ dbt_utils.group_by(6) }}
+    {{ dbt_utils.group_by(7) }}
 
 )
 

@@ -7,7 +7,7 @@ models:
       - name: profit_and_loss_id
         description: Unique identifier for each record in the profit and loss report model.
         tests:
-          - unique
+          - unique  
           - not_null
       - name: date_month
         description: The month of activity.
@@ -23,9 +23,19 @@ models:
         description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
       - name: net_amount
         description: The net movement amount.
+      - name: source_relation
+        description: >
+          The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          sources, this will be an empty string.
 
   - name: xero__invoice_line_items
     description: Each record represents an invoice line item, enriched with account, contact and invoice information.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - line_item_id
+            - source_relation
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -46,7 +56,6 @@ models:
       - name: line_item_id
         description: Xero identifier for the line item.
         tests:
-          - unique
           - not_null
       - name: quantity
         description: The quantity of the line item.
@@ -96,14 +105,22 @@ models:
         description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
       - name: contact_name
         description: The name of the associated contact.
+      - name: source_relation
+        description: >
+          The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          sources, this will be an empty string.
 
   - name: xero__general_ledger
     description: Each record represents a journal line item. This ledger is used to create the balance sheet and profit and loss.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - journal_line_id
+            - source_relation
     columns:
       - name: journal_line_id
         description: Xero identifier for the journal line.
-        tests:
-          - unique
       - name: journal_id
         description: Xero identifier for the journal entry
         tests:
@@ -158,9 +175,20 @@ models:
         description: ID of the associated contact, where relevant.
       - name: contact_name
         description: Name of the associated contact, where relevant.
+      - name: source_relation
+        description: >
+          The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          sources, this will be an empty string.
 
   - name: xero__balance_sheet_report
     description: Each record represents the state of the balance sheet for a given account on a given month.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - date_month
+            - account_name
     columns:
       - name: date_month
         description: The month a given record is reporting on.
@@ -176,3 +204,8 @@ models:
         description: The type of the related account.
       - name: net_amount
         description: The net balance amount.
+      - name: source_relation
+        description: >
+          The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          sources, this will be an empty string.

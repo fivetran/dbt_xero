@@ -1,3 +1,8 @@
+# dbt_xero v0.3.1
+## Bug Fix
+- The `account_code`, `account_id`, `account_name`, and `account_type` fields within the `xero_general_ledger` are now being selected from the `stg_xero__account` model instead of the `stg_xero__journal_line` model. 
+  - It was found that account names may be changed within Xero, but the account name within a journal line entry will remain the old name. As such, this fix will ensure all records on the `xero__general_ledger` and downstream models reflect the most up to date name of the account.
+
 # dbt_xero v0.3.0
 
 ## Features

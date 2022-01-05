@@ -1,3 +1,2 @@
 packages:
-- package: fivetran/xero_source
-  version: [">=0.4.0", "<0.5.0"]
+- git: https://github.com/Project-Rouge/dbt_xero_source

@@ -58,7 +58,7 @@ models:
       - name: line_item_id
         description: Xero identifier for the line item.
         tests:
-          - not_null
+          - not null
       - name: quantity
         description: The quantity of the line item.
       - name: tax_amount

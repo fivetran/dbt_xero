@@ -50,7 +50,7 @@ models:
       - name: invoice_id
         description: The Xero identifier for the invoice the line items belongs to.
         tests:
-          - not null
+          - not_null
       - name: item_code
         description: User defined item code.
       - name: line_amount
@@ -58,7 +58,7 @@ models:
       - name: line_item_id
         description: Xero identifier for the line item.
         tests:
-          - not null
+          - not_null
       - name: quantity
         description: The quantity of the line item.
       - name: tax_amount

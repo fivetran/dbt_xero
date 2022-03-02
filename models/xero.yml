@@ -49,6 +49,8 @@ models:
         description: Percentage discount being applied to a line item.
       - name: invoice_id
         description: The Xero identifier for the invoice the line items belongs to.
+        tests:
+          - not_null
       - name: item_code
         description: User defined item code.
       - name: line_amount
@@ -204,6 +206,85 @@ models:
         description: The type of the related account.
       - name: net_amount
         description: The net balance amount.
+      - name: source_relation
+        description: >
+          The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          sources, this will be an empty string.
+
+
+  - name: xero__purchase_order_line_items
+    description: Each record represents a purchase order line item, enriched with account, contact and invoice information.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - line_item_id
+            - source_relation
+    columns:
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: description
+        description: The description of the line item
+      - name: discount_rate
+        description: Percentage discount being applied to a purchase order line item.
+      - name: purchase_order_id
+        description: The Xero identifier for the purchase order the line items belongs to.
+        tests:
+          - not_null
+      - name: item_code
+        description: User defined item code.
+      - name: line_amount
+        description: The line amount reflects the discounted price if a DiscountRate has been used.
+      - name: line_item_id
+        description: Xero identifier for the purchase order line item.
+        tests:
+          - not_null
+      - name: quantity
+        description: The quantity of the purchase order line item.
+      - name: tax_amount
+        description: The tax amount is auto calculated as a percentage of the line amount based on the tax rate.
+      - name: tax_type
+        description: Used as an override if the default Tax Code for the selected AccountCode is not correct.
+      - name: unit_amount
+        description: The unit amount of each purchase order line item.
+      - name: purchase_order_date
+        description: The date the purchase order was issued.
+      - name: updated_date
+        description: The date the purchase order was last modified.
+      - name: delivery_date
+        description: The expected delivery date of the purchase order goods, when set.
+      - name: currency_code
+        description: The currency that purchase order has been raised in
+      - name: currency_rate
+        description: The currency rate for a multicurrency purchase order
+      - name: purchase_order_reference
+        description: Additional reference number to suit the organisation or supplier.
+      - name: purchase_order_status
+        description: The status of the purchase order
+      - name: type
+        description: The type of the purchase order.
+      - name: is_discounted
+        description: Flags if purchase order items have discounts applied
+      - name: line_amount_types
+        description: Tax inclusive, exclusive or no tax
+      - name: sub_total
+        description: Purchase order amount before tax
+      - name: total_tax
+        description: Purchase order tax amount
+      - name: total
+        description: Purchase order total amount including tax
+      - name: account_id
+        description: The Xero identifier for the related account.
+      - name: account_name
+        description: The name of the account.
+      - name: account_code
+        description: Customer defined alpha numeric account code e.g 200 or SALES
+      - name: account_type
+        description: The type of account, e.g. CURRENT, EQUITY, SALES
+      - name: account_class
+        description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
+      - name: contact_name
+        description: The name of the associated contact.
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.

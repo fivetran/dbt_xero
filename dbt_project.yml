@@ -1,7 +1,7 @@
 name: 'xero'
-version: '0.4.0'
+version: '0.3.0'
 config-version: 2
-require-dbt-version: [">=1.0.0", "<2.0.0"]
+require-dbt-version: ">=0.20.0"
 
 vars:
   xero:
@@ -14,6 +14,8 @@ vars:
     organization: "{{ ref('stg_xero__organization') }}"
     credit_note: "{{ ref('stg_xero__credit_note') }}"
     bank_transaction: "{{ ref('stg_xero__bank_transaction') }}"
+    purchase_order_line_item: "{{ ref('stg_xero__purchase_order_line_item') }}"
+    purchase_order: "{{ ref('stg_xero__purchase_order') }}"
 
 models:
   xero:

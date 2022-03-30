@@ -1,3 +1,7 @@
+# dbt_xero v0.4.1
+## Features
+- Adds the xero__using_bank_transaction variable to disable the associated models on instances of Xero that don't include that base table
+
 # dbt_xero v0.4.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨

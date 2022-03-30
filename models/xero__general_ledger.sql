@@ -18,10 +18,13 @@ with journals as (
     select *
     from {{ var('invoice') }}
 
+{% if var('xero__using_bank_transaction', True) %}
 ), bank_transactions as (
 
     select *
     from {{ var('bank_transaction') }}
+
+{% endif %}
 
 {% if var('xero__using_credit_note', True) %}
 ), credit_notes as (
@@ -79,8 +82,10 @@ with journals as (
     select 
         joined.*,
         coalesce(
-            invoices.contact_id,
-            bank_transactions.contact_id
+            invoices.contact_id
+            {% if var('xero__using_bank_transaction', True) %}
+                , bank_transactions.contact_id
+            {% endif %}
 
             {% if var('xero__using_credit_note', True) %}
             , credit_notes.contact_id
@@ -91,9 +96,11 @@ with journals as (
     left join invoices 
         on (joined.invoice_id = invoices.invoice_id
         and joined.source_relation = invoices.source_relation)
+    {% if var('xero__using_bank_transaction', True) %}
     left join bank_transactions
         on (joined.bank_transaction_id = bank_transactions.bank_transaction_id
         and joined.source_relation = bank_transactions.source_relation)
+    {% endif %}
 
     {% if var('xero__using_credit_note', True) %}
     left join credit_notes 

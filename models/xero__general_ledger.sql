@@ -81,6 +81,7 @@ with journals as (
 
     select 
         joined.*,
+        {% if fivetran_utils.enabled_vars_one_true(['xero__using_bank_transaction','xero__using_credit_note']) %}
         coalesce(
             invoices.contact_id
             {% if var('xero__using_bank_transaction', True) %}
@@ -90,8 +91,12 @@ with journals as (
             {% if var('xero__using_credit_note', True) %}
             , credit_notes.contact_id
             {% endif %}
+        )
+        {% else %}
+        invoices.contact_id
+        {% endif %}
 
-        ) as contact_id
+        as contact_id
     from joined
     left join invoices 
         on (joined.invoice_id = invoices.invoice_id

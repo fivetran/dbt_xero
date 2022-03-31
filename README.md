@@ -72,7 +72,8 @@ By default, all variables are assumed to be `true`. You only need to add variabl
 config-version: 2
 
 vars:
-    xero__using_credit_note: false                    # default is true
+    xero__using_credit_note: false                      # default is true
+    xero__using_bank_transaction: false                 # default is true
 ```
 
 For additional configurations for the source models, visit the [Xero source package](https://github.com/fivetran/xero_source).

@@ -190,7 +190,7 @@ models:
           combination_of_columns:
             - source_relation
             - date_month
-            - account_code
+            - account_name
     columns:
       - name: date_month
         description: The month a given record is reporting on.

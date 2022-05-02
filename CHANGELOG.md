@@ -1,3 +1,12 @@
+# dbt_xero v0.5.0
+🎉 Documentation and Style Standards Update 🎉
+
+## 🚨 Breaking Changes 🚨
+- The `union_schema` and `union_database` variables have been renamed to `xero_union_schema` and `xero_union_database` respectively. This helps to keep these variables unique and mitigates the risk of the same variable being referenced within your dbt project.
+## Features
+- The README documentation has been updated to provide a better walkthrough of how to effectively leverage the dbt package.
+- The sql and jinja style has been updated to remain consistent with our [sql style guide](https://github.com/fivetran/dbt_style_guide).
+- Additional `xero__<default_source_table_name>_identifier` variables have been added to enable users to more easily point the dbt package at different named source tables.
 # dbt_xero v0.4.1
 ## Features
 - Adds the `xero__using_bank_transaction` variable to disable the associated models on instances of Xero that don't include the `bank_transaction` source table. ([#27](https://github.com/fivetran/dbt_xero/pull/27))

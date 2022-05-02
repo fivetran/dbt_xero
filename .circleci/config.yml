@@ -23,18 +23,6 @@ jobs:
             mkdir -p ~/.dbt
             cp integration_tests/ci/sample.profiles.yml ~/.dbt/profiles.yml
       - run:
-          name: "Run Tests - Redshift"
-          command: |
-            . venv/bin/activate
-            echo `pwd`
-            cd integration_tests
-            dbt deps
-            dbt seed --target redshift --full-refresh
-            dbt run --vars '{xero__using_credit_note: false, xero__using_bank_transaction: false}' --target redshift --full-refresh
-            dbt test --target redshift
-            dbt run --target redshift --full-refresh
-            dbt test --target redshift
-      - run:
           name: "Run Tests - Postgres"
           command: |
             . venv/bin/activate
@@ -46,6 +34,18 @@ jobs:
             dbt test --target postgres
             dbt run --target postgres --full-refresh
             dbt test --target postgres
+      - run:
+          name: "Run Tests - Redshift"
+          command: |
+            . venv/bin/activate
+            echo `pwd`
+            cd integration_tests
+            dbt deps
+            dbt seed --target redshift --full-refresh
+            dbt run --vars '{xero__using_credit_note: false, xero__using_bank_transaction: false}' --target redshift --full-refresh
+            dbt test --target redshift
+            dbt run --target redshift --full-refresh
+            dbt test --target redshift
       - run:
           name: "Run Tests - Snowflake"
           command: |

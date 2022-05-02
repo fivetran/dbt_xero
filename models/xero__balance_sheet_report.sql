@@ -2,18 +2,21 @@ with calendar as (
 
     select *
     from {{ ref('xero__calendar_spine') }}
+), 
 
-), ledger as (
+ledger as (
 
     select *
     from {{ ref('xero__general_ledger') }}
+), 
 
-), organization as (
+organization as (
 
     select *
     from {{ var('organization') }}
+), 
 
-), year_end as (
+year_end as (
 
     select 
         case
@@ -22,14 +25,15 @@ with calendar as (
             else cast(extract(year from {{ dbt_utils.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
         end as current_year_end_date
     from organization
+), 
 
-), joined as (
+joined as (
 
     select
         calendar.date_month,
         case
             when ledger.account_class in ('ASSET','EQUITY','LIABILITY') then ledger.account_name
-            when ledger.journal_date <= {{ dbt_utils.dateadd('year', -1, 'year_end.current_year_end_date') }} then 'Retained Earnings'
+            when cast(ledger.journal_date as date) <= {{ dbt_utils.dateadd('year', -1, 'year_end.current_year_end_date') }} then 'Retained Earnings'
             else 'Current Year Earnings'
         end as account_name,
         case
@@ -52,10 +56,9 @@ with calendar as (
         sum(ledger.net_amount) as net_amount
     from calendar
     inner join ledger
-        on calendar.date_month >= cast({{ dbt_utils.date_trunc('month', 'ledger.journal_date') }} as date)
+        on cast(calendar.date_month as date) >= cast({{ dbt_utils.date_trunc('month', 'ledger.journal_date') }} as date)
     cross join year_end
     {{ dbt_utils.group_by(7) }}
-
 )
 
 select *

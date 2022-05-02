@@ -12,7 +12,6 @@ with spine as (
 
     select cast(date_month as date) as date_month
     from spine
-
 )
 
 select *

@@ -2,13 +2,15 @@ with calendar as (
 
     select *
     from {{ ref('xero__calendar_spine') }}
+), 
 
-), ledger as (
+ledger as (
 
     select *
     from {{ ref('xero__general_ledger') }}
+), 
 
-), joined as (
+joined as (
 
     select 
         {{ dbt_utils.surrogate_key(['calendar.date_month','ledger.account_id','ledger.source_relation']) }} as profit_and_loss_id,
@@ -25,7 +27,6 @@ with calendar as (
         on calendar.date_month = cast({{ dbt_utils.date_trunc('month', 'ledger.journal_date') }} as date)
     where ledger.account_class in ('REVENUE','EXPENSE')
     {{ dbt_utils.group_by(8) }}
-
 )
 
 select *

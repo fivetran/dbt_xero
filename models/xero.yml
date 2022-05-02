@@ -80,7 +80,7 @@ models:
       - name: currency_code
         description: The currency that invoice has been raised in
       - name: currency_rate
-        description: The currency rate for a multicurrency invoice
+        description: The currency rate for a multi-currency invoice
       - name: invoice_number
         description: Alpha numeric code identifying invoice
       - name: invoice_reference

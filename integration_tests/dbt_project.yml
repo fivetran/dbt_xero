@@ -1,25 +1,17 @@
 name: 'xero_integration_tests'
-version: '0.4.1'
+version: '0.5.0'
 profile: 'integration_tests'
 config-version: 2
 
 vars: 
   xero_source:
-    account: "{{ ref('xero_account_data') }}"
-    journal_line: "{{ ref('xero_journal_line_data') }}"
-    journal: "{{ ref('xero_journal_data') }}"
-    contact: "{{ ref('xero_contact_data') }}"
-    invoice: "{{ ref('xero_invoice_data') }}"
-    invoice_line_item: "{{ ref('xero_invoice_line_item_data') }}"
-    organization: "{{ ref('xero_organization_data') }}"
-    credit_note: "{{ ref('xero_credit_note_data') }}"
-    bank_transaction: "{{ ref('xero_bank_transaction_data') }}"
-
-  xero:
-    account: "{{ ref('stg_xero__account') }}" 
-    contact: "{{ ref('stg_xero__contact') }}" 
-    invoice_line_item: "{{ ref('stg_xero__invoice_line_item') }}" 
-    invoice: "{{ ref('stg_xero__invoice') }}" 
-    journal_line: "{{ ref('stg_xero__journal_line') }}" 
-    journal: "{{ ref('stg_xero__journal') }}" 
-    organization: "{{ ref('stg_xero__organization') }}" 
+    xero__account_identifier: "xero_account_data"
+    xero__journal_line_identifier: "xero_journal_line_data"
+    xero__journal_identifier: "xero_journal_data"
+    xero__contact_identifier: "xero_contact_data"
+    xero__invoice_identifier: "xero_invoice_data"
+    xero__invoice_line_item_identifier: "xero_invoice_line_item_data"
+    xero__organization_identifier: "xero_organization_data"
+    xero__credit_note_identifier: "xero_credit_note_data"
+    xero__bank_transaction_identifier: "xero_bank_transaction_data"
+  xero_schema: xero_integration_tests

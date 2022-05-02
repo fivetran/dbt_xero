@@ -2,27 +2,30 @@ with line_items as (
 
     select *
     from {{ var('invoice_line_item') }}
+), 
 
-), invoices as (
+invoices as (
 
     select *
     from {{ var('invoice') }}
+), 
 
-), accounts as (
+accounts as (
 
     select *
     from {{ var('account') }}
+), 
 
-), contacts as (
+contacts as (
 
     select *
     from {{ var('contact') }}
+), 
 
-), joined as (
+joined as (
 
     select
         line_items.*,
-
         invoices.invoice_date,
         invoices.updated_date,
         invoices.planned_payment_date,
@@ -37,14 +40,11 @@ with line_items as (
         invoices.type,
         invoices.url,
         invoices.reference as invoice_reference,
-
         accounts.account_id,
         accounts.account_name,
         accounts.account_type,
         accounts.account_class,
-
         contacts.contact_name
-
     from line_items
     left join invoices
         on (line_items.invoice_id = invoices.invoice_id
@@ -55,7 +55,6 @@ with line_items as (
     left join contacts
         on (invoices.contact_id = contacts.contact_id
         and invoices.source_relation = contacts.source_relation)
-
 )
 
 select *

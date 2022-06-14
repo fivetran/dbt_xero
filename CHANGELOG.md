@@ -1,3 +1,10 @@
+# dbt_xero v0.4.2
+## Bug Fix
+- Fixes duplicate data in the `xero__balance_sheet_report` `net_amount` when multiple xero sources are used.
+
+## Contributors
+- [@danieltaft](https://github.com/danieltaft)
+
 # dbt_xero v0.4.1
 ## Features
 - Adds the `xero__using_bank_transaction` variable to disable the associated models on instances of Xero that don't include the `bank_transaction` source table. ([#27](https://github.com/fivetran/dbt_xero/pull/27))

@@ -1,9 +1,8 @@
 # dbt_xero v0.4.2
 ## Bug Fix
-- Fixes duplicate data in the `xero__balance_sheet_report` `net_amount` when multiple xero sources are used.
-
+- Fixes duplicate values in `net_amount` field in `xero__balance_sheet_report` when leveraging logic to union multiple Xero connectors
 ## Contributors
-- [@danieltaft](https://github.com/danieltaft)
+- [@danieltaft](https://github.com/danieltaft)[#30](https://github.com/fivetran/dbt_xero/pull/30)
 
 # dbt_xero v0.4.1
 ## Features

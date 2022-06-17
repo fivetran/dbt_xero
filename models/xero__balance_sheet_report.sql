@@ -20,7 +20,8 @@ with calendar as (
             when cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date) >= current_date
             then cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
             else cast(extract(year from {{ dbt_utils.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
-        end as current_year_end_date
+        end as current_year_end_date,
+		source_relation
     from organization
 
 ), joined as (
@@ -54,6 +55,7 @@ with calendar as (
     inner join ledger
         on calendar.date_month >= cast({{ dbt_utils.date_trunc('month', 'ledger.journal_date') }} as date)
     cross join year_end
+	where year_end.source_relation = ledger.source_relation
     {{ dbt_utils.group_by(7) }}
 
 )

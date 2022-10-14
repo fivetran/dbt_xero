@@ -1,9 +1,8 @@
 name: 'xero_integration_tests'
-version: '0.4.2'
+version: '0.5.0'
 profile: 'integration_tests'
 config-version: 2
-
-vars: 
+vars:
   xero_source:
     account: "{{ ref('xero_account_data') }}"
     journal_line: "{{ ref('xero_journal_line_data') }}"
@@ -14,12 +13,11 @@ vars:
     organization: "{{ ref('xero_organization_data') }}"
     credit_note: "{{ ref('xero_credit_note_data') }}"
     bank_transaction: "{{ ref('xero_bank_transaction_data') }}"
-
   xero:
-    account: "{{ ref('stg_xero__account') }}" 
-    contact: "{{ ref('stg_xero__contact') }}" 
-    invoice_line_item: "{{ ref('stg_xero__invoice_line_item') }}" 
-    invoice: "{{ ref('stg_xero__invoice') }}" 
-    journal_line: "{{ ref('stg_xero__journal_line') }}" 
-    journal: "{{ ref('stg_xero__journal') }}" 
-    organization: "{{ ref('stg_xero__organization') }}" 
+    account: "{{ ref('stg_xero__account') }}"
+    contact: "{{ ref('stg_xero__contact') }}"
+    invoice_line_item: "{{ ref('stg_xero__invoice_line_item') }}"
+    invoice: "{{ ref('stg_xero__invoice') }}"
+    journal_line: "{{ ref('stg_xero__journal_line') }}"
+    journal: "{{ ref('stg_xero__journal') }}"
+    organization: "{{ ref('stg_xero__organization') }}"

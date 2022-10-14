@@ -19,7 +19,7 @@ with calendar as (
         case
             when cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date) >= current_date
             then cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
-            else cast(extract(year from {{ dbt_utils.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
+            else cast(extract(year from {{ dbt.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
         end as current_year_end_date,
 		source_relation
     from organization
@@ -30,7 +30,7 @@ with calendar as (
         calendar.date_month,
         case
             when ledger.account_class in ('ASSET','EQUITY','LIABILITY') then ledger.account_name
-            when ledger.journal_date <= {{ dbt_utils.dateadd('year', -1, 'year_end.current_year_end_date') }} then 'Retained Earnings'
+            when ledger.journal_date <= {{ dbt.dateadd('year', -1, 'year_end.current_year_end_date') }} then 'Retained Earnings'
             else 'Current Year Earnings'
         end as account_name,
         case
@@ -53,7 +53,7 @@ with calendar as (
         sum(ledger.net_amount) as net_amount
     from calendar
     inner join ledger
-        on calendar.date_month >= cast({{ dbt_utils.date_trunc('month', 'ledger.journal_date') }} as date)
+        on calendar.date_month >= cast({{ dbt.date_trunc('month', 'ledger.journal_date') }} as date)
     cross join year_end
 	where year_end.source_relation = ledger.source_relation
     {{ dbt_utils.group_by(7) }}

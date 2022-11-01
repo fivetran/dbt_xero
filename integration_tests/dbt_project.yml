@@ -21,3 +21,4 @@ vars:
     journal_line: "{{ ref('stg_xero__journal_line') }}"
     journal: "{{ ref('stg_xero__journal') }}"
     organization: "{{ ref('stg_xero__organization') }}"
+    xero_schema: xero_integration_tests_1

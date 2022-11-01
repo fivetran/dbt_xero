@@ -13,6 +13,7 @@ vars:
     xero_organization_identifier: "xero_organization_data"
     xero_bank_transaction_identifier: "xero_bank_transaction_data"
     xero_credit_note_identifier: "xero_credit_note_data"
+    xero_schema: xero_integration_tests_1
   xero:
     account: "{{ ref('stg_xero__account') }}"
     contact: "{{ ref('stg_xero__contact') }}"
@@ -21,4 +22,3 @@ vars:
     journal_line: "{{ ref('stg_xero__journal_line') }}"
     journal: "{{ ref('stg_xero__journal') }}"
     organization: "{{ ref('stg_xero__organization') }}"
-    xero_schema: xero_integration_tests_1

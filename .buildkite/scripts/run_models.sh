@@ -23,3 +23,4 @@ dbt run --vars '{xero__using_credit_note: false, xero__using_bank_transaction: f
 dbt test --target "$db"
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
+dbt run-operation fivetran_utils.drop_schemas_automation --target "$db"

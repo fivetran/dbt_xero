@@ -40,8 +40,9 @@ Include the following xero package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/xero
-    version: [">=0.5.0", "<0.6.0"]
+    version: [">=0.5.0", "<0.6.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
+Do NOT include the `xero_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
 ## Step 3: Define database and schema variables
 By default, this package runs using your destination and the `xero` schema. If this is not where your Xero data is (for example, if your Xero schema is named `xero_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 

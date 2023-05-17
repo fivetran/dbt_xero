@@ -1,5 +1,5 @@
 name: 'xero_integration_tests'
-version: '0.5.0'
+version: 0.6.0
 profile: 'integration_tests'
 config-version: 2
 vars:
@@ -14,3 +14,7 @@ vars:
     xero_bank_transaction_identifier: "xero_bank_transaction_data"
     xero_credit_note_identifier: "xero_credit_note_data"
     xero_schema: xero_integration_tests_1
+
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']

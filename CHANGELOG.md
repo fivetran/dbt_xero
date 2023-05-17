@@ -1,7 +1,11 @@
-# dbt_xero v0.UPDATE.UPDATE
-## Under the Hood:
+# dbt_xero v0.6.0
+## 🎉 Feature Update 🎉
+- Databricks compatibility! ([#38](https://github.com/fivetran/dbt_xero/pull/38))
+
+## 🚘 Under the Hood 🚘
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([#37](https://github.com/fivetran/dbt_xero/pull/37))
 - Updated the pull request [templates](/.github). ([#37](https://github.com/fivetran/dbt_xero/pull/37))
+ ([#37](https://github.com/fivetran/dbt_xero/pull/37))
 # dbt_xero v0.5.0
 
 ## 🚨 Breaking Changes 🚨:

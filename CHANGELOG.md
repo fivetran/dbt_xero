@@ -1,3 +1,13 @@
+# dbt_xero v0.6.1
+
+[PR #40](https://github.com/fivetran/dbt_xero/pull/40) includes the following updates:
+
+## Test Updates
+- The unique combination of columns test within the `xero__general_ledger` model has been updated to include `journal_id` in addition to `journal_line_id` and `source_relation`. This update is applied as deleted journals may still appropriately be rendered in the general ledger; however, they will have no associated journal lines. As such, the test was updated to account for this scenario.
+
+## Contributors
+- [@jsagasta](https://github.com/jsagasta) ([PR #40](https://github.com/fivetran/dbt_xero/pull/40))
+
 # dbt_xero v0.6.0
 ## 🎉 Feature Update 🎉
 - Databricks compatibility! ([#38](https://github.com/fivetran/dbt_xero/pull/38))

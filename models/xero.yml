@@ -118,6 +118,7 @@ models:
           combination_of_columns:
             - journal_line_id
             - source_relation
+            - journal_id
     columns:
       - name: journal_line_id
         description: Xero identifier for the journal line.

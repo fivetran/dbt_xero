@@ -89,7 +89,7 @@ vars:
     xero__using_bank_transaction: false                 # default is true
 ```
 
-For additional configurations for the source models, visit the [Xero source package](https://github.com/fivetran/xero_source).
+For additional configurations for the source models, visit the [Xero source package](https://github.com/fivetran/dbt_xero_source).
 
 ### Changing the Build Schema
 By default this package will build the Xero Source staging models within a schema titled (<target_schema> + `_stg_xero`) and the Xero final transform models within a schema titled (<target_schema> + `_xero`) in your target database. 

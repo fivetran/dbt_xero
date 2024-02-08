@@ -1,0 +1,16 @@
+database_key: xero_database
+schema_key: xero_schema
+
+dbt_versions: ">=1.3.0 <2.0.0"
+
+table_variables:
+  xero__using_credit_note:
+    - credit_note
+  xero__using_bank_transaction:
+    - bank_transaction
+
+destination_configurations:
+  databricks:
+    dispatch:
+      - macro_namespace: dbt_utils
+        search_order: [ 'spark_utils', 'dbt_utils' ]

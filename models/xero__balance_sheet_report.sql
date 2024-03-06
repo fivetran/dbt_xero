@@ -19,7 +19,10 @@ with calendar as (
         case
             when cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date) >= current_date
             then cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
-            else cast(extract(year from {{ dbt.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
+            else case when financial_year_end_month = 2 and financial_year_end_day = 29 
+                then cast(extract(year from {{ dbt.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-28' as date) -- Necessary for organizations with a reported fiscal year end of 02-29 as the previous year will not be a leap year and must be the 28th. 
+                else cast(extract(year from {{ dbt.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
+            end
         end as current_year_end_date,
 		source_relation
     from organization

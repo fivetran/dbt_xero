@@ -13,7 +13,7 @@ vars:
     xero_organization_identifier: "xero_organization_data"
     xero_bank_transaction_identifier: "xero_bank_transaction_data"
     xero_credit_note_identifier: "xero_credit_note_data"
-    xero_schema: xero_integration_tests_1
+    xero_schema: xero_integration_tests_2
 
 dispatch:
   - macro_namespace: dbt_utils

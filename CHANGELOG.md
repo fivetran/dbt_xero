@@ -1,3 +1,13 @@
+# dbt_xero v0.6.2
+[PR #46](https://github.com/fivetran/dbt_xero/pull/46) includes the following updates:
+
+## Bug Fixes
+- Update to the `xero__balance_sheet` model to ensure the calculated `current_year_end_date` field takes into account fiscal year ends which occur in a leap year. To address this, if a lookback is required, then February 28th of the previous year will be used to ensure an valid date is used.
+
+## Under the Hood
+- Included auto-releaser GitHub Actions workflow to automate future releases.
+- Updated the maintainer PR template to resemble the most up to date format.
+
 # dbt_xero v0.6.1
 
 [PR #40](https://github.com/fivetran/dbt_xero/pull/40) includes the following updates:

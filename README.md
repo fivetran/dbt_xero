@@ -17,14 +17,18 @@
 - Provides analytics-ready models, including a profit and loss report, general ledger, and balance sheet report.
 - Generates a comprehensive data dictionary of your source and modeled Xero data through the [dbt docs site](https://fivetran.github.io/dbt_xero/).
 
-The following table provides a detailed list of all models materialized within this package by default.
+<!--section=“xero_transformation_model"-->
 
-| **Model**                | **Description**                                                                                      |
+The following table provides a detailed list of all tables materialized within this package by default.
+
+| **Table**                | **Description**                                                                                      |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | [xero__general_ledger](https://github.com/fivetran/dbt_xero/blob/main/models/xero__general_ledger.sql)          | Each record represents a journal line item. Use the ledger to create the balance sheet and the profit and loss statement. |
 | [xero__profit_and_loss_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__profit_and_loss_report.sql)  | Each record represents a profit and loss line item at the month and account level.                                     |
 | [xero__balance_sheet_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__balance_sheet_report.sql)    | Each record represents the state of the balance sheet for a given account on a given month.                            |
 | [xero__invoice_line_items](https://github.com/fivetran/dbt_xero/blob/main/models/xero__invoice_line_items.sql)      | Each record represents an invoice line item enriched with the account, contact, and invoice information.                   |
+
+<!--section-end-->
 
 ## How do I use the dbt package?
 

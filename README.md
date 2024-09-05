@@ -58,7 +58,6 @@ vars:
 
 ### (Optional) Step 4: Additional configurations
 <details open><summary>Expand/Collapse configurations</summary>
-<br>
 
 #### Note about currency gains
 

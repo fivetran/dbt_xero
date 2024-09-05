@@ -59,6 +59,7 @@ vars:
 ### (Optional) Step 4: Additional configurations
 <details open><summary>Expand/Collapse configurations</summary>
 <br>
+
 #### Note about currency gains
 
 If you are using multi-currency accounting in Xero, you are likely to have unrealized currency gains as part of your profit and loss statement. These gains/losses do not exist within the actual journals in Xero. As a result, you will find that those lines are missing from the outputs of this package. All realised currency gains will be present and your balance sheet will still balance.
@@ -124,6 +125,7 @@ vars:
 ### (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>
+
 Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt#setupguide).
 
 </details>

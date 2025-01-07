@@ -1,3 +1,9 @@
+# dbt_xero version.version
+
+## Documentation
+- Added Quickstart model counts to README. ([#52](https://github.com/fivetran/dbt_xero/pull/52))
+- Corrected references to connectors and connections in the README. ([#52](https://github.com/fivetran/dbt_xero/pull/52))
+
 # dbt_xero v0.6.2
 [PR #46](https://github.com/fivetran/dbt_xero/pull/46) includes the following updates:
 

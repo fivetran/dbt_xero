@@ -1,3 +1,12 @@
+# dbt_xero v0.6.3
+[PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:
+
+## Bug Fixes
+- Updated the `xero__balance_sheet` model to resolve a run error when an organization's financial year end date is February 29.
+
+## Under the Hood (maintainers only)
+- Added consistency tests for the end models.
+
 # dbt_xero v0.6.2
 [PR #46](https://github.com/fivetran/dbt_xero/pull/46) includes the following updates:
 

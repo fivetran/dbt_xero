@@ -1,7 +1,8 @@
 name: 'xero_integration_tests'
-version: '0.6.2'
+version: '0.6.3'
 profile: 'integration_tests'
 config-version: 2
+
 vars:
   xero_source:
     xero_account_identifier: "xero_account_data"
@@ -14,6 +15,9 @@ vars:
     xero_bank_transaction_identifier: "xero_bank_transaction_data"
     xero_credit_note_identifier: "xero_credit_note_data"
     xero_schema: xero_integration_tests_2
+
+models:
+  +schema: "xero_{{ var('directed_schema','dev') }}"
 
 dispatch:
   - macro_namespace: dbt_utils

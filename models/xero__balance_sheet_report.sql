@@ -10,21 +10,35 @@ with calendar as (
 
 ), organization as (
 
-    select *
+    select 
+        *,
+        extract(year from current_date) as current_year,
+        extract(year from {{ dbt.dateadd('year', 1, 'current_date') }}) as next_year
     from {{ var('organization') }}
+
 
 ), year_end as (
 
+-- Calculate the current financial year-end date for each organization:
+-- For February, determine last day by subtracting 1 day from March 1, avoiding leap year logic.
+-- Compare the year end date to the current date:
+--   Use this year's date if it's on or after the current date.
+--   Otherwise, use last year's corresponding date.
     select 
-        case
-            when cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date) >= current_date
-            then cast(extract(year from current_date) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
-            else case when financial_year_end_month = 2 and financial_year_end_day = 29 
-                then cast(extract(year from {{ dbt.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-28' as date) -- Necessary for organizations with a reported fiscal year end of 02-29 as the previous year will not be a leap year and must be the 28th. 
-                else cast(extract(year from {{ dbt.dateadd('year', -1, 'current_date') }}) || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
-            end
-        end as current_year_end_date,
-		source_relation
+        source_relation,
+        case when financial_year_end_month = 2 and financial_year_end_day = 29
+            then
+                case when cast({{ dbt.dateadd('day', -1, "current_year || '-03-01'") }} as date) >= current_date
+                    then cast({{ dbt.dateadd('day', -1, "current_year || '-03-01'") }} as date)
+                    else cast({{ dbt.dateadd('day', -1, "next_year || '-03-01'") }} as date)
+                    end
+            else
+                case when cast(current_year || '-' || financial_year_end_month || '-' || financial_year_end_day as date) >= current_date
+                then cast(current_year || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
+                else cast(next_year || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
+                end
+        end as current_year_end_date
+
     from organization
 
 ), joined as (

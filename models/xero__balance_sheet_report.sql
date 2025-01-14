@@ -13,7 +13,7 @@ with calendar as (
     select 
         *,
         cast(extract(year from current_date) as {{ dbt.type_string() }}) as current_year,
-        cast(extract(year from {{ dbt.dateadd('year', -1, 'current_date') }}) as {{ dbt.type_string() }}) as last_year
+        cast(extract(year from {{ dbt.dateadd('year', 1, 'current_date') }}) as {{ dbt.type_string() }}) as next_year
     from {{ var('organization') }}
 
 
@@ -23,19 +23,19 @@ with calendar as (
 -- For February, determine last day by subtracting 1 day from March 1, avoiding leap year logic.
 -- Compare the year end date to the current date:
 --   Use this year's date if it's on or after the current date.
---   Otherwise, use last year's corresponding date.
+--   Otherwise, use the next year's corresponding date.
     select 
         source_relation,
         case when financial_year_end_month = 2 and financial_year_end_day = 29
             then
                 case when cast({{ dbt.dateadd('day', -1, "cast(current_year || '-03-01' as date)") }} as date) >= current_date
                     then cast({{ dbt.dateadd('day', -1, "cast(current_year || '-03-01' as date)") }} as date)
-                    else cast({{ dbt.dateadd('day', -1, "cast(last_year || '-03-01' as date)") }} as date)
+                    else cast({{ dbt.dateadd('day', -1, "cast(next_year || '-03-01' as date)") }} as date)
                     end
             else
                 case when cast(current_year || '-' || financial_year_end_month || '-' || financial_year_end_day as date) >= current_date
                     then cast(current_year || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
-                    else cast(last_year || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
+                    else cast(next_year || '-' || financial_year_end_month || '-' || financial_year_end_day as date)
                     end
         end as current_year_end_date
 

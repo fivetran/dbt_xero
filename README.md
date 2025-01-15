@@ -1,4 +1,6 @@
-<p align="center">
+# Xero Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_xero/))
+
+<p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_xero/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
@@ -8,9 +10,11 @@
         <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
+    <a alt="Fivetran Quickstart Compatible"
+        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-# Xero Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_xero/))
 ## What does this dbt package do?
 - Produces modeled tables that leverage Xero data from [Fivetran's connector](https://fivetran.com/docs/applications/xero) in the format described by [this ERD](https://fivetran.com/docs/applications/xero#schemainformation) and builds off the output of our [Xero source package](https://github.com/fivetran/dbt_xero_source).
 
@@ -28,6 +32,8 @@ The following table provides a detailed list of all tables materialized within t
 | [xero__balance_sheet_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__balance_sheet_report.sql)    | Each record represents the state of the balance sheet for a given account on a given month.                            |
 | [xero__invoice_line_items](https://github.com/fivetran/dbt_xero/blob/main/models/xero__invoice_line_items.sql)      | Each record represents an invoice line item enriched with the account, contact, and invoice information.                   |
 
+### Materialized Models
+Each Quickstart transformation job run materializes 22 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
@@ -35,7 +41,7 @@ The following table provides a detailed list of all tables materialized within t
 ### Step 1: Prerequisites
 To use this dbt package, you must have the following:
 
-- At least one Fivetran Xero connector syncing data into your destination.
+- At least one Fivetran Xero connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
 
 ### Step 2: Install the package
@@ -44,7 +50,7 @@ Include the following xero package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/xero
-    version: [">=0.6.0", "<0.7.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.7.0", "<0.8.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 Do NOT include the `xero_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
 ### Step 3: Define database and schema variables
@@ -63,8 +69,8 @@ vars:
 
 If you are using multi-currency accounting in Xero, you are likely to have unrealized currency gains as part of your profit and loss statement. These gains/losses do not exist within the actual journals in Xero. As a result, you will find that those lines are missing from the outputs of this package. All realised currency gains will be present and your balance sheet will still balance.
 
-#### Unioning Multiple Xero Connectors
-If you have multiple Xero connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set **either** (**note that you cannot use both**) the `union_schemas` or `union_databases` variables:
+#### Unioning Multiple Xero Connections
+If you have multiple Xero connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set **either** (**note that you cannot use both**) the `union_schemas` or `union_databases` variables:
 
 ```yml
 # dbt_project.yml

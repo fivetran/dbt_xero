@@ -1,3 +1,21 @@
+# dbt_xero v0.7.0
+[PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:
+
+## Breaking Changes
+- Corrected the calculation of `current_year_end_date` in the `xero__balance_sheet_report` model. Previously, `current_year_end_date` was miscalculated in certain scenarios, impacting the classification of records with the `account_name` value "Retained Earnings."
+  - This is labeled as a breaking change since it may affect prior labels assigned. We recommend reviewing your records to ensure they align with this corrected logic.
+
+## Bug Fixes
+- Updated the `xero__balance_sheet` model to resolve a run error when an organization's financial year end date is February 29.
+
+## Documentation
+- Updated README formatting for consistency with other packages.
+- Added Quickstart model counts to README. ([#52](https://github.com/fivetran/dbt_xero/pull/52))
+- Corrected references to connectors and connections in the README. ([#52](https://github.com/fivetran/dbt_xero/pull/52))
+
+## Under the Hood (maintainers only)
+- Added consistency tests for the end models.
+
 # dbt_xero v0.6.2
 [PR #46](https://github.com/fivetran/dbt_xero/pull/46) includes the following updates:
 

@@ -10,6 +10,8 @@
 
 ## Documentation
 - Updated README formatting for consistency with other packages.
+- Added Quickstart model counts to README. ([#52](https://github.com/fivetran/dbt_xero/pull/52))
+- Corrected references to connectors and connections in the README. ([#52](https://github.com/fivetran/dbt_xero/pull/52))
 
 ## Under the Hood (maintainers only)
 - Added consistency tests for the end models.

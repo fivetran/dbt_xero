@@ -8,6 +8,9 @@
 ## Bug Fixes
 - Updated the `xero__balance_sheet` model to resolve a run error when an organization's financial year end date is February 29.
 
+## Documentation
+- Updated README formatting for consistency with other packages.
+
 ## Under the Hood (maintainers only)
 - Added consistency tests for the end models.
 

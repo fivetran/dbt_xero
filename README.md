@@ -1,4 +1,6 @@
-<p align="center">
+# Xero Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_xero/))
+
+<p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_xero/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
@@ -8,9 +10,11 @@
         <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
+    <a alt="Fivetran Quickstart Compatible"
+        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-# Xero Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_xero/))
 ## What does this dbt package do?
 - Produces modeled tables that leverage Xero data from [Fivetran's connector](https://fivetran.com/docs/applications/xero) in the format described by [this ERD](https://fivetran.com/docs/applications/xero#schemainformation) and builds off the output of our [Xero source package](https://github.com/fivetran/dbt_xero_source).
 

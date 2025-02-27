@@ -1,8 +1,9 @@
-# dbt_xero v0.7.1
+# dbt_xero v0.8.0
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:
 
-## Under the Hood
-Fixed the `_credit_note` and `_bank_transaction` table variable naming in `quickstart.yml` to ensure their respective models are enabled and disabled appropriately.
+## Bug Fixes
+- Fixed the `_credit_note` and `_bank_transaction` table variable naming in `quickstart.yml` to ensure their respective models are enabled and disabled appropriately.
+- We've made this release a **breaking change** to highlight to all Quickstart customers that this will have an impact on their model counts if either of these tables are selected in the schema tab and present in their destination. 
 
 # dbt_xero v0.7.0
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:

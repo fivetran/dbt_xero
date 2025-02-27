@@ -5,9 +5,9 @@ dbt_versions: ">=1.3.0 <2.0.0"
 
 table_variables:
   xero__using_credit_note:
-    - credit_note
+    - _credit_note
   xero__using_bank_transaction:
-    - bank_transaction
+    - _bank_transaction
 
 destination_configurations:
   databricks:

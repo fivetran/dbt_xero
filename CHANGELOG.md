@@ -2,7 +2,7 @@
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:
 
 ## Under the Hood
-Fixed the `_credit_note` and `_bank_transaction` table variable naming in `quickstart.yml` to ensure when these source tables are not selected, their respective variables are set to false and their data is not brought into Quickstart end models.
+Fixed the `_credit_note` and `_bank_transaction` table variable naming in `quickstart.yml` to ensure their respective models are enabled and disabled appropriately.
 
 # dbt_xero v0.7.0
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:

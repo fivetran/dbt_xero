@@ -2,6 +2,9 @@ name: 'xero'
 version: '0.7.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
+dbt-cloud:
+    project-id: 394412
+    
 vars:
   xero:
     account: "{{ ref('stg_xero__account') }}"
@@ -15,9 +18,10 @@ vars:
     bank_transaction: "{{ ref('stg_xero__bank_transaction') }}"
     xero__using_bank_transaction: true
     xero__using_credit_note: true
+
 models:
   xero:
     +materialized: table
     +schema: xero
     utilities:
-      +materialized: ephemeral
+      +materialized: ephemeral  

@@ -6,4 +6,4 @@ logs/
 dbt_packages/
 env/
 package-lock.yml
-dbt-env/
+dbt-cloud-env/

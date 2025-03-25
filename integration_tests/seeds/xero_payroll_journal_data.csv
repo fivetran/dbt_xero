@@ -1,0 +1,7 @@
+journal_id,created_date_utc,journal_date,journal_number,reference,source_id,source_type,source_relation
+c001aa45-0001-4e01-b7a1-7f78dd71caa1,2023-01-15T10:00:00Z,2023-01-15,J001,January Payroll,p001,PAYROLL,
+c002aa45-0002-4e01-b7a1-7f78dd71caa2,2023-02-15T10:00:00Z,2023-02-15,J002,February Payroll,p002,PAYROLL,
+c003aa45-0003-4e01-b7a1-7f78dd71caa3,2023-03-15T10:00:00Z,2023-03-15,J003,March Payroll,p003,PAYROLL,
+c004aa45-0004-4e01-b7a1-7f78dd71caa4,2023-04-15T10:00:00Z,2023-04-15,J004,April Payroll,p004,PAYROLL,
+c005aa45-0005-4e01-b7a1-7f78dd71caa5,2023-05-15T10:00:00Z,2023-05-15,J005,May Payroll,p005,PAYROLL,
+c006aa45-0006-4e01-b7a1-7f78dd71caa6,2023-06-15T10:00:00Z,2023-06-15,J006,June Payroll,p006,PAYROLL,

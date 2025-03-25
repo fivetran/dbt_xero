@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: xero__employee_remuneration_report
+    description: "Schema tests for the Employee Remuneration Report model"
+    columns:
+      - name: employee_remuneration_id
+        tests:
+          - not_null
+          - unique
+          
+      - name: date_month
+        tests:
+          - not_null
+          
+      - name: account_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('xero_payroll_account_data')
+              field: account_id
+              
+      - name: account_name
+        tests:
+          - not_null
+          
+      - name: amount
+        tests:
+          - not_null
+          
+      - name: total_payroll_amount
+        tests:
+          - not_null
+          
+      - name: percent_of_total
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1
+              inclusive: true

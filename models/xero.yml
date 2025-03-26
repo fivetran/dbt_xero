@@ -1,5 +1,12 @@
 version: 2
 
+sources:
+  - name: integration_tests
+    schema: "{{ target.schema }}"
+    tables:
+      - name: xero_payroll_account_data
+        description: Seed data for payroll accounts
+
 models:
   - name: xero__profit_and_loss_report
     description: Each record represents a P&L line item at the month and account level.
@@ -205,6 +212,40 @@ models:
         description: The type of the related account.
       - name: net_amount
         description: The net balance amount.
+      - name: source_relation
+        description: >
+          The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          sources, this will be an empty string.
+
+  - name: xero__employee_remuneration_report
+    description: Each record represents payroll-related expenses at the month and account level.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - employee_remuneration_id
+            - source_relation
+    columns:
+      - name: employee_remuneration_id
+        description: Unique identifier for each record in the employee remuneration report model.
+        tests:
+          - not_null
+      - name: date_month
+        description: The month of payroll activity.
+      - name: account_id
+        description: The ID of the related payroll account in Xero.
+      - name: account_name
+        description: The name of the related payroll account in Xero.
+      - name: account_code
+        description: The code of the related payroll account in Xero.
+      - name: account_type
+        description: The type of the related payroll account in Xero.
+      - name: amount
+        description: The payroll expense amount for the month.
+      - name: total_payroll_amount
+        description: The total payroll expense amount across all accounts for the month.
+      - name: percent_of_total
+        description: The percentage this expense represents of the total payroll expenses for the month.
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.

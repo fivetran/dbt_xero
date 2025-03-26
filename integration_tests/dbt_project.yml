@@ -14,9 +14,13 @@ vars:
     xero_organization_identifier: "xero_organization_data"
     xero_bank_transaction_identifier: "xero_bank_transaction_data"
     xero_credit_note_identifier: "xero_credit_note_data"
+    xero_payroll_account_identifier: "xero_payroll_account_data"
     xero_schema: xero_integration_tests_2
 
 models:
+  +schema: "xero_{{ var('directed_schema','dev') }}"
+
+seeds:
   +schema: "xero_{{ var('directed_schema','dev') }}"
 
 dispatch:

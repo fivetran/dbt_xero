@@ -1,3 +1,10 @@
+# dbt_xero v0.9.0
+
+## Features
+- Added new `xero__employee_remuneration_report` model to track payroll-related expenses over time
+- The report filters general ledger data for payroll accounts and provides monthly totals and percentages
+- Includes a consistency test to validate report calculations against the general ledger
+
 # dbt_xero v0.8.0
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:
 

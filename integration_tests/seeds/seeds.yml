@@ -1,0 +1,18 @@
+version: 2
+
+seeds:
+  - name: xero_payroll_account_data
+    description: Seed data for payroll accounts
+    columns:
+      - name: account_id
+        description: The ID of the payroll account
+      - name: name
+        description: The name of the payroll account
+      - name: code
+        description: The code of the payroll account
+      - name: type
+        description: The type of the payroll account
+      - name: class
+        description: The class of the payroll account
+      - name: _fivetran_synced
+        description: The timestamp when the data was synced

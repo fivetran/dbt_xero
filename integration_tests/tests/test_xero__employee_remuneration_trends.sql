@@ -22,7 +22,7 @@ month_over_month_change as (
         end as percent_change
     from monthly_totals as current_month
     left join monthly_totals as prev_month
-        on current_month.date_month = dateadd(month, 1, prev_month.date_month)
+        on current_month.date_month = date_add(prev_month.date_month, interval 1 month)
 ),
 
 -- Identify months with more than 30% change in payroll expenses

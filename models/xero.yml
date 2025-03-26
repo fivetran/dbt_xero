@@ -1,5 +1,12 @@
 version: 2
 
+sources:
+  - name: integration_tests
+    schema: "{{ target.schema }}"
+    tables:
+      - name: xero_payroll_account_data
+        description: Seed data for payroll accounts
+
 models:
   - name: xero__profit_and_loss_report
     description: Each record represents a P&L line item at the month and account level.

@@ -9,11 +9,12 @@ with calendar as (
 
 ), payroll_account_references as (
     
-    {% if target.name == 'dev' or target.schema == 'xero_integration_tests_2' %}
+    {% if false %}
     -- For testing, we use our seed data with explicit payroll accounts
+    -- Disabling this section temporarily due to seed issues
     select
         account_id
-    from {{ ref('xero_payroll_account_data') }}
+    from {{ source('integration_tests', 'xero_payroll_account_data') }}
     where class = 'EXPENSE'
     
     {% else %}

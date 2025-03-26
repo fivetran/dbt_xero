@@ -4,13 +4,12 @@ with calendar as (
     from {{ ref('xero__calendar_spine') }}
 
 ), ledger as (
-
     select *
     from {{ ref('xero__general_ledger') }}
 
 ), payroll_account_references as (
     
-    {% if target.name == 'integration_tests' %}
+    {% if target.name == 'dev' or target.schema == 'xero_integration_tests_2' %}
     -- For testing, we use our seed data with explicit payroll accounts
     select
         account_id
@@ -39,7 +38,6 @@ with calendar as (
     {% endif %}
 
 ), payroll_accounts as (
-
     select *
     from ledger
     where account_class = 'EXPENSE'
@@ -59,7 +57,13 @@ with calendar as (
     from calendar
     left join payroll_accounts
         on calendar.date_month = cast({{ dbt.date_trunc('month', 'payroll_accounts.journal_date') }} as date)
-    {{ dbt_utils.group_by(7) }}
+    group by 
+        calendar.date_month,
+        payroll_accounts.account_id,
+        payroll_accounts.account_name,
+        payroll_accounts.account_code,
+        payroll_accounts.account_type,
+        payroll_accounts.source_relation
 
 ), totals as (
 

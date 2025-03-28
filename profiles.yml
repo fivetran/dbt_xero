@@ -1,0 +1,25 @@
+my-snowflake-db:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: TWCZVSF-UV90469
+
+      # User/password auth
+      user: FUTUREANALYTICS
+      password: 3z846dNYDXZnksXWWyWfuVigT7VVEEQqAQoLRXa7nq4eyKKpPU7y3xufU8EPgD2JBXqGMUNqGmzARBchPumuoCnZ8Mm3iYqqwZwt
+
+      # role: ACCOUNTADMIN
+      database: FUTUREANALYTICS_INTERNAL
+      warehouse: COMPUTE_WH
+      schema: xero
+      threads: 1
+      client_session_keep_alive: False
+      # query_tag: [anything]
+
+      # optional
+      connect_retries: 0 # default 0
+      connect_timeout: 10 # default: 10
+      retry_on_database_errors: False # default: false
+      retry_all: False  # default: false
+      reuse_connections: False

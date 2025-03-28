@@ -1,3 +1,14 @@
+# dbt_xero v0.9.0-a1
+
+This is a pre-release that includes the following updates
+
+## New Feature: Tracking Categories
+- Added tracking categories `tracking_category_1` and `tracking_category_2` by pivoting out `option` fields and grabbing the latest tracking category records.
+  - `xero__general_ledger` and `xero__profit_and_loss_report` now pivots out journal line tracking category information.
+  - `xero__invoice_line_items` now pivots out invoice line item tracking category information.
+
+
+
 # dbt_xero v0.8.0
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:
 

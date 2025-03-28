@@ -11,7 +11,7 @@ with calendar as (
 ), joined as (
 
     select 
-        {{ dbt_utils.generate_surrogate_key(['calendar.date_month','ledger.account_id','ledger.source_relation']) }} as profit_and_loss_id,
+        {{ dbt_utils.generate_surrogate_key(['calendar.date_month','ledger.account_id','ledger.source_relation','ledger.tracking_category_1','ledger.tracking_category_2']) }} as profit_and_loss_id,
         calendar.date_month, 
         ledger.account_id,
         ledger.account_name,
@@ -19,12 +19,14 @@ with calendar as (
         ledger.account_type, 
         ledger.account_class, 
         ledger.source_relation, 
+        ledger.tracking_category_1,
+        ledger.tracking_category_2,
         coalesce(sum(ledger.net_amount * -1),0) as net_amount
     from calendar
     left join ledger
         on calendar.date_month = cast({{ dbt.date_trunc('month', 'ledger.journal_date') }} as date)
     where ledger.account_class in ('REVENUE','EXPENSE')
-    {{ dbt_utils.group_by(8) }}
+    {{ dbt_utils.group_by(10) }}
 
 )
 

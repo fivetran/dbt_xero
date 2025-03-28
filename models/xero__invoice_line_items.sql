@@ -18,6 +18,11 @@ with line_items as (
     select *
     from {{ var('contact') }}
 
+), tracking_categories as (
+    
+    select *
+    from {{ ref('int_xero__invoice_line_item_tracking_categories') }}
+
 ), joined as (
 
     select
@@ -43,7 +48,10 @@ with line_items as (
         accounts.account_type,
         accounts.account_class,
 
-        contacts.contact_name
+        contacts.contact_name,
+
+        tracking_categories.tracking_category_1,
+        tracking_categories.tracking_category_2
 
     from line_items
     left join invoices
@@ -55,7 +63,9 @@ with line_items as (
     left join contacts
         on (invoices.contact_id = contacts.contact_id
         and invoices.source_relation = contacts.source_relation)
-
+    left join tracking_categories
+        on line_items.line_item_id = tracking_categories.line_item_id
+        and line_items.source_relation = tracking_categories.source_relation
 )
 
 select *

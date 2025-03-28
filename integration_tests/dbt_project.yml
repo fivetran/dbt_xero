@@ -1,5 +1,5 @@
 name: 'xero_integration_tests'
-version: '0.8.0'
+version: '0.9.0'
 profile: 'integration_tests'
 config-version: 2
 
@@ -14,7 +14,9 @@ vars:
     xero_organization_identifier: "xero_organization_data"
     xero_bank_transaction_identifier: "xero_bank_transaction_data"
     xero_credit_note_identifier: "xero_credit_note_data"
-    xero_schema: xero_integration_tests_2
+    xero_invoice_line_item_has_tracking_category_identifier: "xero_invoice_line_item_has_tracking_category_data"
+    xero_journal_line_has_tracking_category_identifier: "xero_journal_line_has_tracking_category_data"
+    xero_schema: xero_integration_tests_3
 
 models:
   +schema: "xero_{{ var('directed_schema','dev') }}"

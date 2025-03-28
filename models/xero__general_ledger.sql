@@ -38,6 +38,11 @@ with journals as (
     select *
     from {{ var('contact') }}
 
+), tracking_categories as (
+    
+    select *
+    from {{ ref('int_xero__journal_line_tracking_categories') }}
+
 ), joined as (
 
     select 
@@ -67,7 +72,10 @@ with journals as (
         case when journals.source_type in ('TRANSFER') then journals.source_id end as bank_transfer_id,
         case when journals.source_type in ('MANJOURNAL') then journals.source_id end as manual_journal_id,
         case when journals.source_type in ('APPREPAYMENT', 'APOVERPAYMENT', 'ACCPAYPAYMENT', 'ACCRECPAYMENT', 'ARCREDITPAYMENT', 'APCREDITPAYMENT') then journals.source_id end as payment_id,
-        case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
+        case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id,
+
+        tracking_categories.tracking_category_1,
+        tracking_categories.tracking_category_2
 
     from journals
     left join journal_lines
@@ -76,6 +84,9 @@ with journals as (
     left join accounts
         on (accounts.account_id = journal_lines.account_id
         and accounts.source_relation = journal_lines.source_relation)
+    left join tracking_categories
+        on (journal_lines.journal_line_id = tracking_categories.journal_line_id
+        and journal_lines.source_relation = tracking_categories.source_relation)
 
 ), first_contact as (
 

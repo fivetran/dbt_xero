@@ -23,6 +23,10 @@ models:
         description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
       - name: net_amount
         description: The net movement amount.
+      - name: tracking_category_1
+        description: Value of the most recently updated tracking category option for an account. There can be zero to two tracking categories.
+      - name: tracking_category_2
+        description: Value of the second most recently updated tracking category. There can be zero to two tracking categories.
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
@@ -105,6 +109,10 @@ models:
         description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
       - name: contact_name
         description: The name of the associated contact.
+      - name: tracking_category_1
+        description: Value of the most recently updated tracking category option for an account. There can be zero to two tracking categories.
+      - name: tracking_category_2
+        description: Value of the second most recently updated tracking category. There can be zero to two tracking categories.
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
@@ -176,6 +184,10 @@ models:
         description: ID of the associated contact, where relevant.
       - name: contact_name
         description: Name of the associated contact, where relevant.
+      - name: tracking_category_1
+        description: Value of the most recently updated tracking category option for an account. There can be zero to two tracking categories.
+      - name: tracking_category_2
+        description: Value of the second most recently updated tracking category. There can be zero to two tracking categories.
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.

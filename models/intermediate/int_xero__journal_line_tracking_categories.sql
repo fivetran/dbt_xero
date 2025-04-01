@@ -3,7 +3,7 @@ with ranked_tracking as (
     select
         journal_line_id,
         source_relation,
-        option,
+        coalesce(option, '') as option,
         _fivetran_synced,
         tracking_category_id,
         row_number() over (
@@ -29,7 +29,7 @@ deduped_tracking as (
 ),
 
 pivoted_tracking as (
-    
+
     select
         journal_line_id,
         source_relation,

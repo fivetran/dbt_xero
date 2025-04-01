@@ -1,8 +1,9 @@
 with ranked_tracking as (
+
     select
         line_item_id,
         source_relation,
-        option,
+        coalesce(option, '') as option,
         _fivetran_synced,
         tracking_category_id,
         row_number() over (
@@ -13,6 +14,7 @@ with ranked_tracking as (
 ),
 
 deduped_tracking as (
+
     select
         line_item_id,
         source_relation,
@@ -27,6 +29,7 @@ deduped_tracking as (
 ),
 
 pivoted_tracking as (
+
     select
         line_item_id,
         source_relation,

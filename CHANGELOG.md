@@ -5,13 +5,12 @@
 - Added tracking categories `tracking_category_1` and `tracking_category_2` by pivoting out `option` fields and grabbing the latest tracking category records from invoice line items and journal line entries.
   - `xero__general_ledger` and `xero__profit_and_loss_report` now pivots out journal line tracking category values.
   - `xero__invoice_line_items` now pivots out invoice line item tracking category information values.
-- Added these tracking categories to the `profit_and_loss_id` as they are now unique lines within the profit and loss. **IMPORTANT**: This will change the existing values of the `profit_and_loss_id`, so this is a **breaking change** that requires a `--full-refresh` to grab the new ids. 
-- Created intermediate models to grab the most recent tracking categories and remove deduplicated tracking category values.
+- Added these tracking categories to the `profit_and_loss_id` as they are now unique lines within the profit and loss. **IMPORTANT**: This will change the existing values of the `profit_and_loss_id`, so this is a **breaking change** that requires a `--full-refresh` to get the new ids. 
+- Created intermediate models `int_xero__invoice_line_item_tracking_categories` and `int_xero__journal_line_tracking_categories` to grab the most recent tracking categories and remove deduplicated tracking category values.
 
 ## Under the Hood
 - Created integrity tests to ensure tracking category values for journal lines and invoice items match between the above end models and their source tables.
 - Added and updated seed files to properly test out advanced cases for the new tracking categories.
-
 
 # dbt_xero v0.8.0
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:

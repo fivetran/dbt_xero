@@ -1,6 +1,6 @@
 packages:
   # - package: fivetran/xero_source
-  #   version: [">=0.6.0", "<0.7.0"]
+  #   version: 0.7.0-a1
 
   - git: https://github.com/fivetran/dbt_xero_source.git
     revision: feature/add-tracking-category

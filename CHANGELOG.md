@@ -1,3 +1,9 @@
+# dbt_xero v0.version.version
+This release includes the following updates.
+
+## Documentation
+- Updated README to better elaborate on why multi-currency can't be fully supported by our dbt package. 
+
 # dbt_xero v0.8.0
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:
 

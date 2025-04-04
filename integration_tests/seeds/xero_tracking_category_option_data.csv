@@ -1,4 +1,0 @@
-tracking_option_id,name,status,has_validation_errors,is_active,is_archived,is_deleted,_fivetran_synced
-4a51b6f7-3c29-456d-bec0-129a37fb028d,North America,ACTIVE,false,true,false,false,2024-02-04 18:00:17.876 UTC
-7f6ec2a1-1598-4a93-b5fd-c628ad6e9317,Engineering,ACTIVE,false,true,false,false,2024-02-04 18:00:17.876 UTC
-4a51b6f7-3c29-456d-bec0-129a37fb028e,Europe,ARCHIVED,false,false,true,false,2024-02-04 18:00:17.876 UTC

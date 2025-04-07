@@ -63,11 +63,11 @@ vars:
 ```
 
 ### (Optional) Step 4: Additional configurations
-<details open><summary>Expand/Collapse configurations</summary>
 
-#### Note about currency gains
+#### Multi-currency Support Limitations
+Currently, our dbt models for Xero have limited support for multi-currency accounting, particularly for handling unrealized currency gains and losses and bank revaluations, as they require historical or current exchange rate data that is not available in the Xero connector to fully calculate.
 
-If you are using multi-currency accounting in Xero, you are likely to have unrealized currency gains as part of your profit and loss statement. These gains/losses do not exist within the actual journals in Xero. As a result, you will find that those lines are missing from the outputs of this package. All realised currency gains will be present and your balance sheet will still balance.
+Thus, while all realized current gains will be brought through in our end models, unrealized currency gains and losses and bank revaluations will not. So we cannot provide full multi-currency support at this time.
 
 #### Unioning Multiple Xero Connections
 If you have multiple Xero connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set **either** (**note that you cannot use both**) the `union_schemas` or `union_databases` variables:
@@ -124,8 +124,6 @@ If an individual source table has a different name than the package expects, add
 vars:
     xero_<default_source_table_name>_identifier: your_table_name 
 ```
-
-</details>
 
 ### (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>

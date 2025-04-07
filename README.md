@@ -125,8 +125,6 @@ vars:
     xero_<default_source_table_name>_identifier: your_table_name 
 ```
 
-</details>
-
 ### (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>

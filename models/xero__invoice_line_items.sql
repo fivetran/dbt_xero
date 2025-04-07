@@ -18,10 +18,10 @@ with line_items as (
     select *
     from {{ var('contact') }}
 
-), tracking_categories as (
-    
+), pivoted_tracking_categories as (
+
     select *
-    from {{ ref('int_xero__invoice_line_item_tracking_categories') }}
+    from {{ ref('int_xero__invoice_line_item_pivoted_tracking_categories') }}
 
 ), joined as (
 
@@ -50,10 +50,15 @@ with line_items as (
 
         contacts.contact_name,
 
-        tracking_categories.tracking_category_1,
-        tracking_categories.tracking_category_2
+        -- Dynamically pivoted tracking category columns
+        {{ dbt_utils.star(
+            from=ref('int_xero__invoice_line_item_pivoted_tracking_categories'),
+            relation_alias='pivoted_tracking_categories',
+            except=['invoice_id', 'line_item_id', 'source_relation']
+        ) }}
 
     from line_items
+
     left join invoices
         on (line_items.invoice_id = invoices.invoice_id
         and line_items.source_relation = invoices.source_relation)
@@ -63,9 +68,10 @@ with line_items as (
     left join contacts
         on (invoices.contact_id = contacts.contact_id
         and invoices.source_relation = contacts.source_relation)
-    left join tracking_categories
-        on line_items.line_item_id = tracking_categories.line_item_id
-        and line_items.source_relation = tracking_categories.source_relation
+    left join pivoted_tracking_categories
+        on line_items.line_item_id = pivoted_tracking_categories.line_item_id
+        and line_items.invoice_id = pivoted_tracking_categories.invoice_id
+        and line_items.source_relation = pivoted_tracking_categories.source_relation
 )
 
 select *

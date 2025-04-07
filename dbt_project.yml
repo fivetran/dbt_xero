@@ -15,6 +15,9 @@ vars:
     bank_transaction: "{{ ref('stg_xero__bank_transaction') }}"
     invoice_line_item_has_tracking_category: "{{ ref('stg_xero__invoice_line_item_has_tracking_category') }}"
     journal_line_has_tracking_category: "{{ ref('stg_xero__journal_line_has_tracking_category') }}"
+    tracking_category_has_option: "{{ ref('stg_xero__tracking_category_has_option') }}"
+    tracking_category_option: "{{ ref('stg_xero__tracking_category_option') }}"
+    tracking_category: "{{ ref('stg_xero__tracking_category') }}"
     xero__using_bank_transaction: true
     xero__using_credit_note: true
 models:

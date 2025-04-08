@@ -26,6 +26,7 @@ This release includes the following updates:
 
 ## Documentation
 - Added instructions in the README for how to disable tracking category functionality utilizing the new variables. ([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
+- Updated README to better elaborate on why multi-currency can't be fully supported by our dbt package. ([PR #61](https://github.com/fivetran/dbt_xero/pull/61))
 
 # dbt_xero v0.8.0
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:

@@ -50,7 +50,7 @@ Include the following xero package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/xero
-    version: 0.9.0-a1 # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.9.0", "<0.10.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 Do NOT include the `xero_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
 ### Step 3: Define database and schema variables

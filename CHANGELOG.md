@@ -1,4 +1,4 @@
-# dbt_xero v0.9.0-a1
+# dbt_xero v0.9.0
 [PR #60](https://github.com/fivetran/dbt_xero/pull/60) is a pre-release that includes the following updates:
 
 ## Breaking Changes (requires --full-refresh)
@@ -9,6 +9,7 @@
 - Created intermediate models `int_xero__invoice_line_item_tracking_categories` and `int_xero__journal_line_tracking_categories` to grab the most recent tracking categories and remove deduplicated tracking category values.
 
 ## Under the Hood
+- Added new table variables in `quickstart.yml` to ensure their respective models are enabled and disabled appropriately.
 - Created integrity tests to ensure tracking category values for journal lines and invoice items match between the above end models and their source tables.
 - Added and updated seed files to properly test out advanced cases for the new tracking categories.
 

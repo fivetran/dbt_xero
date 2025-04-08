@@ -3,58 +3,110 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
+{%- set using_tracking_categories = (
+    var('xero__using_invoice_line_item_tracking_category', True)
+    and var('xero__using_tracking_category', True)
+    and var('xero__using_tracking_category_option', True)
+    and var('xero__using_tracking_category_has_option', True)
+) -%}
+
 with staging as (
 
-    select distinct 
-        line_item_id, 
-        option
+    select distinct
+        invoice_id,
+        line_item_id,
+        source_relation
     from {{ ref('stg_xero__invoice_line_item_has_tracking_category') }}
     where option is not null
 ),
 
-invoice_line_items as (
+{% if using_tracking_categories %}
+pivoted_tracking_categories as (
 
-    select line_item_id, tracking_category_1 as option
-    from {{ ref('xero__invoice_line_items') }}
-    where tracking_category_1 is not null
+    select *
+    from {{ ref('int_xero__invoice_line_item_pivoted_tracking_categories') }}
 
-    union distinct
+),
+{% endif %}
 
-    select line_item_id, tracking_category_2 as option
-    from {{ ref('xero__invoice_line_items') }}
-    where tracking_category_2 is not null
+line_items as (
+
+    select *
+    from {{ ref('stg_xero__invoice_line_item') }}
+
+), invoices as (
+
+    select *
+    from {{ ref('stg_xero__invoice')  }}
+
+), accounts as (
+
+    select *
+    from {{ ref('stg_xero__account') }}
+
+), invoice_line_items_end as (
+
+    select 
+        line_items.invoice_id,
+        line_items.line_item_id,
+        line_items.source_relation
+
+        {% if using_tracking_categories %}
+        , {{ dbt_utils.star(
+            from=ref('int_xero__invoice_line_item_pivoted_tracking_categories'),
+            relation_alias='pivoted_tracking_categories',
+            except=['invoice_id', 'line_item_id', 'source_relation']
+        ) }}
+        {% endif %}
+
+    from line_items
+    left join invoices
+        on line_items.invoice_id = invoices.invoice_id
+        and line_items.source_relation = invoices.source_relation
+    left join accounts
+        on line_items.account_code = accounts.account_code
+        and line_items.source_relation = accounts.source_relation
+
+    {% if using_tracking_categories %}
+    inner join pivoted_tracking_categories
+        on line_items.invoice_id = pivoted_tracking_categories.invoice_id
+        and line_items.line_item_id = pivoted_tracking_categories.line_item_id
+        and line_items.source_relation = pivoted_tracking_categories.source_relation
+    {% endif %}
 ),
 
+end_model as (
 
-staging_not_invoice_line_items as (
-    
-    -- rows from staging not found in invoice line items
+    select distinct
+        invoice_id,
+        line_item_id,
+        source_relation
+    from invoice_line_items_end
+),
+
+staging_not_in_end as (
+
     select * from staging
     except distinct
-    select * from invoice_line_items
+    select * from end_model
 ),
 
-invoice_line_items_not_staging as (
+end_not_in_staging as (
 
-    -- rows from invoice line items not found in staging
-    select * from invoice_line_items
+    select * from end_model
     except distinct
     select * from staging
 ),
 
 final as (
 
-    select
-        *,
-        'from staging' as source
-    from staging_not_invoice_line_items
+    select *, 'staging' as source
+    from staging_not_in_end
 
-    union all -- union since we only care if rows are produced
+    union all
 
-    select
-        *,
-        'from general ledger' as source
-    from invoice_line_items_not_staging
+    select *, 'end' as source
+    from end_not_in_staging
 )
 
 select *

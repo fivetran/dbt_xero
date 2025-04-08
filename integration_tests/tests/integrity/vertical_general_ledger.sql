@@ -18,7 +18,7 @@ with staging as (
         source_relation
     from {{ ref('stg_xero__journal_line_has_tracking_category') }}
     where option is not null
-),
+)
 
 {% if using_tracking_categories %}
 , pivoted_tracking_categories as (
@@ -28,24 +28,29 @@ with staging as (
 
 ){% endif %}
 
-
-journals as (
+, journals as (
 
     select *
-    from {{ var('journal') }}
+    from {{ ref('stg_xero__journal') }}
 
 ), journal_lines as (
 
     select *
-    from {{ var('journal_line') }}
+    from {{ ref('stg_xero__journal_line') }}
 ),
 
-general_ledger_base as (
+accounts as (
+
+    select *
+    from {{ ref('stg_xero__account') }}
+),
+
+general_ledger as (
 
     select 
         journals.journal_id, 
         journal_lines.journal_line_id,
-        journals.source_relation
+        journals.source_relation,
         {% if using_tracking_categories %}
         -- Pivoted tracking categories, excluding duplicate columns
         {{ dbt_utils.star(
@@ -71,43 +76,36 @@ general_ledger_base as (
     {% endif %}
 ),
 
-general_ledger as (
+end_model as (
 
     select distinct 
         journal_id,
         journal_line_id,
         source_relation
-    from general_ledger_base
+    from general_ledger
 ),
 
-staging_not_general_ledger as (
+staging_not_in_end as (
     
-    -- rows from staging not found in gl
     select * from staging
     except distinct
-    select * from general_ledger
+    select * from end_model
 ),
 
-general_ledger_not_staging as (
-
-    -- rows from dev not found in prod
-    select * from general_ledger
+end_not_in_staging as (
+    select * from end_model
     except distinct
     select * from staging
 ),
 
 final as (
-    select
-        *,
-        'from staging' as source
-    from staging_not_general_ledger
+    select *, 'from staging' as source
+    from staging_not_in_end
 
-    union all -- union since we only care if rows are produced
+    union all
 
-    select
-        *,
-        'from general ledger' as source
-    from general_ledger_not_staging
+    select *, 'from end model' as source
+    from end_not_in_staging
 )
 
 select *

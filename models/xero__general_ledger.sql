@@ -83,11 +83,11 @@ with journals as (
         case when journals.source_type in ('TRANSFER') then journals.source_id end as bank_transfer_id,
         case when journals.source_type in ('MANJOURNAL') then journals.source_id end as manual_journal_id,
         case when journals.source_type in ('APPREPAYMENT', 'APOVERPAYMENT', 'ACCPAYPAYMENT', 'ACCRECPAYMENT', 'ARCREDITPAYMENT', 'APCREDITPAYMENT') then journals.source_id end as payment_id,
-        case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id,
+        case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
 
         {% if using_tracking_categories %}
         -- Pivoted tracking categories, excluding duplicate columns
-        {{ dbt_utils.star(
+        , {{ dbt_utils.star(
             from=ref('int_xero__journal_line_pivoted_tracking_categories'),
             relation_alias='pivoted_tracking_categories',
             except=['journal_id', 'journal_line_id', 'source_relation']

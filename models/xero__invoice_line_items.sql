@@ -60,11 +60,11 @@ with line_items as (
         accounts.account_type,
         accounts.account_class,
 
-        contacts.contact_name,
+        contacts.contact_name
 
         {% if using_tracking_categories %} 
         -- Dynamically pivoted tracking category columns
-        {{ dbt_utils.star(
+        , {{ dbt_utils.star(
             from=ref('int_xero__invoice_line_item_pivoted_tracking_categories'),
             relation_alias='pivoted_tracking_categories',
             except=['invoice_id', 'line_item_id', 'source_relation']

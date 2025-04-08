@@ -1,3 +1,8 @@
+{{ config(enabled=(var('xero__using_journal_line_has_tracking_category', True)
+        and var('xero__using_tracking_category', True)
+        and var('xero__using_tracking_category_option', True)
+        and var('xero__using_tracking_category_has_option', True))) }}
+
 with journal_line_has_tracking as (
 
     select *

@@ -1,3 +1,10 @@
+{%- set using_tracking_categories = (
+    var('xero__using_journal_line_has_tracking_category', True)
+    and var('xero__using_tracking_category', True)
+    and var('xero__using_tracking_category_option', True)
+    and var('xero__using_tracking_category_has_option', True)
+) -%}
+
 with journals as (
 
     select *
@@ -37,13 +44,17 @@ with journals as (
 
     select *
     from {{ var('contact') }}
+)
 
-), pivoted_tracking_categories as (
+{% if using_tracking_categories %}
+, pivoted_tracking_categories as (
 
     select *
     from {{ ref('int_xero__journal_line_pivoted_tracking_categories') }}
 
-), joined as (
+){% endif %}
+
+, joined as (
 
     select 
         journals.journal_id,
@@ -74,12 +85,14 @@ with journals as (
         case when journals.source_type in ('APPREPAYMENT', 'APOVERPAYMENT', 'ACCPAYPAYMENT', 'ACCRECPAYMENT', 'ARCREDITPAYMENT', 'APCREDITPAYMENT') then journals.source_id end as payment_id,
         case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id,
 
-        -- Pivoted tracking categories excluding duplicate keys
+        {% if using_tracking_categories %}
+        -- Pivoted tracking categories, excluding duplicate columns
         {{ dbt_utils.star(
             from=ref('int_xero__journal_line_pivoted_tracking_categories'),
             relation_alias='pivoted_tracking_categories',
             except=['journal_id', 'journal_line_id', 'source_relation']
         ) }}
+        {% endif %}
 
     from journals
     left join journal_lines
@@ -88,10 +101,13 @@ with journals as (
     left join accounts
         on (accounts.account_id = journal_lines.account_id
         and accounts.source_relation = journal_lines.source_relation)
+    
+    {% if using_tracking_categories %}
     left join pivoted_tracking_categories
         on (journal_lines.journal_line_id = pivoted_tracking_categories.journal_line_id
         and journals.journal_id = pivoted_tracking_categories.journal_id
         and journals.source_relation = pivoted_tracking_categories.source_relation)
+    {% endif %}
 
 ), first_contact as (
 

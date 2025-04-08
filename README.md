@@ -96,6 +96,11 @@ config-version: 2
 vars:
     xero__using_credit_note: false                      # default is true
     xero__using_bank_transaction: false                 # default is true
+    xero__using_invoice_line_item_tracking_category: false  # default is true
+    xero__using_journal_line_has_tracking_category: false # default is true
+    xero__using_tracking_category: false                # default is true
+    xero__using_tracking_category_option: false         # default is true
+    xero__using_tracking_category_has_option: false     # default is true
 ```
 
 For additional configurations for the source models, visit the [Xero source package](https://github.com/fivetran/dbt_xero_source).

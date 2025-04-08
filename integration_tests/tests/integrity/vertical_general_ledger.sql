@@ -3,28 +3,82 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
+{%- set using_tracking_categories = (
+    var('xero__using_journal_line_has_tracking_category', True)
+    and var('xero__using_tracking_category', True)
+    and var('xero__using_tracking_category_option', True)
+    and var('xero__using_tracking_category_has_option', True)
+) -%}
+
 with staging as (
 
     select distinct 
-        journal_line_id, 
-        option
+        journal_id,
+        journal_line_id,
+        source_relation
     from {{ ref('stg_xero__journal_line_has_tracking_category') }}
     where option is not null
 ),
 
-general_ledger as (
+{% if using_tracking_categories %}
+, pivoted_tracking_categories as (
 
-    select journal_line_id, tracking_category_1 as option
-    from {{ ref('xero__general_ledger') }}
-    where tracking_category_1 is not null
+    select *
+    from {{ ref('int_xero__journal_line_pivoted_tracking_categories') }}
 
-    union distinct
+){% endif %}
 
-    select journal_line_id, tracking_category_2 as option
-    from {{ ref('xero__general_ledger') }}
-    where tracking_category_2 is not null
+
+journals as (
+
+    select *
+    from {{ var('journal') }}
+
+), journal_lines as (
+
+    select *
+    from {{ var('journal_line') }}
 ),
 
+general_ledger_base as (
+
+    select 
+        journals.journal_id, 
+        journal_lines.journal_line_id,
+        journals.source_relation
+        {% if using_tracking_categories %}
+        -- Pivoted tracking categories, excluding duplicate columns
+        {{ dbt_utils.star(
+            from=ref('int_xero__journal_line_pivoted_tracking_categories'),
+            relation_alias='pivoted_tracking_categories',
+            except=['journal_id', 'journal_line_id', 'source_relation']
+        ) }}
+        {% endif %}
+
+    from journals
+    left join journal_lines
+        on (journals.journal_id = journal_lines.journal_id
+        and journals.source_relation = journal_lines.source_relation)
+    left join accounts
+        on (accounts.account_id = journal_lines.account_id
+        and accounts.source_relation = journal_lines.source_relation)
+
+    {% if using_tracking_categories %}
+    inner join pivoted_tracking_categories
+        on (journal_lines.journal_line_id = pivoted_tracking_categories.journal_line_id
+        and journals.journal_id = pivoted_tracking_categories.journal_id
+        and journals.source_relation = pivoted_tracking_categories.source_relation)
+    {% endif %}
+),
+
+general_ledger as (
+
+    select distinct 
+        journal_id,
+        journal_line_id,
+        source_relation
+    from general_ledger_base
+),
 
 staging_not_general_ledger as (
     

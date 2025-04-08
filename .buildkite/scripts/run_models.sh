@@ -19,7 +19,7 @@ dbt deps
 dbt seed --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
-dbt run --vars '{xero__using_credit_note: false, xero__using_bank_transaction: false}' --target "$db" --full-refresh
+dbt run --vars '{xero__using_credit_note: false, xero__using_bank_transaction: false, xero__using_invoice_line_item_tracking_category: false, xero__using_journal_line_has_tracking_category: false, xero__using_tracking_category: false, xero__using_tracking_category_option: false, xero__using_tracking_category_has_option: false}' --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"

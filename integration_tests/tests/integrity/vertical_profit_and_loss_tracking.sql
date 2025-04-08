@@ -109,7 +109,7 @@ with calendar as (
         abs(coalesce(staging_profit_and_loss.net_amount, 0) - coalesce(profit_and_loss.net_amount, 0)) as net_difference
 
     from staging_profit_and_loss
-    full outer join profit_and_loss
+    inner join profit_and_loss
         on staging_profit_and_loss.date_month = {{ dbt.date_trunc('month', 'profit_and_loss.date_month') }}
         and staging_profit_and_loss.account_id = profit_and_loss.account_id
         and staging_profit_and_loss.source_relation = profit_and_loss.source_relation

@@ -32,21 +32,12 @@ with invoice_line_item_has_tracking as (
         invoice_line_item_has_tracking.line_item_id,
         invoice_line_item_has_tracking.source_relation,
         tracking_category.name as tracking_category_name,
-        tracking_category_option.name as tracking_option_name
+        invoice_line_item_has_tracking.option as tracking_option_name
     from invoice_line_item_has_tracking
 
     left join tracking_category
         on invoice_line_item_has_tracking.tracking_category_id = tracking_category.tracking_category_id
         and invoice_line_item_has_tracking.source_relation = tracking_category.source_relation
-
-    left join tracking_category_has_option
-        on tracking_category.tracking_category_id = tracking_category_has_option.tracking_category_id
-        and tracking_category.source_relation = tracking_category_has_option.source_relation
-
-    left join tracking_category_option
-        on tracking_category_has_option.tracking_option_id = tracking_category_option.tracking_option_id
-        and tracking_category_has_option.source_relation = tracking_category_option.source_relation
-
 ), final as (
 
     select

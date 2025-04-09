@@ -5,9 +5,7 @@
 
 {%- set using_tracking_categories = (
     var('xero__using_invoice_line_item_tracking_category', True)
-    and var('xero__using_tracking_category', True)
-    and var('xero__using_tracking_category_option', True)
-    and var('xero__using_tracking_category_has_option', True)
+    and var('xero__using_tracking_categories', True)
 ) -%}
 
 with staging as (

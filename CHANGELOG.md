@@ -13,9 +13,7 @@ This release includes the following updates:
 - Added the following variables to allow the ability to disable your models if you're not planning to utilize the tracking category configuration. ([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
   - `xero__using_invoice_line_item_tracking_category`
   - `xero__using_journal_line_tracking_category`
-  - `xero__using_tracking_category`
-  - `xero__using_tracking_category_option`
-  - `xero__using_tracking_category_has_option`
+  - `xero__using_tracking_categories`
 
 ## Under the Hood
 - Added new table variables in `quickstart.yml` to ensure their respective models are enabled and disabled appropriately. 

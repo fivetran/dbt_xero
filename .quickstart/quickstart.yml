@@ -12,11 +12,9 @@ table_variables:
     - _invoice_line_item_has_tracking_category
   xero__using_journal_line_has_tracking_category:
     - _journal_line_has_tracking_category
-  xero__using_tracking_category:
+  xero__using_tracking_categories:
     - _tracking_category
-  xero__using_tracking_category_option:
     - _tracking_category_option
-  xero__using_tracking_category_has_option:
     - _tracking_category_has_option
 
 destination_configurations:

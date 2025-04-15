@@ -1,43 +1,30 @@
-{{ config(enabled=(var('xero__using_journal_line_has_tracking_category', True)
+{{ config(enabled=(var('xero__using_journal_line_tracking_category', True)
         and var('xero__using_tracking_categories', True))) }}
 
 with journal_line_has_tracking as (
 
     select *
     from {{ var('journal_line_has_tracking_category') }}
-),
 
-tracking_category as (
-
-    select *
-    from {{ var('tracking_category') }}
-    where lower(status) in ('active', 'archived')
-),
-
-tracking_category_option as (
+), tracking_categories_with_options as (
 
     select *
-    from {{ var('tracking_category_option') }}
-    where lower(status) = 'active'
-),
+    from {{ ref('int_xero__tracking_categories_with_options') }}
 
-journal_tracking as (
+), journal_tracking as (
 
     select
         journal_line_has_tracking.journal_id,
         journal_line_has_tracking.journal_line_id,
         journal_line_has_tracking.source_relation,
-        tracking_category.name as tracking_category_name,
-        tracking_category_option.name as tracking_option_name
+        tracking_categories_with_options.tracking_category_name,
+        tracking_categories_with_options.tracking_option_name
     from journal_line_has_tracking
 
-    left join tracking_category
-        on journal_line_has_tracking.tracking_category_id = tracking_category.tracking_category_id
-        and journal_line_has_tracking.source_relation = tracking_category.source_relation
-
-    left join tracking_category_option
-        on journal_line_has_tracking.tracking_category_option_id = tracking_category_option.tracking_option_id
-        and journal_line_has_tracking.source_relation = tracking_category_option.source_relation
+    left join tracking_categories_with_options
+        on journal_line_has_tracking.tracking_category_id = tracking_categories_with_options.tracking_category_id
+        and journal_line_has_tracking.tracking_category_option_id = tracking_categories_with_options.tracking_option_id
+        and journal_line_has_tracking.source_relation = tracking_categories_with_options.source_relation
 ),
 
 final as (
@@ -48,7 +35,7 @@ final as (
         source_relation,
         {{ dbt_utils.pivot(
             column='tracking_category_name',
-            values=dbt_utils.get_column_values(ref('stg_xero__tracking_category'), 'name'),
+            values=dbt_utils.get_column_values(ref('stg_xero__tracking_category'), 'tracking_category_name'),
             agg='max',
             then_value='tracking_option_name',
             else_value='null',
@@ -57,5 +44,6 @@ final as (
     from journal_tracking
     {{ dbt_utils.group_by(3) }}
 )
+
 select *
 from final

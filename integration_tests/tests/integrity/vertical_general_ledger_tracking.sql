@@ -4,7 +4,7 @@
 ) }}
 
 {%- set using_tracking_categories = (
-    var('xero__using_journal_line_has_tracking_category', True)
+    var('xero__using_journal_line_tracking_category', True)
     and var('xero__using_tracking_categories', True)
 ) -%}
 

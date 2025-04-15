@@ -4,12 +4,22 @@
 ) }}
 
 with prod as (
-    select *
+
+    select 
+        date_month,
+        case when account_id is null then '' else account_id end as account_id,
+        source_relation,
+        net_amount
     from {{ target.schema }}_xero_prod.xero__balance_sheet_report
 ),
 
 dev as (
-    select *
+
+    select 
+        date_month,
+        case when account_id is null then '' else account_id end as account_id,
+        source_relation,
+        net_amount
     from {{ target.schema }}_xero_dev.xero__balance_sheet_report
 ),
 
@@ -21,7 +31,7 @@ diffed as (
         prod.net_amount as prod_net_amount,
         dev.net_amount as dev_net_amount
     from prod
-    inner join dev
+    full outer join dev
         on prod.date_month = dev.date_month
         and prod.account_id = dev.account_id
         and prod.source_relation = dev.source_relation

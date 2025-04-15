@@ -1,5 +1,5 @@
 {%- set using_tracking_categories = (
-    var('xero__using_journal_line_has_tracking_category', True)
+    var('xero__using_invoice_line_item_tracking_category', True)
     and var('xero__using_tracking_categories', True)
 ) -%}
 
@@ -23,17 +23,15 @@ with line_items as (
     select *
     from {{ var('contact') }}
 
-)
-
 {% if using_tracking_categories %} 
-, pivoted_tracking_categories as (
+), pivoted_tracking_categories as (
 
     select *
     from {{ ref('int_xero__invoice_line_item_pivoted_tracking_categories') }}
 
-){% endif %}
+{% endif %}
 
-, joined as (
+), joined as (
 
     select
         line_items.*,
@@ -72,14 +70,14 @@ with line_items as (
     from line_items
 
     left join invoices
-        on (line_items.invoice_id = invoices.invoice_id
-        and line_items.source_relation = invoices.source_relation)
+        on line_items.invoice_id = invoices.invoice_id
+        and line_items.source_relation = invoices.source_relation
     left join accounts
-        on (line_items.account_code = accounts.account_code
-        and line_items.source_relation = accounts.source_relation)
+        on line_items.account_code = accounts.account_code
+        and line_items.source_relation = accounts.source_relation
     left join contacts
-        on (invoices.contact_id = contacts.contact_id
-        and invoices.source_relation = contacts.source_relation)
+        on invoices.contact_id = contacts.contact_id
+        and invoices.source_relation = contacts.source_relation
 
     {% if using_tracking_categories %} 
     left join pivoted_tracking_categories

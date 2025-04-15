@@ -10,7 +10,7 @@ table_variables:
     - _bank_transaction
   xero__using_invoice_line_item_tracking_category:
     - _invoice_line_item_has_tracking_category
-  xero__using_journal_line_has_tracking_category:
+  xero__using_journal_line_tracking_category:
     - _journal_line_has_tracking_category
   xero__using_tracking_categories:
     - _tracking_category

@@ -25,4 +25,4 @@ models:
     +materialized: table
     +schema: xero
     utilities:
-      +materialized: table
+      +materialized: ephemeral

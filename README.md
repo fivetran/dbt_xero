@@ -97,7 +97,7 @@ vars:
     xero__using_credit_note: false                      # default is true
     xero__using_bank_transaction: false                 # default is true
     xero__using_invoice_line_item_tracking_category: false  # default is true
-    xero__using_journal_line_has_tracking_category: false # default is true
+    xero__using_journal_line_tracking_category: false # default is true
     xero__using_tracking_categories: false                # default is true
 ```
 
@@ -153,7 +153,7 @@ packages:
 ```
 ## How is this package maintained and can I contribute?
 ### Package Maintenance
-The Fivetran team maintaining this package _only_ maintains the latest version of the package. We highly recommend you stay consistent with the [latest version](https://hub.getdbt.com/fivetran/package_name_here/latest/) of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_package_name_here/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
+The Fivetran team maintaining this package _only_ maintains the latest version of the package. We highly recommend you stay consistent with the [latest version](https://hub.getdbt.com/fivetran/xero/latest/) of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_xero/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
 
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.

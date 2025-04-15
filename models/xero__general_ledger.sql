@@ -94,17 +94,17 @@ with journals as (
 
     from journals
     left join journal_lines
-        on (journals.journal_id = journal_lines.journal_id
-        and journals.source_relation = journal_lines.source_relation)
+        on journals.journal_id = journal_lines.journal_id
+        and journals.source_relation = journal_lines.source_relation
     left join accounts
-        on (accounts.account_id = journal_lines.account_id
-        and accounts.source_relation = journal_lines.source_relation)
+        on accounts.account_id = journal_lines.account_id
+        and accounts.source_relation = journal_lines.source_relation
     
     {% if using_tracking_categories %}
     left join pivoted_tracking_categories
-        on (journal_lines.journal_line_id = pivoted_tracking_categories.journal_line_id
+        on journal_lines.journal_line_id = pivoted_tracking_categories.journal_line_id
         and journals.journal_id = pivoted_tracking_categories.journal_id
-        and journals.source_relation = pivoted_tracking_categories.source_relation)
+        and journals.source_relation = pivoted_tracking_categories.source_relation
     {% endif %}
 
 ), first_contact as (

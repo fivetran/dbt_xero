@@ -19,7 +19,7 @@ vars:
     xero_tracking_category_identifier: "xero_tracking_category_data"
     xero_tracking_category_has_option_identifier: "xero_tracking_category_has_option_data"
     xero_tracking_category_option_identifier: "xero_tracking_category_option_data"    
-  xero_schema: xero_integration_tests_6
+  xero_schema: xero_integration_tests_7
 
 models:
   +schema: "xero_{{ var('directed_schema','dev') }}"

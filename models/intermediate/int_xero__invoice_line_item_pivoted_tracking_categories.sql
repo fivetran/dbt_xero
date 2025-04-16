@@ -44,7 +44,7 @@ with invoice_line_item_has_tracking as (
                 agg='max',
                 then_value='tracking_option_name',
                 else_value='null',
-                quote_identifiers=true
+                quote_identifiers=false
             ) }}
         {% endif %}
     from invoice_tracking

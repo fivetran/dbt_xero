@@ -45,7 +45,7 @@ final as (
                 agg='max',
                 then_value='tracking_option_name',
                 else_value='null',
-                quote_identifiers=true
+                quote_identifiers=false
             ) }}
         {% endif %}
     from journal_tracking

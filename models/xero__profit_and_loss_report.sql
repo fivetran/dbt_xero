@@ -3,20 +3,13 @@
     and var('xero__using_tracking_categories', True)
 ) -%}
 
+{% set pivoted_columns_prefixed = [] %}
 {% if using_tracking_categories %}
-    {%- set pivoted_columns = dbt_utils.get_filtered_columns_in_relation(
-        from=ref('int_xero__journal_line_pivoted_tracking_categories'),
-        except=['journal_id', 'journal_line_id', 'source_relation']
-    ) -%}
-
-    {%- set pivoted_columns_prefixed = [] %}
-    {%- for col in pivoted_columns %}
-        {%- do pivoted_columns_prefixed.append('pivoted_tracking_categories.' ~ col) %}
-    {%- endfor %}
-{%- else -%}
-    {%- set pivoted_columns = [] -%}
-    {%- set pivoted_columns_prefixed = [] -%}
-{%- endif -%}
+    {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
+        model_name='journal_line_pivoted_tracking_categories',
+        id_fields=['journal_id', 'journal_line_id', 'source_relation']
+    ) %}
+{% endif %}
 
 with calendar as (
 
@@ -55,12 +48,10 @@ with calendar as (
         ledger.source_relation,
 
         -- Dynamically pivoted tracking category columns
-        {% if using_tracking_categories %}
-        {{ dbt_utils.star(
-            from=ref('int_xero__journal_line_pivoted_tracking_categories'),
-            relation_alias='pivoted_tracking_categories',
-            except=['journal_id', 'journal_line_id', 'source_relation']
-        ) }},
+        {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
+        {% for col in pivoted_columns_prefixed %} 
+        {{ col }}, 
+        {% endfor %}
         {% endif %}
         coalesce(sum(ledger.net_amount * -1), 0) as net_amount
 

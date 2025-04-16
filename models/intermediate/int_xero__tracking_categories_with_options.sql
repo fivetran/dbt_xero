@@ -1,7 +1,4 @@
-{{ config(
-    materialized='ephemeral',
-    enabled=(var('xero__using_tracking_categories', True))
-) }}
+{{ config(enabled=(var('xero__using_tracking_categories', True))) }}
 
 with tracking_category as (
 

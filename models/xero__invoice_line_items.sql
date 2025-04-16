@@ -3,6 +3,14 @@
     and var('xero__using_tracking_categories', True)
 ) -%}
 
+{% set pivoted_columns_prefixed = [] %}
+{% if using_tracking_categories %}
+    {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
+        model_name='invoice_line_item_pivoted_tracking_categories',
+        id_fields=['invoice_id', 'line_item_id', 'source_relation']
+    ) %}
+{% endif %}
+
 with line_items as (
 
     select *
@@ -58,13 +66,11 @@ with line_items as (
 
         contacts.contact_name
 
-        {% if using_tracking_categories %} 
+        {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
         -- Dynamically pivoted tracking category columns
-        , {{ dbt_utils.star(
-            from=ref('int_xero__invoice_line_item_pivoted_tracking_categories'),
-            relation_alias='pivoted_tracking_categories',
-            except=['invoice_id', 'line_item_id', 'source_relation']
-        ) }}
+        {% for col in pivoted_columns_prefixed %}
+        , {{ col }} 
+        {% endfor %}
         {% endif %}
 
     from line_items

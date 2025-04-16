@@ -3,6 +3,14 @@
     and var('xero__using_tracking_categories', True)
 ) -%}
 
+{% set pivoted_columns_prefixed = [] %}
+{% if using_tracking_categories %}
+    {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
+        model_name='journal_line_pivoted_tracking_categories',
+        id_fields=['journal_id', 'journal_line_id', 'source_relation']
+    ) %}
+{% endif %}
+
 with journals as (
 
     select *
@@ -85,11 +93,9 @@ with journals as (
 
         {% if using_tracking_categories %}
         -- Pivoted tracking categories, excluding duplicate columns
-        , {{ dbt_utils.star(
-            from=ref('int_xero__journal_line_pivoted_tracking_categories'),
-            relation_alias='pivoted_tracking_categories',
-            except=['journal_id', 'journal_line_id', 'source_relation']
-        ) }}
+        {% for col in pivoted_columns_prefixed and pivoted_columns_prefixed|length > 0 %}
+        , {{ col }} 
+        {% endfor %}
         {% endif %}
 
     from journals

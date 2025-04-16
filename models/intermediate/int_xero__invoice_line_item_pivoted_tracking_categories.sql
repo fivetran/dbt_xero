@@ -1,6 +1,11 @@
 {{ config(enabled=(var('xero__using_invoice_line_item_tracking_category', True)
         and var('xero__using_tracking_categories', True))) }}
 
+{% set pivot_values = dbt_utils.get_column_values(
+    ref('int_xero__tracking_categories_with_options'),
+    'tracking_category_name'
+) %}
+
 with invoice_line_item_has_tracking as (
 
     select *
@@ -32,14 +37,16 @@ with invoice_line_item_has_tracking as (
         invoice_id,
         line_item_id,
         source_relation,
-        {{ dbt_utils.pivot(
-            column='tracking_category_name',
-            values=dbt_utils.get_column_values(ref('stg_xero__tracking_category'), 'tracking_category_name'),
-            agg='max',
-            then_value='tracking_option_name',
-            else_value='null',
-            quote_identifiers=false
-        ) }}
+        {% if pivot_values is not none and pivot_values | length > 0 %}
+            {{ dbt_utils.pivot(
+                column='tracking_category_name',
+                values=dbt_utils.get_column_values(ref('int_xero__tracking_categories_with_options'), 'tracking_category_name'),
+                agg='max',
+                then_value='tracking_option_name',
+                else_value='null',
+                quote_identifiers=true
+            ) }}
+        {% endif %}
     from invoice_tracking
     {{ dbt_utils.group_by(3) }}
 )

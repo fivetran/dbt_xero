@@ -33,7 +33,7 @@ The following table provides a detailed list of all tables materialized within t
 | [xero__invoice_line_items](https://github.com/fivetran/dbt_xero/blob/main/models/xero__invoice_line_items.sql)      | Each record represents an invoice line item enriched with the account, contact, and invoice information.                   |
 
 ### Materialized Models
-Each Quickstart transformation job run materializes 22 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+Each Quickstart transformation job run materializes 35 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?

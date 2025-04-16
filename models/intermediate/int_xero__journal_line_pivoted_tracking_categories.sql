@@ -37,9 +37,9 @@ final as (
     select
         journal_id,
         journal_line_id,
-        source_relation,
+        source_relation
         {% if pivot_values is not none and pivot_values | length > 0 %}       
-            {{ dbt_utils.pivot(
+        ,   {{ dbt_utils.pivot(
                 column='tracking_category_name',
                 values=dbt_utils.get_column_values(ref('int_xero__tracking_categories_with_options'), 'tracking_category_name'),
                 agg='max',

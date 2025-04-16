@@ -6,7 +6,7 @@
 {% set pivoted_columns_prefixed = [] %}
 {% if using_tracking_categories %}
     {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
-        model_name='journal_line_pivoted_tracking_categories',
+        model_name='int_xero__journal_line_pivoted_tracking_categories',
         id_fields=['journal_id', 'journal_line_id', 'source_relation']
     ) %}
 {% endif %}
@@ -50,17 +50,15 @@ with journals as (
 
     select *
     from {{ var('contact') }}
-)
 
 {% if using_tracking_categories %}
-, pivoted_tracking_categories as (
+), pivoted_tracking_categories as (
 
     select *
     from {{ ref('int_xero__journal_line_pivoted_tracking_categories') }}
+{% endif %}
 
-){% endif %}
-
-, joined as (
+), joined as (
 
     select 
         journals.journal_id,
@@ -91,9 +89,9 @@ with journals as (
         case when journals.source_type in ('APPREPAYMENT', 'APOVERPAYMENT', 'ACCPAYPAYMENT', 'ACCRECPAYMENT', 'ARCREDITPAYMENT', 'APCREDITPAYMENT') then journals.source_id end as payment_id,
         case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
 
-        {% if using_tracking_categories %}
+        {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
         -- Pivoted tracking categories, excluding duplicate columns
-        {% for col in pivoted_columns_prefixed and pivoted_columns_prefixed|length > 0 %}
+        {% for col in pivoted_columns_prefixed %}
         , {{ col }} 
         {% endfor %}
         {% endif %}

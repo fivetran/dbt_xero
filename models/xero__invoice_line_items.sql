@@ -6,7 +6,7 @@
 {% set pivoted_columns_prefixed = [] %}
 {% if using_tracking_categories %}
     {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
-        model_name='invoice_line_item_pivoted_tracking_categories',
+        model_name='int_xero__invoice_line_item_pivoted_tracking_categories',
         id_fields=['invoice_id', 'line_item_id', 'source_relation']
     ) %}
 {% endif %}

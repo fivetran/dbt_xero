@@ -6,7 +6,7 @@
 {% set pivoted_columns_prefixed = [] %}
 {% if using_tracking_categories %}
     {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
-        model_name='journal_line_pivoted_tracking_categories',
+        model_name='int_xero__journal_line_pivoted_tracking_categories',
         id_fields=['journal_id', 'journal_line_id', 'source_relation']
     ) %}
 {% endif %}
@@ -47,8 +47,8 @@ with calendar as (
         ledger.account_class, 
         ledger.source_relation,
 
-        -- Dynamically pivoted tracking category columns
         {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
+        -- Dynamically pivoted tracking category columns
         {% for col in pivoted_columns_prefixed %} 
         {{ col }}, 
         {% endfor %}

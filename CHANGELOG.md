@@ -1,8 +1,35 @@
-# dbt_xero v0.version.version
-This release includes the following updates.
+# dbt_xero v0.9.0 
+This release includes the following updates:
+
+## Breaking Changes
+- Added tracking categories by pivoting out fields and grabbing the latest tracking category records from invoice line items and journal line entries. This update will provide more granular reporting capabilities and will result in the following model changes: ([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
+  - `xero__general_ledger` dynamically pivots out journal line tracking category names and populates each line with the active options for the categories for these journals and accounts. 
+  - `xero__profit_and_loss_report` **will see a change in the grain** with these new dynamic pivoted tracking categories added to each journal line. 
+    - Added these dynamic tracking categories to the `profit_and_loss_id` as they are now unique lines within the profit and loss. **IMPORTANT**: This will change the existing values of the `profit_and_loss_id`, so this is a **breaking change**. ([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
+  - `xero__invoice_line_items` dynamically pivots out invoice line item tracking category and populates each line with the active options for those line items. 
+- Created intermediate models `int_xero__invoice_line_item_tracking_categories` and `int_xero__journal_line_tracking_categories` to perform the `dbt_utils` pivot operations. ([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
+- Added the following variables to allow the ability to disable your models if you're not planning to utilize the tracking category configuration. [See the README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for detailed instructions. ([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
+  - `xero__using_invoice_line_item_tracking_category`
+  - `xero__using_journal_line_tracking_category`
+  - `xero__using_tracking_categories`
+- These variables are utilized in the following end models:
+
+| End Models Impacted      |     Variables Implemented  |
+|-------------------------------------------------------| ---------------------------------------------------|
+| `xero__general_ledger`, `xero__profit_and_loss_report`   | `xero__using_journal_line_tracking_category`, `xero__using_tracking_categories` |
+| `xero__invoice_line_items`     | `xero__using_invoice_line_item_tracking_category`, `xero__using_tracking_categories`      |
+
+## Under the Hood
+- Added new table variables in `quickstart.yml` to ensure their respective models are enabled and disabled appropriately. 
+([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
+- Created `get_prefixed_tracking_category_columns` macro to properly bring in and check for pivoted columns within the above `dbt_xero` end models.
+- Created integrity tests to ensure tracking category values for journal lines and invoice items match between the above end models and their source tables. 
+([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
+- Added and updated seed files to properly test out advanced cases for the new tracking categories. ([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
 
 ## Documentation
-- Updated README to better elaborate on why multi-currency can't be fully supported by our dbt package. 
+- Added instructions in the README for how to disable tracking category functionality utilizing the new variables. ([PR #60](https://github.com/fivetran/dbt_xero/pull/60))
+- Updated README to better elaborate on why multi-currency can't be fully supported by our dbt package. ([PR #61](https://github.com/fivetran/dbt_xero/pull/61))
 
 # dbt_xero v0.8.0
 [PR #54](https://github.com/fivetran/dbt_xero/pull/54) includes the following updates:

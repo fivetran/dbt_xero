@@ -1,3 +1,16 @@
+{%- set using_tracking_categories = (
+    var('xero__using_journal_line_tracking_category', True)
+    and var('xero__using_tracking_categories', True)
+) -%}
+
+{% set pivoted_columns_prefixed = [] %}
+{% if using_tracking_categories %}
+    {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
+        model_name='int_xero__journal_line_pivoted_tracking_categories',
+        id_fields=['journal_id', 'journal_line_id', 'source_relation']
+    ) %}
+{% endif %}
+
 with journals as (
 
     select *
@@ -38,6 +51,13 @@ with journals as (
     select *
     from {{ var('contact') }}
 
+{% if using_tracking_categories %}
+), pivoted_tracking_categories as (
+
+    select *
+    from {{ ref('int_xero__journal_line_pivoted_tracking_categories') }}
+{% endif %}
+
 ), joined as (
 
     select 
@@ -69,13 +89,27 @@ with journals as (
         case when journals.source_type in ('APPREPAYMENT', 'APOVERPAYMENT', 'ACCPAYPAYMENT', 'ACCRECPAYMENT', 'ARCREDITPAYMENT', 'APCREDITPAYMENT') then journals.source_id end as payment_id,
         case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
 
+        {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
+        -- Pivoted tracking categories, excluding duplicate columns
+        {% for col in pivoted_columns_prefixed %}
+        , {{ col }} 
+        {% endfor %}
+        {% endif %}
+
     from journals
     left join journal_lines
-        on (journals.journal_id = journal_lines.journal_id
-        and journals.source_relation = journal_lines.source_relation)
+        on journals.journal_id = journal_lines.journal_id
+        and journals.source_relation = journal_lines.source_relation
     left join accounts
-        on (accounts.account_id = journal_lines.account_id
-        and accounts.source_relation = journal_lines.source_relation)
+        on accounts.account_id = journal_lines.account_id
+        and accounts.source_relation = journal_lines.source_relation
+    
+    {% if using_tracking_categories %}
+    left join pivoted_tracking_categories
+        on journal_lines.journal_line_id = pivoted_tracking_categories.journal_line_id
+        and journals.journal_id = pivoted_tracking_categories.journal_id
+        and journals.source_relation = pivoted_tracking_categories.source_relation
+    {% endif %}
 
 ), first_contact as (
 

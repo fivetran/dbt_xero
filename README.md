@@ -33,7 +33,7 @@ The following table provides a detailed list of all tables materialized within t
 | [xero__invoice_line_items](https://github.com/fivetran/dbt_xero/blob/main/models/xero__invoice_line_items.sql)      | Each record represents an invoice line item enriched with the account, contact, and invoice information.                   |
 
 ### Materialized Models
-Each Quickstart transformation job run materializes 22 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+Each Quickstart transformation job run materializes 35 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
@@ -50,7 +50,7 @@ Include the following xero package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/xero
-    version: [">=0.8.0", "<0.9.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.9.0", "<0.10.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 Do NOT include the `xero_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
 ### Step 3: Define database and schema variables
@@ -96,6 +96,9 @@ config-version: 2
 vars:
     xero__using_credit_note: false                      # default is true
     xero__using_bank_transaction: false                 # default is true
+    xero__using_invoice_line_item_tracking_category: false  # default is true
+    xero__using_journal_line_tracking_category: false # default is true
+    xero__using_tracking_categories: false                # default is true
 ```
 
 For additional configurations for the source models, visit the [Xero source package](https://github.com/fivetran/dbt_xero_source).
@@ -139,8 +142,8 @@ This dbt package is dependent on the following dbt packages. These dependencies 
     
 ```yml
 packages:
-    - package: fivetran/dbt_xero_source
-      version: [">=0.6.0", "<0.7.0"]
+    - package: fivetran/xero_source
+      version: [">=0.7.0", "<0.8.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]

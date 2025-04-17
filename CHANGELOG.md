@@ -12,6 +12,13 @@ This release includes the following updates:
   - `xero__using_invoice_line_item_tracking_category`
   - `xero__using_journal_line_tracking_category`
   - `xero__using_tracking_categories`
+- These variables are utilized in the following end models:
+
+| End Models Impacted      | Intermediate Models Impacted |   Variables Implemented  |
+|-------------------------------------------------------|-------------------------------------------------------|---------------------------------------------------|
+| `xero__general_ledger`, `xero__profit_and_loss_report`   | |`xero__using_journal_line_tracking_category`, `xero__using_tracking_categories` |
+| `xero__invoice_line_items`     | | `xero__using_invoice_line_item_tracking_category`, `xero__using_tracking_categories`      |
+
 
 ## Under the Hood
 - Added new table variables in `quickstart.yml` to ensure their respective models are enabled and disabled appropriately. 

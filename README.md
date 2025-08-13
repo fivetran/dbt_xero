@@ -1,4 +1,4 @@
-# Xero Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_xero/))
+# Xero dbt Package ([Docs](https://fivetran.github.io/dbt_xero/))
 
 <p align="left">
     <a alt="License"

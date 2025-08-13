@@ -2,6 +2,7 @@ name: 'xero'
 version: '1.0.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
+
 vars:
   xero:
     account: "{{ source('xero', 'account') }}"
@@ -20,6 +21,7 @@ vars:
     tracking_category: "{{ source('xero', 'tracking_category') }}"
     xero__using_bank_transaction: true
     xero__using_credit_note: true
+
 models:
   xero:
     +materialized: table
@@ -27,5 +29,7 @@ models:
     utilities:
       +materialized: ephemeral
     staging:
-      +schema: xero_source
-      +materialized: view
+      +schema: stg_xero
+      +materialized: table
+      tmp:
+        +materialized: view

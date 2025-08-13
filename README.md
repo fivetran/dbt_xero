@@ -101,10 +101,8 @@ vars:
     xero__using_tracking_categories: false                # default is true
 ```
 
-For additional configurations for the source models, visit the [Xero source package](https://github.com/fivetran/dbt_xero_source).
-
 #### Changing the Build Schema
-By default this package will build the Xero Source staging models within a schema titled (<target_schema> + `_stg_xero`) and the Xero final transform models within a schema titled (<target_schema> + `_xero`) in your target database.
+By default this package will build the Xero staging models within a schema titled (<target_schema> + `_stg_xero`) and the Xero final transform models within a schema titled (<target_schema> + `_xero`) in your target database.
 To overwrite this behavior, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
@@ -117,6 +115,8 @@ models:
       staging:
         +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 #### Change the source table references
+```
+
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
 > IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_xero/blob/main/dbt_project.yml) variable declarations to see the expected names.

@@ -5,6 +5,10 @@ sources:
     schema: "{{ var('xero_schema', 'xero') }}"
     database: "{% if target.type != 'spark' %}{{ var('xero_database', target.database)}}{% endif %}"
     loader: Fivetran
+
+    config:
+      loaded_at_field: _fivetran_synced
+
     tables:
       - name: account
         identifier: "{{ var('xero_account_identifier', 'account')}}"
@@ -183,7 +187,6 @@ sources:
         identifier: "{{ var('xero_invoice_line_item_has_tracking_category_identifier', 'invoice_line_item_has_tracking_category')}}"
         description: Tracking category details for invoice line items.
         config:
-          loaded_at_field: _fivetran_synced
           enabled: "{{ var('xero__using_invoice_line_item_tracking_category', true) }}"       
         columns:
           - name: invoice_id

@@ -1,10 +1,10 @@
 name: 'xero_integration_tests'
-version: '0.9.0'
+version: '1.0.0'
 profile: 'integration_tests'
 config-version: 2
 
 vars:
-  xero_source:
+  xero:
     xero_account_identifier: "xero_account_data"
     xero_contact_identifier: "xero_contact_data"
     xero_invoice_line_item_identifier: "xero_invoice_line_item_data"

@@ -14,28 +14,28 @@
 with journals as (
 
     select *
-    from {{ var('journal') }}
+    from {{ ref('stg_xero__journal') }}
 
 ), journal_lines as (
 
     select *
-    from {{ var('journal_line') }}
+    from {{ ref('stg_xero__journal_line') }}
 
 ), accounts as (
 
     select *
-    from {{ var('account') }}
+    from {{ ref('stg_xero__account') }}
 
 ), invoices as (
 
     select *
-    from {{ var('invoice') }}
+    from {{ ref('stg_xero__invoice') }}
 
 {% if var('xero__using_bank_transaction', True) %}
 ), bank_transactions as (
 
     select *
-    from {{ var('bank_transaction') }}
+    from {{ ref('stg_xero__bank_transaction') }}
 
 {% endif %}
 
@@ -43,13 +43,13 @@ with journals as (
 ), credit_notes as (
 
     select *
-    from {{ var('credit_note') }}
+    from {{ ref('stg_xero__credit_note') }}
 {% endif %}
 
 ), contacts as (
 
     select *
-    from {{ var('contact') }}
+    from {{ ref('stg_xero__contact') }}
 
 {% if using_tracking_categories %}
 ), pivoted_tracking_categories as (

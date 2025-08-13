@@ -9,7 +9,7 @@
 with invoice_line_item_has_tracking as (
 
     select *
-    from {{ var('invoice_line_item_has_tracking_category') }}
+    from {{ ref('stg_xero__invoice_line_item_has_tracking_category') }}
 
 ), tracking_categories_with_options as (
 

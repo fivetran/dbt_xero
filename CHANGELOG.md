@@ -19,6 +19,10 @@
   - Removed all `accepted_values` tests.
   - Moved `loaded_at_field: _fivetran_synced` under the `config:` block in `src_xero.yml`.
 
+## Under the Hood
+- Updated conditions in `.github/workflows/auto-release.yml`.
+- Added `.github/workflows/generate-docs.yml`.
+
 # dbt_xero v0.9.0 
 This release includes the following updates:
 

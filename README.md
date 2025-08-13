@@ -16,7 +16,7 @@
 </p>
 
 ## What does this dbt package do?
-- Produces modeled tables that leverage Xero data from [Fivetran's connector](https://fivetran.com/docs/applications/xero) in the format described by [this ERD](https://fivetran.com/docs/applications/xero#schemainformation) and builds off the output of our [Xero source package](https://github.com/fivetran/dbt_xero_source).
+- Produces modeled tables that leverage Xero data from [Fivetran's connector](https://fivetran.com/docs/applications/xero) in the format described by [this ERD](https://fivetran.com/docs/applications/xero#schemainformation).
 
 - Provides analytics-ready models, including a profit and loss report, general ledger, and balance sheet report.
 - Generates a comprehensive data dictionary of your source and modeled Xero data through the [dbt docs site](https://fivetran.github.io/dbt_xero/).
@@ -50,9 +50,9 @@ Include the following xero package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/xero
-    version: [">=0.9.0", "<0.10.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.0.0", "<1.1.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
-Do NOT include the `xero_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
+> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/xero_source` in your `packages.yml` since this package has been deprecated.
 ### Step 3: Define database and schema variables
 By default, this package runs using your destination and the `xero` schema. If this is not where your Xero data is (for example, if your Xero schema is named `xero_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
@@ -77,7 +77,7 @@ If you have multiple Xero connections in Fivetran and would like to use this pac
 ...
 config-version: 2
 vars:
-  xero_source:
+  xero:
     union_schemas: ['xero_us','xero_ca'] # use this if the data is in different schemas/datasets of the same database/project
     union_databases: ['xero_us','xero_ca'] # use this if the data is in different databases/projects but uses the same schema name
 ```
@@ -113,11 +113,9 @@ To overwrite this behavior, add the following configuration to your `dbt_project
 ...
 models:
     xero:
-        +schema: my_new_final_models_schema # leave blank for just the target_schema
-    xero_source:
-        +schema: my_new_staging_models_schema # leave blank for just the target_schema
-
-```
+      +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      staging:
+        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable:
 
@@ -142,9 +140,6 @@ This dbt package is dependent on the following dbt packages. These dependencies 
 
 ```yml
 packages:
-    - package: fivetran/xero_source
-      version: [">=0.7.0", "<0.8.0"]
-
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
 

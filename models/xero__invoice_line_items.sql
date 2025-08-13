@@ -14,22 +14,22 @@
 with line_items as (
 
     select *
-    from {{ var('invoice_line_item') }}
+    from {{ ref('stg_xero__invoice_line_item') }}
 
 ), invoices as (
 
     select *
-    from {{ var('invoice') }}
+    from {{ ref('stg_xero__invoice') }}
 
 ), accounts as (
 
     select *
-    from {{ var('account') }}
+    from {{ ref('stg_xero__account') }}
 
 ), contacts as (
 
     select *
-    from {{ var('contact') }}
+    from {{ ref('stg_xero__contact') }}
 
 {% if using_tracking_categories %} 
 ), pivoted_tracking_categories as (

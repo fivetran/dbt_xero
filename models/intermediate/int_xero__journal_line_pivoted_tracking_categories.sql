@@ -9,7 +9,7 @@
 with journal_line_has_tracking as (
 
     select *
-    from {{ var('journal_line_has_tracking_category') }}
+    from {{ ref('stg_xero__journal_line_has_tracking_category') }}
 
 ), tracking_categories_with_options as (
 

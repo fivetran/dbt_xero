@@ -3,18 +3,18 @@
 with tracking_category as (
 
     select *
-    from {{ var('tracking_category') }}
+    from {{ ref('stg_xero__tracking_category') }}
     where lower(status) in ('active', 'archived')
 
 ), tracking_category_has_option as (
 
     select *
-    from {{ var('tracking_category_has_option') }}
+    from {{ ref('stg_xero__tracking_category_has_option') }}
 
 ), tracking_category_option as (
 
     select *
-    from {{ var('tracking_category_option') }}
+    from {{ ref('stg_xero__tracking_category_option') }}
     where lower(status) = 'active'
 ),
 

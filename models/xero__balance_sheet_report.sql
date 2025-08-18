@@ -14,7 +14,7 @@ with calendar as (
         *,
         cast(extract(year from current_date) as {{ dbt.type_string() }}) as current_year,
         cast(extract(year from {{ dbt.dateadd('year', 1, 'current_date') }}) as {{ dbt.type_string() }}) as next_year
-    from {{ var('organization') }}
+    from {{ ref('stg_xero__organization') }}
 
 
 ), year_end as (

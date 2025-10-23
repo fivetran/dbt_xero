@@ -1,3 +1,5 @@
+-- depends_on: {{ ref('stg_xero__invoice') }}
+
 {%- set using_tracking_categories = (
     var('xero__using_invoice_line_item_tracking_category', True)
     and var('xero__using_tracking_categories', True)
@@ -67,10 +69,12 @@ with line_items as (
         contacts.contact_name
 
         {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
-        -- Dynamically pivoted tracking category columns
-        {% for col in pivoted_columns_prefixed %}
-        , {{ col }} 
-        {% endfor %}
+            {% set tracking_categories = adapter.get_columns_in_relation(ref('stg_xero__invoice')) | map(attribute='name') | map('lower') | list %}
+            -- Dynamically pivoted tracking category columns
+            {% for col in pivoted_columns_prefixed %}
+                {% set col_name = col.split('.')[-1] | lower %}
+                , {{ col }} {{ 'as prefix_' ~ col_name if col_name in tracking_categories }}
+            {% endfor %}
         {% endif %}
 
     from line_items

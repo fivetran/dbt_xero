@@ -73,7 +73,7 @@ with line_items as (
             -- Dynamically pivoted tracking category columns
             {% for col in pivoted_columns_prefixed %}
                 {% set col_name = col.split('.')[-1] | lower %}
-                , {{ col }} {{ 'as prefix_' ~ col_name if col_name in tracking_categories }}
+                , {{ col }} {{ 'as prefix_name_' ~ col_name if col_name in tracking_categories }}
             {% endfor %}
         {% endif %}
 

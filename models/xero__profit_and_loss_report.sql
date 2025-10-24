@@ -48,22 +48,20 @@ with calendar as (
         ledger.source_relation,
 
         {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
-        -- Dynamically pivoted tracking category columns
-        {% for col in pivoted_columns_prefixed %}
             -- Create a list of all the columns in this cte so we can check for conflicts with the pivoted tracking category columns
-            {% set calendar_columns = ['date_month'] %}
-            {% set ledger_columns = ['account_id', 'account_name', 'account_code', 'account_type', 'account_class', 'source_relation'] %}
-            {% set new_columns = ['profit_and_loss_id'] %}
-            {% set joined_columns = calendar_columns + ledger_columns + new_columns %}
+            {%- set calendar_columns = ['date_month'] %}
+            {%- set ledger_columns = ['account_id', 'account_name', 'account_code', 'account_type', 'account_class', 'source_relation'] %}
+            {%- set new_columns = ['profit_and_loss_id', 'net_amount'] %}
+            {%- set joined_columns = calendar_columns + ledger_columns + new_columns %}
 
             -- Dynamically pivoted tracking category columns
             {% for col in pivoted_columns_prefixed %}
-                {% set col_name = col.replace('pivoted_tracking_categories.', '') | lower %}
+                {%- set col_name = col.replace('pivoted_tracking_categories.', '') | lower %}
                 -- add a prefix if there is a duplicate name
-                , {{ col }} {{ 'as pivoted_' ~ col_name if col_name in joined_columns }}
+                {{ col }} {{ 'as pivoted_' ~ col_name if col_name in joined_columns }},
             {% endfor %}
-        {% endfor %}
         {% endif %}
+
         coalesce(sum(ledger.net_amount * -1), 0) as net_amount
 
     from calendar

@@ -70,15 +70,15 @@ with line_items as (
 
         {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
             -- Create a list of all the columns in this cte so we can check for conflicts with the pivoted tracking category columns
-            {% set line_items_columns = adapter.get_columns_in_relation(ref('stg_xero__invoice_line_item')) | map(attribute='name') | map('lower') | list %}
-            {% set invoices_columns = ['invoice_date', 'updated_date', 'planned_payment_date', 'due_date', 'expected_payment_date', 'fully_paid_on_date', 'currency_code', 'currency_rate', 'invoice_number', 'is_sent_to_contact', 'invoice_status', 'type', 'url', 'invoice_reference'] %}
-            {% set accounts_columns = ['account_id', 'account_name', 'account_type', 'account_class'] %}
-            {% set contacts_columns = ['contact_name'] %}
-            {% set joined_columns = line_items_columns + invoices_columns + accounts_columns + contacts_columns %}
+            {%- set line_items_columns = adapter.get_columns_in_relation(ref('stg_xero__invoice_line_item')) | map(attribute='name') | map('lower') | list %}
+            {%- set invoices_columns = ['invoice_date', 'updated_date', 'planned_payment_date', 'due_date', 'expected_payment_date', 'fully_paid_on_date', 'currency_code', 'currency_rate', 'invoice_number', 'is_sent_to_contact', 'invoice_status', 'type', 'url', 'invoice_reference'] %}
+            {%- set accounts_columns = ['account_id', 'account_name', 'account_type', 'account_class'] %}
+            {%- set contacts_columns = ['contact_name'] %}
+            {%- set joined_columns = line_items_columns + invoices_columns + accounts_columns + contacts_columns %}
 
             -- Dynamically pivoted tracking category columns
             {% for col in pivoted_columns_prefixed %}
-                {% set col_name = col.replace('pivoted_tracking_categories.', '') | lower %}
+                {%- set col_name = col.replace('pivoted_tracking_categories.', '') | lower %}
                 -- add a prefix if there is a duplicate name
                 , {{ col }} {{ 'as pivoted_' ~ col_name if col_name in joined_columns }}
             {% endfor %}

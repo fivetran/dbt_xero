@@ -64,6 +64,15 @@ vars:
 
 ### (Optional) Step 4: Additional configurations
 
+#### Change the calendar start date
+Our date-based models start at `2019-01-01` by default. To customize the start date, add the following variable to your `dbt_project.yml` file:
+
+```yml
+vars:
+  xero:
+    xero__calendar_start_date: 'yyyy-mm-dd' # default is 2019-01-01
+```
+
 #### Multi-currency Support Limitations
 Currently, our dbt models for Xero have limited support for multi-currency accounting, particularly for handling unrealized currency gains and losses and bank revaluations, as they require historical or current exchange rate data that is not available in the Xero connector to fully calculate.
 

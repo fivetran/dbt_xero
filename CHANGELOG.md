@@ -5,7 +5,7 @@
 - Added optional `xero__calendar_start_date` variable to allow users to customize the start date for the calendar spine model. The variable defaults to `2019-01-01`, maintaining backward compatibility with existing implementations.
 
 ## Under the Hood
-- Updated `vertical_general_ledger_tracking` validation test to use `tracking_option_name` instead of the deprecated `option` column.
+- Updated `vertical_general_ledger_tracking` validation test to filter on `tracking_option_name`, which was renamed for `option`.
 
 ## Documentation
 - Updated README to include instructions for configuring the new `xero__calendar_start_date` variable.

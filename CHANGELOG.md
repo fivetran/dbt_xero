@@ -1,3 +1,15 @@
+# dbt_xero v1.0.1
+[PR #68](https://github.com/fivetran/dbt_xero/pull/68) includes the following updates:
+
+## Feature Update
+- Added optional `xero__calendar_start_date` variable to allow users to customize the start date for the calendar spine model. The variable defaults to `2019-01-01`, maintaining backward compatibility with existing implementations.
+
+## Under the Hood
+- Updated `vertical_general_ledger_tracking` validation test to filter on `tracking_option_name`, which was renamed for `option`.
+
+## Documentation
+- Updated README to include instructions for configuring the new `xero__calendar_start_date` variable.
+
 # dbt_xero v1.0.0
 
 [PR #64](https://github.com/fivetran/dbt_xero/pull/64) includes the following updates:

@@ -90,10 +90,19 @@ with journals as (
         case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
 
         {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
-        -- Pivoted tracking categories, excluding duplicate columns
-        {% for col in pivoted_columns_prefixed %}
-        , {{ col }} 
-        {% endfor %}
+            -- Create a list of all the columns in this cte so we can check for conflicts with the pivoted tracking category columns
+            {%- set accounts_columns = ['account_class', 'account_code', 'account_id', 'account_name', 'account_type'] %}
+            {%- set journals_columns = ['created_date_utc', 'journal_date', 'journal_id', 'journal_number', 'reference', 'source_id', 'source_relation', 'source_type'] %}
+            {%- set journal_lines_columns = ['description', 'gross_amount', 'journal_line_id', 'net_amount', 'tax_amount', 'tax_name', 'tax_type'] %}
+            {%- set new_columns = ['invoice_id', 'credit_note_id', 'payment_id', 'bank_transaction_id', 'manual_journal_id', 'bank_transfer_id'] %}
+            {%- set joined_columns = accounts_columns + journals_columns + journal_lines_columns + new_columns %}
+
+            -- Dynamically pivoted tracking category columns
+            {% for col in pivoted_columns_prefixed %}
+                {%- set col_name = col.replace('pivoted_tracking_categories.', '') | lower %}
+                -- add a prefix if there is a duplicate name
+                , {{ col }} {{ 'as pivoted_' ~ col_name if col_name in joined_columns }}
+            {% endfor %}
         {% endif %}
 
     from journals
@@ -107,6 +116,7 @@ with journals as (
     {% if using_tracking_categories %}
     left join pivoted_tracking_categories
         on journal_lines.journal_line_id = pivoted_tracking_categories.journal_line_id
+        and journal_lines.source_relation = pivoted_tracking_categories.source_relation
         and journals.journal_id = pivoted_tracking_categories.journal_id
         and journals.source_relation = pivoted_tracking_categories.source_relation
     {% endif %}

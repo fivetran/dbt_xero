@@ -1,3 +1,10 @@
+# dbt_xero v1.1.0
+
+[PR #69](https://github.com/fivetran/dbt_xero/pull/69) includes the following updates:
+
+## Features
+  - Increases the required dbt version upper limit to v3.0.0
+
 # dbt_xero v1.0.1
 [PR #68](https://github.com/fivetran/dbt_xero/pull/68) includes the following updates:
 

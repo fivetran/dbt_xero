@@ -3,13 +3,15 @@
     and var('xero__using_tracking_categories', True)
 ) -%}
 
-{% set pivoted_columns_prefixed = [] %}
-{% if using_tracking_categories %}
-    {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
-        model_name='int_xero__journal_line_pivoted_tracking_categories',
-        id_fields=['journal_id', 'journal_line_id', 'source_relation']
-    ) %}
-{% endif %}
+{%- set pivoted_columns = xero.get_pivoted_tracking_category_columns(
+    model_name='int_xero__journal_line_pivoted_tracking_categories',
+    id_fields=['journal_id', 'journal_line_id', 'source_relation']
+) if using_tracking_categories else [] -%}
+
+{%- set pivoted_columns_prefixed = xero.prefix_tracking_category_columns(
+    pivoted_columns,
+    'pivoted_tracking_categories'
+) if using_tracking_categories else [] -%}
 
 with calendar as (
 
@@ -21,19 +23,17 @@ with calendar as (
     select *
     from {{ ref('xero__general_ledger') }}
 
-)
-
 {% if using_tracking_categories %}
-, pivoted_tracking_categories as (
+), pivoted_tracking_categories as (
 
     select *
     from {{ ref('int_xero__journal_line_pivoted_tracking_categories') }}
 
-){% endif %}
+{% endif %}
 
-, joined as (
+), joined as (
 
-    select 
+    select
         {{ dbt_utils.generate_surrogate_key([
             'calendar.date_month',
             'ledger.account_id',
@@ -47,7 +47,7 @@ with calendar as (
         ledger.account_class, 
         ledger.source_relation,
 
-        {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
+        {% if using_tracking_categories and pivoted_columns|length > 0 %}
             -- Create a list of all the columns in this cte so we can check for conflicts with the pivoted tracking category columns
             {%- set calendar_columns = ['date_month'] %}
             {%- set ledger_columns = ['account_id', 'account_name', 'account_code', 'account_type', 'account_class', 'source_relation'] %}
@@ -55,10 +55,9 @@ with calendar as (
             {%- set joined_columns = calendar_columns + ledger_columns + new_columns %}
 
             -- Dynamically pivoted tracking category columns
-            {% for col in pivoted_columns_prefixed %}
-                {%- set col_name = col.replace('pivoted_tracking_categories.', '') | lower %}
+            {% for col in pivoted_columns %}
                 -- add a prefix if there is a duplicate name
-                {{ col }} {{ 'as pivoted_' ~ col_name if col_name in joined_columns }},
+                pivoted_tracking_categories.{{ col }} {{ 'as pivoted_' ~ col if col in joined_columns }},
             {% endfor %}
         {% endif %}
 
@@ -78,7 +77,7 @@ with calendar as (
 
     where ledger.account_class in ('REVENUE','EXPENSE')
 
-    {{ dbt_utils.group_by(n=8 + pivoted_columns_prefixed|length) }}
+    {{ dbt_utils.group_by(n=8 + pivoted_columns|length) }}
 )
 
 select *

@@ -8,6 +8,7 @@
   - `xero__profit_and_loss_report`
 
 ## Under the Hood
+- Renames the `get_prefixed_tracking_category_columns` macro to `get_pivoted_tracking_category_columns` and simplifies it to return only base column names, improving maintainability and readability.
 - Updates seed data to cover a wider range of tracking category scenarios.
 
 # dbt_xero v1.0.0

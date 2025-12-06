@@ -15,7 +15,7 @@ with staging as (
         journal_line_id,
         source_relation
     from {{ ref('stg_xero__journal_line_has_tracking_category') }}
-    where option is not null
+    where tracking_option_name is not null
 )
 
 {% if using_tracking_categories %}

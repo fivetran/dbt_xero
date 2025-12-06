@@ -8,11 +8,6 @@
     id_fields=['journal_id', 'journal_line_id', 'source_relation']
 ) if using_tracking_categories else [] -%}
 
-{%- set pivoted_columns_prefixed = xero.prefix_tracking_category_columns(
-    pivoted_columns,
-    'pivoted_tracking_categories'
-) if using_tracking_categories else [] -%}
-
 with calendar as (
 
     select *
@@ -31,20 +26,15 @@ with calendar as (
 
 {% endif %}
 
-), joined as (
+), aggregated as (
 
     select
-        {{ dbt_utils.generate_surrogate_key([
-            'calendar.date_month',
-            'ledger.account_id',
-            'ledger.source_relation'
-        ] + pivoted_columns_prefixed) }} as profit_and_loss_id,
-        calendar.date_month, 
+        calendar.date_month,
         ledger.account_id,
         ledger.account_name,
         ledger.account_code,
-        ledger.account_type, 
-        ledger.account_class, 
+        ledger.account_type,
+        ledger.account_class,
         ledger.source_relation,
 
         {% if using_tracking_categories and pivoted_columns|length > 0 %}
@@ -77,8 +67,19 @@ with calendar as (
 
     where ledger.account_class in ('REVENUE','EXPENSE')
 
-    {{ dbt_utils.group_by(n=8 + pivoted_columns|length) }}
+    {{ dbt_utils.group_by(n=7 + pivoted_columns|length) }}
+
+), final as (
+
+    select
+        *,
+        {{ dbt_utils.generate_surrogate_key([
+            'date_month',
+            'account_id',
+            'source_relation'
+        ] + pivoted_columns) }} as profit_and_loss_id
+    from aggregated
 )
 
 select *
-from joined
+from final

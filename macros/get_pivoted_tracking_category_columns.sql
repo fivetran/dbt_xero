@@ -11,19 +11,3 @@
 
     {{ return(tracking_category_columns | map('lower') | list) }}
 {% endmacro %}
-
-{% macro prefix_tracking_category_columns(columns, alias) %}
-    {{ return(adapter.dispatch('prefix_tracking_category_columns', 'xero')(columns, alias)) }}
-{% endmacro %}
-
-{% macro default__prefix_tracking_category_columns(columns, alias) %}
-    {% if alias and columns|length > 0 %}
-        {% set prefixed_columns = [] %}
-        {% for col in columns %}
-            {% do prefixed_columns.append(alias ~ '.' ~ col) %}
-        {% endfor %}
-        {{ return(prefixed_columns) }}
-    {% else %}
-        {{ return(columns) }}
-    {% endif %}
-{% endmacro %}

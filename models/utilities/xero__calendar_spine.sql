@@ -1,9 +1,11 @@
+{% set start_date = var('xero__calendar_start_date', '2019-01-01') %}
+
 with spine as (
 
     {{ 
         dbt_utils.date_spine(
             datepart="month",
-            start_date="cast('2019-01-01' as date)",
+            start_date="cast('" ~ start_date ~ "' as date)",
             end_date=dbt.dateadd(datepart='month', interval=1, from_date_or_timestamp="current_date")
         )
     }}

@@ -1,4 +1,4 @@
-# dbt_xero v1.0.1
+# dbt_xero v1.1.1
 [PR #67](https://github.com/fivetran/dbt_xero/pull/67) includes the following updates:
 
 ## Bug Fix
@@ -10,6 +10,25 @@
 ## Under the Hood
 - Renames the `get_prefixed_tracking_category_columns` macro to `get_pivoted_tracking_category_columns` and simplifies it to return only base column names, improving maintainability and readability.
 - Updates seed data to cover a wider range of tracking category scenarios.
+
+# dbt_xero v1.1.0
+
+[PR #69](https://github.com/fivetran/dbt_xero/pull/69) includes the following updates:
+
+## Features
+  - Increases the required dbt version upper limit to v3.0.0
+
+# dbt_xero v1.0.1
+[PR #68](https://github.com/fivetran/dbt_xero/pull/68) includes the following updates:
+
+## Feature Update
+- Added optional `xero__calendar_start_date` variable to allow users to customize the start date for the calendar spine model. The variable defaults to `2019-01-01`, maintaining backward compatibility with existing implementations.
+
+## Under the Hood
+- Updated `vertical_general_ledger_tracking` validation test to filter on `tracking_option_name`, which was renamed for `option`.
+
+## Documentation
+- Updated README to include instructions for configuring the new `xero__calendar_start_date` variable.
 
 # dbt_xero v1.0.0
 

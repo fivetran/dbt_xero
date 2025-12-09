@@ -3,13 +3,10 @@
     and var('xero__using_tracking_categories', True)
 ) -%}
 
-{% set pivoted_columns_prefixed = [] %}
-{% if using_tracking_categories %}
-    {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
-        model_name='int_xero__journal_line_pivoted_tracking_categories',
-        id_fields=['journal_id', 'journal_line_id', 'source_relation']
-    ) %}
-{% endif %}
+{% set pivoted_columns = xero.get_pivoted_tracking_category_columns(
+    model_name='int_xero__journal_line_pivoted_tracking_categories',
+    id_fields=['journal_id', 'journal_line_id', 'source_relation']
+) if using_tracking_categories else [] %}
 
 with journals as (
 
@@ -44,6 +41,7 @@ with journals as (
 
     select *
     from {{ ref('stg_xero__credit_note') }}
+
 {% endif %}
 
 ), contacts as (
@@ -89,11 +87,19 @@ with journals as (
         case when journals.source_type in ('APPREPAYMENT', 'APOVERPAYMENT', 'ACCPAYPAYMENT', 'ACCRECPAYMENT', 'ARCREDITPAYMENT', 'APCREDITPAYMENT') then journals.source_id end as payment_id,
         case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
 
-        {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
-        -- Pivoted tracking categories, excluding duplicate columns
-        {% for col in pivoted_columns_prefixed %}
-        , {{ col }} 
-        {% endfor %}
+        {% if using_tracking_categories and pivoted_columns|length > 0 %}
+            -- Create a list of all the columns in this cte so we can check for conflicts with the pivoted tracking category columns
+            {%- set accounts_columns = ['account_class', 'account_code', 'account_id', 'account_name', 'account_type'] %}
+            {%- set journals_columns = ['created_date_utc', 'journal_date', 'journal_id', 'journal_number', 'reference', 'source_id', 'source_relation', 'source_type'] %}
+            {%- set journal_lines_columns = ['description', 'gross_amount', 'journal_line_id', 'net_amount', 'tax_amount', 'tax_name', 'tax_type'] %}
+            {%- set new_columns = ['invoice_id', 'credit_note_id', 'payment_id', 'bank_transaction_id', 'manual_journal_id', 'bank_transfer_id'] %}
+            {%- set joined_columns = accounts_columns + journals_columns + journal_lines_columns + new_columns %}
+
+            -- Dynamically pivoted tracking category columns
+            {% for col in pivoted_columns %}
+                -- add a prefix if there is a duplicate name
+                , pivoted_tracking_categories.{{ col }} {{ 'as pivoted_' ~ col if col in joined_columns }}
+            {% endfor %}
         {% endif %}
 
     from journals
@@ -107,6 +113,7 @@ with journals as (
     {% if using_tracking_categories %}
     left join pivoted_tracking_categories
         on journal_lines.journal_line_id = pivoted_tracking_categories.journal_line_id
+        and journal_lines.source_relation = pivoted_tracking_categories.source_relation
         and journals.journal_id = pivoted_tracking_categories.journal_id
         and journals.source_relation = pivoted_tracking_categories.source_relation
     {% endif %}

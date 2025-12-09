@@ -1,5 +1,5 @@
 name: 'xero_integration_tests'
-version: '1.1.0'
+version: '1.1.1'
 profile: 'integration_tests'
 config-version: 2
 
@@ -19,7 +19,7 @@ vars:
     xero_tracking_category_identifier: "xero_tracking_category_data"
     xero_tracking_category_has_option_identifier: "xero_tracking_category_has_option_data"
     xero_tracking_category_option_identifier: "xero_tracking_category_option_data"    
-  xero_schema: xero_integration_tests_7
+  xero_schema: xero_integration_tests
 
 models:
   +schema: "xero_{{ var('directed_schema','dev') }}"

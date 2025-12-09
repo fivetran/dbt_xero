@@ -3,13 +3,10 @@
     and var('xero__using_tracking_categories', True)
 ) -%}
 
-{% set pivoted_columns_prefixed = [] %}
-{% if using_tracking_categories %}
-    {% set pivoted_columns_prefixed = get_prefixed_tracking_category_columns(
-        model_name='int_xero__journal_line_pivoted_tracking_categories',
-        id_fields=['journal_id', 'journal_line_id', 'source_relation']
-    ) %}
-{% endif %}
+{%- set pivoted_columns = xero.get_pivoted_tracking_category_columns(
+    model_name='int_xero__journal_line_pivoted_tracking_categories',
+    id_fields=['journal_id', 'journal_line_id', 'source_relation']
+) if using_tracking_categories else [] -%}
 
 with calendar as (
 
@@ -21,38 +18,39 @@ with calendar as (
     select *
     from {{ ref('xero__general_ledger') }}
 
-)
-
 {% if using_tracking_categories %}
-, pivoted_tracking_categories as (
+), pivoted_tracking_categories as (
 
     select *
     from {{ ref('int_xero__journal_line_pivoted_tracking_categories') }}
 
-){% endif %}
+{% endif %}
 
-, joined as (
+), aggregated as (
 
-    select 
-        {{ dbt_utils.generate_surrogate_key([
-            'calendar.date_month',
-            'ledger.account_id',
-            'ledger.source_relation'
-        ] + pivoted_columns_prefixed) }} as profit_and_loss_id,
-        calendar.date_month, 
+    select
+        calendar.date_month,
         ledger.account_id,
         ledger.account_name,
         ledger.account_code,
-        ledger.account_type, 
-        ledger.account_class, 
+        ledger.account_type,
+        ledger.account_class,
         ledger.source_relation,
 
-        {% if using_tracking_categories and pivoted_columns_prefixed|length > 0 %}
-        -- Dynamically pivoted tracking category columns
-        {% for col in pivoted_columns_prefixed %} 
-        {{ col }}, 
-        {% endfor %}
+        {% if using_tracking_categories and pivoted_columns|length > 0 %}
+            -- Create a list of all the columns in this cte so we can check for conflicts with the pivoted tracking category columns
+            {%- set calendar_columns = ['date_month'] %}
+            {%- set ledger_columns = ['account_id', 'account_name', 'account_code', 'account_type', 'account_class', 'source_relation'] %}
+            {%- set new_columns = ['profit_and_loss_id', 'net_amount'] %}
+            {%- set joined_columns = calendar_columns + ledger_columns + new_columns %}
+
+            -- Dynamically pivoted tracking category columns
+            {% for col in pivoted_columns %}
+                -- add a prefix if there is a duplicate name
+                pivoted_tracking_categories.{{ col }} {{ 'as pivoted_' ~ col if col in joined_columns }},
+            {% endfor %}
         {% endif %}
+
         coalesce(sum(ledger.net_amount * -1), 0) as net_amount
 
     from calendar
@@ -69,8 +67,19 @@ with calendar as (
 
     where ledger.account_class in ('REVENUE','EXPENSE')
 
-    {{ dbt_utils.group_by(n=8 + pivoted_columns_prefixed|length) }}
+    {{ dbt_utils.group_by(n=7 + pivoted_columns|length) }}
+
+), final as (
+
+    select
+        *,
+        {{ dbt_utils.generate_surrogate_key([
+            'date_month',
+            'account_id',
+            'source_relation'
+        ] + pivoted_columns) }} as profit_and_loss_id
+    from aggregated
 )
 
 select *
-from joined
+from final

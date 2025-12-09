@@ -1,3 +1,16 @@
+# dbt_xero v1.1.1
+[PR #67](https://github.com/fivetran/dbt_xero/pull/67) includes the following updates:
+
+## Bug Fix
+- Resolves naming conflicts in models with dynamically pivoted tracking category columns. When a pivoted column name matches an existing column, the model automatically adds a `pivoted_` prefix. Applies to:
+  - `xero__general_ledger`
+  - `xero__invoice_line_items`
+  - `xero__profit_and_loss_report`
+
+## Under the Hood
+- Renames the `get_prefixed_tracking_category_columns` macro to `get_pivoted_tracking_category_columns` and simplifies it to return only base column names, improving maintainability and readability.
+- Updates seed data to cover a wider range of tracking category scenarios.
+
 # dbt_xero v1.1.0
 
 [PR #69](https://github.com/fivetran/dbt_xero/pull/69) includes the following updates:

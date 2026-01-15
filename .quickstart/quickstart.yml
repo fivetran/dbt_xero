@@ -17,6 +17,9 @@ table_variables:
     - _tracking_category_option
     - _tracking_category_has_option
 
+  _fivetran_quickstart_contact:
+    - contact
+
 destination_configurations:
   databricks:
     dispatch:

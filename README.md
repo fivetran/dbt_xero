@@ -1,4 +1,5 @@
-# Xero dbt Package ([Docs](https://fivetran.github.io/dbt_xero/))
+<!--section="xero_transformation_model"-->
+# Xero dbt Package
 
 <p align="left">
     <a alt="License"
@@ -11,49 +12,76 @@
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
     <a alt="Fivetran Quickstart Compatible"
-        href="https://fivetran.com/docs/transformations/dbt/quickstart">
+        href="https://fivetran.com/docs/transformations/data-models/quickstart-management#quickstartmanagement">
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
+This dbt package transforms data from Fivetran's Xero connector into analytics-ready tables.
+
+## Resources
+
+- Number of materialized models¹: 35
+- Connector documentation
+  - [Xero connector documentation](https://fivetran.com/docs/connectors/applications/xero)
+  - [Xero ERD](https://fivetran.com/docs/connectors/applications/xero#schemainformation)
+- dbt package documentation
+  - [GitHub repository](https://github.com/fivetran/dbt_xero)
+  - [dbt Docs](https://fivetran.github.io/dbt_xero/#!/overview)
+  - [DAG](https://fivetran.github.io/dbt_xero/#!/overview?g_v=1)
+  - [Changelog](https://github.com/fivetran/dbt_xero/blob/main/CHANGELOG.md)
+
 ## What does this dbt package do?
-- Produces modeled tables that leverage Xero data from [Fivetran's connector](https://fivetran.com/docs/applications/xero) in the format described by [this ERD](https://fivetran.com/docs/applications/xero#schemainformation).
+This package enables you to produce modeled tables, provide analytics-ready models, and generate comprehensive data dictionaries. It creates enriched models with metrics focused on profit and loss reports, general ledgers, and balance sheet reports.
 
-- Provides analytics-ready models, including a profit and loss report, general ledger, and balance sheet report.
-- Generates a comprehensive data dictionary of your source and modeled Xero data through the [dbt docs site](https://fivetran.github.io/dbt_xero/).
+> Note: Currently, our dbt models for Xero have limited support for multi-currency accounting, particularly for handling unrealized currency gains and losses and bank revaluations, as they require historical or current exchange rate data that is not available in the Xero connector to fully calculate.
 
-<!--section=“xero_transformation_model"-->
+### Output schema
+Final output tables are generated in the following target schema:
 
-The following table provides a detailed list of all tables materialized within this package by default.
+```
+<your_database>.<connector/schema_name>_xero
+```
 
-| **Table**                | **Description**                                                                                      |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| [xero__general_ledger](https://github.com/fivetran/dbt_xero/blob/main/models/xero__general_ledger.sql)          | Each record represents a journal line item. Use the ledger to create the balance sheet and the profit and loss statement. |
-| [xero__profit_and_loss_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__profit_and_loss_report.sql)  | Each record represents a profit and loss line item at the month and account level.                                     |
-| [xero__balance_sheet_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__balance_sheet_report.sql)    | Each record represents the state of the balance sheet for a given account on a given month.                            |
-| [xero__invoice_line_items](https://github.com/fivetran/dbt_xero/blob/main/models/xero__invoice_line_items.sql)      | Each record represents an invoice line item enriched with the account, contact, and invoice information.                   |
+### Final output tables
 
-### Materialized Models
-Each Quickstart transformation job run materializes 35 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
-<!--section-end-->
+By default, this package materializes the following final tables:
 
-## How do I use the dbt package?
+| Table | Description |
+| :---- | :---- |
+| [xero__general_ledger](https://github.com/fivetran/dbt_xero/blob/main/models/xero__general_ledger.sql) | Tracks every journal line item with debits, credits, and account classifications to provide a complete transaction history for building financial statements and analyzing account activity. <br></br>**Example Analytics Questions:**<ul><li>What is the total net amount by account class (asset, liability, equity, revenue, expense) for a given period?</li><li>Which accounts have the highest transaction volumes or largest balance changes?</li><li>How do journal entries by source type (invoice, payment, manual) contribute to overall financial activity?</li></ul>|
+| [xero__profit_and_loss_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__profit_and_loss_report.sql) | Summarizes monthly profit and loss by account with net amounts to track revenue, expenses, and profitability trends over time at the account level. <br></br>**Example Analytics Questions:**<ul><li>What are monthly revenue and expense trends by account class (revenue vs expense)?</li><li>Which expense accounts are growing fastest month-over-month?</li><li>What is the net profit or loss for each month across all revenue and expense accounts?</li></ul>|
+| [xero__balance_sheet_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__balance_sheet_report.sql) | Shows the monthly balance sheet position for each account to track assets, liabilities, and equity over time and understand financial health. <br></br>**Example Analytics Questions:**<ul><li>What is the current balance for each asset, liability, and equity account?</li><li>How have account balances changed month-over-month across different account classes?</li><li>What is the total asset value versus total liability value for each reporting period?</li></ul>|
+| [xero__invoice_line_items](https://github.com/fivetran/dbt_xero/blob/main/models/xero__invoice_line_items.sql) | Provides detailed invoice line item data enriched with account, contact, and invoice information including amounts, taxes, and payment status to analyze billing and revenue. <br></br>**Example Analytics Questions:**<ul><li>Which customers or contacts generate the highest invoice amounts and line item volumes?</li><li>What are the most common products or services sold based on line item descriptions?</li><li>How do discount rates and tax amounts vary across different invoice line items or customers?</li></ul>|
 
-### Step 1: Prerequisites
+¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+
+---
+
+## Prerequisites
 To use this dbt package, you must have the following:
 
 - At least one Fivetran Xero connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
 
-### Step 2: Install the package
+## How do I use the dbt package?
+You can either add this dbt package in the Fivetran dashboard or import it into your dbt project:
+
+- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/data-models/quickstart-management).
+- To add the package to your dbt project, follow the setup instructions in the dbt package's [README file](https://github.com/fivetran/dbt_xero/blob/main/README.md#how-do-i-use-the-dbt-package) to use this package.
+
+<!--section-end-->
+
+### Install the package
 Include the following xero package version in your `packages.yml` file:
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 ```yaml
 packages:
   - package: fivetran/xero
-    version: [">=1.1.0", "<1.2.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.2.0", "<1.3.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/xero_source` in your `packages.yml` since this package has been deprecated.
-### Step 3: Define database and schema variables
+
+### Define database and schema variables
 By default, this package runs using your destination and the `xero` schema. If this is not where your Xero data is (for example, if your Xero schema is named `xero_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
@@ -62,7 +90,7 @@ vars:
     xero_database: your_database_name 
 ```
 
-### (Optional) Step 4: Additional configurations
+### (Optional) Additional configurations
 
 #### Change the calendar start date
 Our date-based models start at `2019-01-01` by default. To customize the start date, add the following variable to your `dbt_project.yml` file:
@@ -135,11 +163,11 @@ vars:
     xero_<default_source_table_name>_identifier: your_table_name 
 ```
 
-### (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™
+### (Optional) Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>
 
-Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt#setupguide).
+Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt/setup-guide#transformationsfordbtcoresetupguide).
 
 </details>
 
@@ -155,14 +183,19 @@ packages:
     - package: dbt-labs/dbt_utils
       version: [">=1.0.0", "<2.0.0"]
 ```
+
+<!--section="xero_maintenance"-->
 ## How is this package maintained and can I contribute?
+
 ### Package Maintenance
-The Fivetran team maintaining this package _only_ maintains the latest version of the package. We highly recommend you stay consistent with the [latest version](https://hub.getdbt.com/fivetran/xero/latest/) of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_xero/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
+The Fivetran team maintaining this package only maintains the [latest version](https://hub.getdbt.com/fivetran/xero/latest/) of the package. We highly recommend you stay consistent with the latest version of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_xero/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
 
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.
 
-We highly encourage and welcome contributions to this package. Check out [this dbt Discourse article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
+
+<!--section-end-->
 
 ## Are there any resources available?
 - If you have questions or want to reach out for help, see the [GitHub Issue](https://github.com/fivetran/dbt_xero/issues/new/choose) section to find the right avenue of support for you.

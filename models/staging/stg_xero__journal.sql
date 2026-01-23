@@ -16,13 +16,14 @@ fields as (
             )
         }}
 
-        {{ fivetran_utils.add_dbt_source_relation() }}
+        {{ xero.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         journal_id,
         created_date_utc,
         journal_date,
@@ -30,9 +31,6 @@ final as (
         reference,
         source_id,
         source_type
-
-        {{ fivetran_utils.source_relation() }}
-        
     from fields
 )
 

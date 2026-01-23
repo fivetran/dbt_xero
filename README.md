@@ -81,13 +81,72 @@ packages:
 ```
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/xero_source` in your `packages.yml` since this package has been deprecated.
 
-### Define database and schema variables
+#### Option A: Single connection
 By default, this package runs using your destination and the `xero` schema. If this is not where your Xero data is (for example, if your Xero schema is named `xero_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
 vars:
+    xero_database: your_destination_name
     xero_schema: your_schema_name
-    xero_database: your_database_name 
+```
+
+#### Option B: Union multiple connections
+If you have multiple Xero connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. For each source table, the package will union all of the data together and pass the unioned table into the transformations. The `source_relation` column in each model indicates the origin of each record.
+
+To use this functionality, you will need to set the `xero_sources` variable in your root `dbt_project.yml` file:
+
+```yml
+# dbt_project.yml
+
+vars:
+  xero:
+    xero_sources:
+      - database: connection_1_destination_name # Required
+        schema: connection_1_schema_name # Required
+        name: connection_1_source_name # Required only if following the step in the following subsection
+
+      - database: connection_2_destination_name
+        schema: connection_2_schema_name
+        name: connection_2_source_name
+```
+
+> Previous versions of this package employed two separate, mutually exclusive variables for unioning: `union_schemas` and `union_databases`. While these variables are still supported, `xero_sources` is the recommended variable to configure.
+
+##### Recommended: Incorporate unioned sources into DAG
+> *If you are running the package through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore), the below step is necessary in order to synchronize model runs with your Xero connections. Alternatively, you may choose to run the package through Fivetran [Quickstart](https://fivetran.com/docs/transformations/quickstart), which would create separate sets of models for each Xero source rather than one set of unioned models.*
+
+By default, this package defines one single-connection source, called `xero`, which will be disabled if you are unioning multiple connections. This means that your DAG will not include your Xero sources, though the package will run successfully.
+
+To properly incorporate all of your Xero connections into your project's DAG:
+1. Define each of your sources in a `.yml` file in your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_xero.yml` [file](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml).
+
+```yml
+# a .yml file in your root project
+
+version: 2
+
+sources:
+  - name: <name> # ex: Should match name in xero_sources
+    schema: <schema_name>
+    database: <database_name>
+    loader: fivetran
+    config:
+      loaded_at_field: _fivetran_synced
+      freshness: # feel free to adjust to your liking
+        warn_after: {count: 72, period: hour}
+        error_after: {count: 168, period: hour}
+
+    tables: # copy and paste from xero/models/staging/src_xero.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
+```
+
+> **Note**: If there are source tables you do not have (see [Disable models for non existent sources](https://github.com/fivetran/dbt_xero?tab=readme-ov-file#disable-models-for-non-existent-sources)), you may still include them, as long as you have set the right variables to `False`.
+
+2. Set the `has_defined_sources` variable (scoped to the `xero` package) to `True`, like such:
+```yml
+# dbt_project.yml
+vars:
+  xero:
+    has_defined_sources: true
 ```
 
 ### (Optional) Additional configurations

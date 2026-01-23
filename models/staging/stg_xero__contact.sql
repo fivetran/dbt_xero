@@ -16,18 +16,16 @@ fields as (
             )
         }}
 
-        {{ fivetran_utils.add_dbt_source_relation() }}        
+        {{ xero.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         contact_id,
         name as contact_name
-
-        {{ fivetran_utils.source_relation() }}
-        
     from fields
     where _fivetran_deleted = False
 )

@@ -16,22 +16,20 @@ fields as (
             )
         }}
 
-        {{ fivetran_utils.add_dbt_source_relation() }}
+        {{ xero.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         account_id,
         name as account_name,
         code as account_code,
         type as account_type,
         class as account_class,
         _fivetran_synced
-
-        {{ fivetran_utils.source_relation() }}
-
     from fields
 
 )

@@ -1,3 +1,26 @@
+# dbt_xero v1.3.0
+
+[PR #71](https://github.com/fivetran/dbt_xero/pull/71) includes the following updates:
+
+# Feature Update
+- Introduces support for the newer, more flexible unioning framework. Previously, to run the package on multiple Xero sources at once, you could only use the `union_schemas` variable OR `union_databases` (mutually exclusive). While these setups are still supported for backwards compatibility, we recommend using `xero_sources` instead, which can be configured as such:
+
+```yml
+# dbt_project.yml
+
+vars:
+  xero:
+    xero_sources:
+      - database: connection_1_destination_name # Required
+        schema: connection_1_schema_name # Required
+        name: connection_1_source_name # Required only if following this step: https://github.com/fivetran/dbt_xero/blob/main/README.md#recommended-incorporate-unioned-sources-into-dag
+
+      - database: connection_2_destination_name
+        schema: connection_2_schema_name
+        name: connection_2_source_name
+```
+- See the [README](https://github.com/fivetran/dbt_jira/blob/main/README.md#option-b-union-multiple-connections) for more details.
+
 # dbt_xero v1.2.0
 
 [PR #70](https://github.com/fivetran/dbt_xero/pull/70) includes the following updates:

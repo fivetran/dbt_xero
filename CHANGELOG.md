@@ -1,6 +1,6 @@
 # dbt_xero v1.3.0
 
-[PR #71](https://github.com/fivetran/dbt_xero/pull/71) includes the following updates:
+[PR #72](https://github.com/fivetran/dbt_xero/pull/72) includes the following updates:
 
 ## Schema Changes
 
@@ -9,7 +9,7 @@
 | -------------- | --------------- | ------------ | ------------ | --------- |
 | [`xero__invoice_line_items`](https://fivetran.github.io/dbt_xero/#!/model/model.xero.xero__invoice_line_items) | New Column |  | `contact_id` | ID of the associated `CONTACT`. |
 
-# Feature Update
+## Feature Update
 - Introduces support for the newer, more flexible unioning framework. Previously, to run the package on multiple Xero sources at once, you could only use the `union_schemas` variable OR `union_databases` (mutually exclusive). While these setups are still supported for backwards compatibility, we recommend using `xero_sources` instead, which can be configured as such:
 
 ```yml
@@ -26,7 +26,7 @@ vars:
         schema: connection_2_schema_name
         name: connection_2_source_name
 ```
-- See the [README](https://github.com/fivetran/dbt_jira/blob/main/README.md#option-b-union-multiple-connections) for more details.
+- See the [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#option-b-union-multiple-connections) for more details.
 
 # dbt_xero v1.2.0
 

@@ -77,7 +77,7 @@ Include the following xero package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/xero
-    version: [">=1.2.0", "<1.3.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.3.0", "<1.4.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/xero_source` in your `packages.yml` since this package has been deprecated.
 
@@ -164,19 +164,6 @@ vars:
 Currently, our dbt models for Xero have limited support for multi-currency accounting, particularly for handling unrealized currency gains and losses and bank revaluations, as they require historical or current exchange rate data that is not available in the Xero connector to fully calculate.
 
 Thus, while all realized current gains will be brought through in our end models, unrealized currency gains and losses and bank revaluations will not. So we cannot provide full multi-currency support at this time.
-
-#### Unioning Multiple Xero Connections
-If you have multiple Xero connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set **either** (**note that you cannot use both**) the `union_schemas` or `union_databases` variables:
-
-```yml
-# dbt_project.yml
-...
-config-version: 2
-vars:
-  xero:
-    union_schemas: ['xero_us','xero_ca'] # use this if the data is in different schemas/datasets of the same database/project
-    union_databases: ['xero_us','xero_ca'] # use this if the data is in different databases/projects but uses the same schema name
-```
 
 #### Disabling and Enabling Models
 

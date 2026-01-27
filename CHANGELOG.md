@@ -2,6 +2,13 @@
 
 [PR #71](https://github.com/fivetran/dbt_xero/pull/71) includes the following updates:
 
+## Schema Changes
+
+**1 total change • 0 possible breaking changes**
+| **Data Model** | **Change type** | **Old** | **New** | **Notes** |
+| -------------- | --------------- | ------------ | ------------ | --------- |
+| [`xero__invoice_line_items`](https://fivetran.github.io/dbt_xero/#!/model/model.xero.xero__invoice_line_items) | New Column |  | `contact_id` | ID of the associated `CONTACT`. |
+
 # Feature Update
 - Introduces support for the newer, more flexible unioning framework. Previously, to run the package on multiple Xero sources at once, you could only use the `union_schemas` variable OR `union_databases` (mutually exclusive). While these setups are still supported for backwards compatibility, we recommend using `xero_sources` instead, which can be configured as such:
 

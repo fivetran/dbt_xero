@@ -98,6 +98,8 @@ models:
         description: The type of account, e.g. CURRENT, EQUITY, SALES
       - name: account_class
         description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
+      - name: contact_id
+        description: ID of the associated contact.
       - name: contact_name
         description: The name of the associated contact.
       - name: source_relation

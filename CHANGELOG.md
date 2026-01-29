@@ -4,7 +4,7 @@
 
 ## Schema Changes
 
-**2 total change • 0 possible breaking changes**
+**2 total change • 1 possible breaking changes**
 | **Data Model** | **Change type** | **Old** | **New** | **Notes** |
 | -------------- | --------------- | ------------ | ------------ | --------- |
 | [`xero__invoice_line_items`](https://fivetran.github.io/dbt_xero/#!/model/model.xero.xero__invoice_line_items) | New Column |  | `contact_id` | ID of the associated `CONTACT`. |

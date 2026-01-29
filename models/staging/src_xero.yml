@@ -203,7 +203,7 @@ sources:
         identifier: "{{ var('xero_journal_line_has_tracking_category_identifier', 'journal_line_has_tracking_category')}}"
         description: Tracking category details for journal lines.
         config:
-          enabled: "{{ var('xero__using_journal_line_tracking_category', true) and var('xero_sources', []) == []}}"
+          enabled: "{{ var('xero__using_journal_line_tracking_category', true) and var('xero_sources', []) == [] }}"
         columns: 
           - name: journal_id
             description: Xero identifier for the journal.

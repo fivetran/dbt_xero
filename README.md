@@ -139,9 +139,14 @@ sources:
     tables: # copy and paste from xero/models/staging/src_xero.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
 ```
 
-> **Note**: If there are source tables you do not have (see [Disable models for non existent sources](https://github.com/fivetran/dbt_xero?tab=readme-ov-file#disable-models-for-non-existent-sources)), you may still include them, as long as you have set the right variables to `False`.
+2. In the above `.yml` file, remove the `and var('xero_sources', []) == []` condition from the `enabled` config for the following source tables (if you have the tables in your schemas):
+- [`invoice_line_item_has_tracking_category`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L191)
+- [`journal_line_has_tracking_category`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L206)
+- [`tracking_category`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L223)
+- [`tracking_category_option`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L243)
+- [`tracking_category_has_option`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L266)
 
-2. Set the `has_defined_sources` variable (scoped to the `xero` package) to `True`, like such:
+3. Set the `has_defined_sources` variable (scoped to the `xero` package) to `True` in your root project, like such:
 ```yml
 # dbt_project.yml
 vars:

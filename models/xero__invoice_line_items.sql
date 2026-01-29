@@ -63,6 +63,7 @@ with line_items as (
         accounts.account_type,
         accounts.account_class,
 
+        invoices.contact_id,
         contacts.contact_name
 
         {% if using_tracking_categories and pivoted_columns|length > 0 %}
@@ -70,7 +71,7 @@ with line_items as (
             {%- set line_items_columns = adapter.get_columns_in_relation(ref('stg_xero__invoice_line_item')) | map(attribute='name') | map('lower') | list %}
             {%- set invoices_columns = ['invoice_date', 'updated_date', 'planned_payment_date', 'due_date', 'expected_payment_date', 'fully_paid_on_date', 'currency_code', 'currency_rate', 'invoice_number', 'is_sent_to_contact', 'invoice_status', 'type', 'url', 'invoice_reference'] %}
             {%- set accounts_columns = ['account_id', 'account_name', 'account_type', 'account_class'] %}
-            {%- set contacts_columns = ['contact_name'] %}
+            {%- set contacts_columns = ['contact_name', 'contact_id'] %}
             {%- set joined_columns = line_items_columns + invoices_columns + accounts_columns + contacts_columns %}
 
             -- Dynamically pivoted tracking category columns

@@ -17,21 +17,19 @@ fields as (
             )
         }}
 
-        {{ fivetran_utils.add_dbt_source_relation() }}    
+        {{ xero.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         invoice_id,
         line_item_id,
         tracking_category_id,
         option as tracking_option_name,
         _fivetran_synced
-
-        {{ fivetran_utils.source_relation() }}
-        
     from fields
 )
 

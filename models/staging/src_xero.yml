@@ -8,6 +8,7 @@ sources:
 
     config:
       loaded_at_field: _fivetran_synced
+      enabled: "{{ var('xero_sources', []) == [] }}"
 
     tables:
       - name: account
@@ -187,7 +188,7 @@ sources:
         identifier: "{{ var('xero_invoice_line_item_has_tracking_category_identifier', 'invoice_line_item_has_tracking_category')}}"
         description: Tracking category details for invoice line items.
         config:
-          enabled: "{{ var('xero__using_invoice_line_item_tracking_category', true) }}"       
+          enabled: "{{ var('xero__using_invoice_line_item_tracking_category', true) and var('xero_sources', []) == [] }}"       
         columns:
           - name: invoice_id
             description: Xero identifier for the invoice.
@@ -202,7 +203,7 @@ sources:
         identifier: "{{ var('xero_journal_line_has_tracking_category_identifier', 'journal_line_has_tracking_category')}}"
         description: Tracking category details for journal lines.
         config:
-          enabled: "{{ var('xero__using_journal_line_tracking_category', true) }}"
+          enabled: "{{ var('xero__using_journal_line_tracking_category', true) and var('xero_sources', []) == [] }}"
         columns: 
           - name: journal_id
             description: Xero identifier for the journal.
@@ -219,7 +220,7 @@ sources:
         identifier: "{{ var('xero_tracking_category_identifier', 'tracking_category')}}"
         description: Tracking category metadata, including name and status.
         config:
-          enabled: "{{ var('xero__using_tracking_categories', true) }}"
+          enabled: "{{ var('xero__using_tracking_categories', true) and var('xero_sources', []) == [] }}"
         columns:
           - name: tracking_category_id
             description: Xero identifier for the tracking category.
@@ -239,7 +240,7 @@ sources:
         identifier: "{{ var('xero_tracking_category_option_identifier', 'tracking_category_option')}}"
         description: Individual options (values) within a Xero tracking category.
         config:
-          enabled: "{{ var('xero__using_tracking_categories', true) }}"
+          enabled: "{{ var('xero__using_tracking_categories', true) and var('xero_sources', []) == [] }}"
         columns:
           - name: tracking_option_id
             description: Xero identifier for the tracking category option.
@@ -262,7 +263,7 @@ sources:
         identifier: "{{ var('xero_tracking_category_has_option_identifier', 'tracking_category_has_option')}}"
         description: Mapping table between Xero tracking categories and their associated options.
         config:
-          enabled: "{{ var('xero__using_tracking_categories', true) }}"
+          enabled: "{{ var('xero__using_tracking_categories', true) and var('xero_sources', []) == [] }}"
         columns:
           - name: tracking_category_id
             description: Xero identifier for the tracking category.

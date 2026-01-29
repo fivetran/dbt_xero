@@ -47,7 +47,7 @@ with calendar as (
         calendar.date_month,
         case
             when ledger.account_class in ('ASSET','EQUITY','LIABILITY') then ledger.account_name
-            when ledger.journal_date <= {{ dbt.dateadd('year', -1, 'year_end.current_year_end_date') }} then 'Retained Earnings'
+            when cast(ledger.journal_date as date) <= {{ dbt.dateadd('year', -1, 'year_end.current_year_end_date') }} then 'Retained Earnings'
             else 'Current Year Earnings'
         end as account_name,
         case

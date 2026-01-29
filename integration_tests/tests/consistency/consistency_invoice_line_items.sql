@@ -4,12 +4,12 @@
 ) }}
 
 with prod as (
-    select *
+    select {{ dbt_utils.star(from=ref('xero__invoice_line_items'), except=var('consistency_test_exclude_fields', '[]')) }}
     from {{ target.schema }}_xero_prod.xero__invoice_line_items
 ), 
 
 dev as (
-    select *
+    select {{ dbt_utils.star(from=ref('xero__invoice_line_items'), except=var('consistency_test_exclude_fields', '[]')) }}
     from {{ target.schema }}_xero_dev.xero__invoice_line_items
 ), 
 

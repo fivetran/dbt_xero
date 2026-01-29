@@ -16,13 +16,15 @@ fields as (
             )
         }}
         
-        {{ fivetran_utils.add_dbt_source_relation() }}
+        {{ xero.apply_source_relation() }}
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
+
         -- IDs
         invoice_id,
         contact_id,
@@ -44,9 +46,6 @@ final as (
         status as invoice_status,
         type,
         url
-
-        {{ fivetran_utils.source_relation() }}
-        
     from fields
 )
 

@@ -35,7 +35,7 @@ public_models: [
 
 supported_vars:
   xero__calendar_start_date:
-    type: string
+    type: date
     value: "2019-01-01"
     description: "Start date for the window of data to transform (YYYY-MM-DD format)"
     display_name: "Date Range Start"

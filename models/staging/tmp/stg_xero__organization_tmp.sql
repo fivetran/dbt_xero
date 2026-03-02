@@ -1,4 +1,4 @@
-{% if var('xero_sources') != [] %}
+{% if var('xero_sources', []) != [] %}
 
 {{
     xero.xero_union_connections(

@@ -22,6 +22,9 @@ vars:
   xero_schema: xero_integration_tests
 
 models:
+  +persist_docs:
+    relation: true
+    columns: "{{ false if target.type in ('databricks') else true }}"
   +schema: "xero_{{ var('directed_schema','dev') }}"
 
 dispatch:

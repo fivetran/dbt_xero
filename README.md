@@ -1,21 +1,6 @@
 <!--section="xero_transformation_model"-->
 # Xero dbt Package
 
-<p align="left">
-    <a alt="License"
-        href="https://github.com/fivetran/dbt_xero/blob/main/LICENSE">
-        <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
-    <a alt="dbt-core">
-        <img src="https://img.shields.io/badge/dbt_Core™_version->=1.3.0,_<3.0.0-orange.svg" /></a>
-    <a alt="Maintained?">
-        <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
-    <a alt="PRs">
-        <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
-    <a alt="Fivetran Quickstart Compatible"
-        href="https://fivetran.com/docs/transformations/data-models/quickstart-management#quickstartmanagement">
-        <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
-</p>
-
 This dbt package transforms data from Fivetran's Xero connector into analytics-ready tables.
 
 ## Resources
@@ -29,6 +14,8 @@ This dbt package transforms data from Fivetran's Xero connector into analytics-r
   - [dbt Docs](https://fivetran.github.io/dbt_xero/#!/overview)
   - [DAG](https://fivetran.github.io/dbt_xero/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_xero/blob/main/CHANGELOG.md)
+- dbt Core™ supported versions
+  - `>=1.3.0, <3.0.0`
 
 ## What does this dbt package do?
 This package enables you to produce modeled tables, provide analytics-ready models, and generate comprehensive data dictionaries. It creates enriched models with metrics focused on profit and loss reports, general ledgers, and balance sheet reports.

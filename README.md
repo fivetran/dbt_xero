@@ -1,5 +1,5 @@
 <!--section="xero_transformation_model"-->
-# Xero dbt Package
+# Xero dbt Package 
 
 This dbt package transforms data from Fivetran's Xero connector into analytics-ready tables.
 

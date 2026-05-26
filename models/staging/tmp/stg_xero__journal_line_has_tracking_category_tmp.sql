@@ -1,6 +1,6 @@
 {{ config(enabled=var('xero__using_journal_line_tracking_category', True)) }}
 
-{% if var('xero_sources') != [] %}
+{% if var('xero_sources', []) != [] %}
 
 {{
     xero.xero_union_connections(

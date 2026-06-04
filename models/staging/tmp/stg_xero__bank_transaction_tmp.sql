@@ -1,16 +1,6 @@
 {{ config(enabled=var('xero__using_bank_transaction', True)) }}
 
-{% if var('xero_sources') != [] %}
-
-{{
-    xero.xero_union_connections(
-        connection_dictionary='xero_sources',
-        single_source_name='xero',
-        single_table_name='bank_transaction'
-    )
-}}
-
-{% else %}
+{% if var('xero_union_schemas', []) | length > 0 or var('xero_union_databases', []) | length > 0 %}
 
 {{
     fivetran_utils.union_data(
@@ -19,7 +9,19 @@
         schema_variable='xero_schema',
         default_database=target.database,
         default_schema='xero',
-        default_variable='bank_transaction'
+        default_variable='bank_transaction',
+        union_schema_variable='xero_union_schemas',
+        union_database_variable='xero_union_databases'
+    )
+}}
+
+{% else %}
+
+{{
+    fivetran_utils.union_connections(
+        connection_dictionary='xero_sources',
+        single_source_name='xero',
+        single_table_name='bank_transaction'
     )
 }}
 

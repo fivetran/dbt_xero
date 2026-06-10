@@ -1,3 +1,22 @@
+# dbt_xero v1.4.0
+
+[PR #73](https://github.com/fivetran/dbt_xero/pull/73) includes the following updates:
+
+## Schema Changes
+
+**1 total change**
+
+| **Data Model** | **Change type** | **Old** | **New** | **Notes** |
+| -------------- | --------------- | ------------ | ------------ | --------- |
+| All models | Column addition |  | `fivetran_synced` | Timestamp of when the record was last synced by Fivetran. |
+
+## Feature Updates
+- Adds `fivetran_synced` timestamp column to all models for improved data freshness tracking and monitoring.
+
+## Under the Hood
+- Updates internal macros to support the latest `dbt_fivetran_utils` package version.
+- Improves test coverage for edge cases in tracking category pivoting logic.
+
 # dbt_xero v1.3.0
 
 [PR #72](https://github.com/fivetran/dbt_xero/pull/72) includes the following updates:

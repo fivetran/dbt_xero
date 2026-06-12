@@ -2,20 +2,16 @@
 
 [PR #73](https://github.com/fivetran/dbt_xero/pull/73) includes the following updates:
 
-## Schema Changes
+## Schema/Data Changes (--full-refresh required after upgrading)
+**1 total change • 1 possible breaking change**
 
-**1 total change**
-
-| **Data Model** | **Change type** | **Old** | **New** | **Notes** |
-| -------------- | --------------- | ------------ | ------------ | --------- |
-| All models | Column addition |  | `fivetran_synced` | Timestamp of when the record was last synced by Fivetran. |
-
-## Feature Updates
-- Adds `fivetran_synced` timestamp column to all models for improved data freshness tracking and monitoring.
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| All models | `source_relation` column (when using a single stripe schema) | Empty string (`''`) | `<database>.<schema>` |  |
 
 ## Under the Hood
-- Updates internal macros to support the latest `dbt_fivetran_utils` package version.
-- Improves test coverage for edge cases in tracking category pivoting logic.
+- Migrates the `union_connections`, `apply_source_relation`, and `partition_by_source_relation` macros to the `dbt_fivetran_utils` package.
+- Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_xero/#source-casing-for-case-sensitive-destinations) section of the README for details.
 
 # dbt_xero v1.3.0
 

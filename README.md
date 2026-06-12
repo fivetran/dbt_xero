@@ -98,7 +98,7 @@ vars:
         name: connection_2_source_name
 ```
 
-> Previous versions of this package employed two separate, mutually exclusive variables for unioning: `xero_union_schemas` and `xero_union_databases`. While these variables are still supported, `xero_sources` is the recommended variable to configure.
+> Previous versions of this package employed two separate, mutually exclusive variables for unioning: `union_schemas` and `union_databases`. While these variables are still supported, `xero_sources` is the recommended variable to configure.
 
 #### Optional: Incorporate unioned sources into DAG
 

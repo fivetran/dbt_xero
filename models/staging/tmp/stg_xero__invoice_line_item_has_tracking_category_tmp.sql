@@ -1,6 +1,6 @@
 {{ config(enabled=var('xero__using_invoice_line_item_tracking_category', True)) }}
 
-{% if var('xero_union_schemas', []) | length > 0 or var('xero_union_databases', []) | length > 0 %}
+{% if var('union_schemas', []) | length > 0 or var('union_databases', []) | length > 0 %}
 
 {{
     fivetran_utils.union_data(

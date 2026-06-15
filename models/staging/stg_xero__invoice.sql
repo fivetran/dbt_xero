@@ -16,7 +16,7 @@ fields as (
             )
         }}
         
-        {{ fivetran_utils.apply_source_relation(package_name='xero') }}
+        {{ fivetran_utils.apply_source_relation(package_name='xero', use_package_prefix=false) }}
     from base
 ),
 

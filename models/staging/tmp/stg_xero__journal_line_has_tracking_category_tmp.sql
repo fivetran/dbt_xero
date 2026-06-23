@@ -1,16 +1,6 @@
 {{ config(enabled=var('xero__using_journal_line_tracking_category', True)) }}
 
-{% if var('xero_sources') != [] %}
-
-{{
-    xero.xero_union_connections(
-        connection_dictionary='xero_sources',
-        single_source_name='xero',
-        single_table_name='journal_line_has_tracking_category'
-    )
-}}
-
-{% else %}
+{% if var('union_schemas', []) | length > 0 or var('union_databases', []) | length > 0 %}
 
 {{
     fivetran_utils.union_data(
@@ -20,6 +10,16 @@
         default_database=target.database,
         default_schema='xero',
         default_variable='journal_line_has_tracking_category'
+    )
+}}
+
+{% else %}
+
+{{
+    fivetran_utils.union_connections(
+        connection_dictionary='xero_sources',
+        single_source_name='xero',
+        single_table_name='journal_line_has_tracking_category'
     )
 }}
 

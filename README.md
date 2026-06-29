@@ -52,6 +52,7 @@ By default, this package materializes the following final tables:
 | [xero__profit_and_loss_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__profit_and_loss_report.sql) | Summarizes monthly profit and loss by account with net amounts to track revenue, expenses, and profitability trends over time at the account level. <br></br>**Example Analytics Questions:**<ul><li>What are monthly revenue and expense trends by account class (revenue vs expense)?</li><li>Which expense accounts are growing fastest month-over-month?</li><li>What is the net profit or loss for each month across all revenue and expense accounts?</li></ul>|
 | [xero__balance_sheet_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__balance_sheet_report.sql) | Shows the monthly balance sheet position for each account to track assets, liabilities, and equity over time and understand financial health. <br></br>**Example Analytics Questions:**<ul><li>What is the current balance for each asset, liability, and equity account?</li><li>How have account balances changed month-over-month across different account classes?</li><li>What is the total asset value versus total liability value for each reporting period?</li></ul>|
 | [xero__invoice_line_items](https://github.com/fivetran/dbt_xero/blob/main/models/xero__invoice_line_items.sql) | Provides detailed invoice line item data enriched with account, contact, and invoice information including amounts, taxes, and payment status to analyze billing and revenue. <br></br>**Example Analytics Questions:**<ul><li>Which customers or contacts generate the highest invoice amounts and line item volumes?</li><li>What are the most common products or services sold based on line item descriptions?</li><li>How do discount rates and tax amounts vary across different invoice line items or customers?</li></ul>|
+| [xero__cash_general_ledger](https://github.com/fivetran/dbt_xero/blob/main/models/xero__cash_general_ledger.sql) | *(Optional — requires `xero__using_journal_cash: true`)* Tracks every cash-basis journal line item with debits, credits, and account classifications using only payment-confirmed entries from Xero's cash-basis journals. <br></br>**Example Analytics Questions:**<ul><li>What is the net cash received or paid by account class for a given period?</li><li>Which accounts have the highest cash transaction volumes?</li><li>How do cash journal entries by source type (ACCRECPAYMENT, ACCPAYPAYMENT) contribute to cash flow?</li></ul>|
 
 ¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 
@@ -77,7 +78,7 @@ Include the following xero package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/xero
-    version: [">=1.3.0", "<1.4.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.4.0", "<1.5.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/xero_source` in your `packages.yml` since this package has been deprecated.
 
@@ -140,11 +141,11 @@ sources:
 ```
 
 2. In the above `.yml` file, remove the `and var('xero_sources', []) == []` condition from the `enabled` config for the following source tables (if you have the tables in your schemas):
-- [`invoice_line_item_has_tracking_category`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L191)
-- [`journal_line_has_tracking_category`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L206)
-- [`tracking_category`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L223)
-- [`tracking_category_option`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L243)
-- [`tracking_category_has_option`](https://github.com/fivetran/dbt_xero/blob/feature/new-union-data/models/staging/src_xero.yml#L266)
+- [`invoice_line_item_has_tracking_category`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L191)
+- [`journal_line_has_tracking_category`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L206)
+- [`tracking_category`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L223)
+- [`tracking_category_option`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L243)
+- [`tracking_category_has_option`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L266)
 
 3. Set the `has_defined_sources` variable (scoped to the `xero` package) to `True` in your root project, like such:
 ```yml
@@ -187,6 +188,18 @@ vars:
     xero__using_invoice_line_item_tracking_category: false  # default is true
     xero__using_journal_line_tracking_category: false # default is true
     xero__using_tracking_categories: false                # default is true
+```
+
+The following variables are **disabled by default** because they depend on optional Xero source tables that may not be available in all connectors. Enable them if your Fivetran Xero connection syncs the corresponding tables:
+
+```yml
+# dbt_project.yml
+
+config-version: 2
+
+vars:
+    xero__using_journal_cash: true                                  # default is false; enables cash-basis journal staging and xero__cash_general_ledger
+    xero__using_journal_cash_line_tracking_category: true           # default is false; enables tracking category pivoting on cash journal lines (also requires xero__using_tracking_categories: true)
 ```
 
 #### Changing the Build Schema

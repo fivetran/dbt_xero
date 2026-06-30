@@ -16,6 +16,11 @@ table_variables:
     - _tracking_category
     - _tracking_category_option
     - _tracking_category_has_option
+  xero__using_journal_cash:
+    - _journal_cash
+    - _journal_cash_line
+  xero__using_journal_cash_line_tracking_category:
+    - _journal_cash_line_has_tracking_category
 
   _fivetran_quickstart_contact:
     - _contact
@@ -30,7 +35,8 @@ public_models: [
   "xero__balance_sheet_report",
   "xero__profit_and_loss_report",
   "xero__invoice_line_items",
-  "xero__general_ledger"
+  "xero__general_ledger",
+  "xero__cash_general_ledger"
 ]
 
 supported_vars:
@@ -39,4 +45,12 @@ supported_vars:
     value: "2019-01-01"
     description: "Start date for the window of data to transform (YYYY-MM-DD format)"
     display_name: "Date Range Start"
+  xero__using_journal_cash:
+    type: boolean
+    description: "Enable cash-basis journal staging models and the xero__cash_general_ledger end model. Requires the journal_cash and journal_cash_line source tables."
+    display_name: "Enable Cash-Basis Journals"
+  xero__using_journal_cash_line_tracking_category:
+    type: boolean
+    description: "Enable pivoting of tracking categories onto cash journal lines. Requires xero__using_journal_cash and xero__using_tracking_categories to also be true."
+    display_name: "Enable Cash Journal Tracking Categories"
 

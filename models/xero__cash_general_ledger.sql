@@ -1,7 +1,7 @@
-{{ config(enabled=var('xero__using_journal_cash', false)) }}
+{{ config(enabled=var('xero__using_journal_cash', true)) }}
 
 {%- set using_tracking_categories = (
-    var('xero__using_journal_cash_line_tracking_category', False)
+    var('xero__using_journal_cash_line_tracking_category', True)
     and var('xero__using_tracking_categories', True)
 ) -%}
 

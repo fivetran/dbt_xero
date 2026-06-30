@@ -1,4 +1,4 @@
-{{ config(enabled=var('xero__using_journal_cash', false)) }}
+{{ config(enabled=var('xero__using_journal_cash', true)) }}
 
 with base as (
 

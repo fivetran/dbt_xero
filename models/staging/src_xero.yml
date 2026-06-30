@@ -276,7 +276,7 @@ sources:
         identifier: "{{ var('xero_journal_cash_identifier', 'journal_cash')}}"
         description: Each record represents a cash-basis journal entry in Xero (paymentsOnly=true).
         config:
-          enabled: "{{ var('xero__using_journal_cash', false) and var('xero_sources', []) == [] }}"
+          enabled: "{{ var('xero__using_journal_cash', true) and var('xero_sources', []) == [] }}"
         columns:
           - name: journal_id
             description: Xero identifier for the cash journal entry.
@@ -299,7 +299,7 @@ sources:
         identifier: "{{ var('xero_journal_cash_line_identifier', 'journal_cash_line')}}"
         description: Each record represents a line item within a cash-basis journal entry in Xero.
         config:
-          enabled: "{{ var('xero__using_journal_cash', false) and var('xero_sources', []) == [] }}"
+          enabled: "{{ var('xero__using_journal_cash', true) and var('xero_sources', []) == [] }}"
         columns:
           - name: journal_line_id
             description: Xero identifier for the cash journal line.
@@ -332,7 +332,7 @@ sources:
         identifier: "{{ var('xero_journal_cash_line_has_tracking_category_identifier', 'journal_cash_line_has_tracking_category')}}"
         description: Tracking category details for cash journal lines.
         config:
-          enabled: "{{ var('xero__using_journal_cash_line_tracking_category', false) and var('xero_sources', []) == [] }}"
+          enabled: "{{ var('xero__using_journal_cash_line_tracking_category', true) and var('xero_sources', []) == [] }}"
         columns:
           - name: journal_id
             description: Xero identifier for the cash journal.

@@ -1,4 +1,4 @@
-{{ config(enabled=var('xero__using_journal_cash_line_tracking_category', false)) }}
+{{ config(enabled=var('xero__using_journal_cash_line_tracking_category', true)) }}
 
 with base as (
 

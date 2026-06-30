@@ -24,8 +24,8 @@ vars:
     journal_cash: "{{ source('xero', 'journal_cash') }}"
     journal_cash_line: "{{ source('xero', 'journal_cash_line') }}"
     journal_cash_line_has_tracking_category: "{{ source('xero', 'journal_cash_line_has_tracking_category') }}"
-    xero__using_journal_cash: false
-    xero__using_journal_cash_line_tracking_category: false
+    xero__using_journal_cash: true
+    xero__using_journal_cash_line_tracking_category: true
     xero_sources: []
 
 models:

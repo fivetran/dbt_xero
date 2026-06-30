@@ -1,3 +1,5 @@
+{{ config(enabled=var('xero__using_journal_cash_line_tracking_category', true)) }}
+
 {% if var('xero_sources') != [] %}
 
 {{

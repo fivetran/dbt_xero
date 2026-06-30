@@ -1,6 +1,5 @@
-# dbt_xero v1.4.0
 
-[PR #73](https://github.com/fivetran/dbt_xero/pull/73) includes the following updates:
+# dbt_xero v1.5.0
 
 ## Schema/Data Change
 **1 total change • 0 possible breaking changes**
@@ -9,9 +8,24 @@
 | ---------- | ----------- | -------- | -------- | ----- |
 | `xero__cash_general_ledger` | New model | N/A | New end model | Cash-basis general ledger; one row per cash journal line. Only materialized when `xero__using_journal_cash: true`. |
 
-
 ## Feature Update
 - Adds cash-basis journal support. Staging models for three new Xero source tables (`journal_cash`, `journal_cash_line`, `journal_cash_line_has_tracking_category`) and a new `xero__cash_general_ledger` end model are now available. These are disabled by default and require enabling the new `xero__using_journal_cash` variable. Cash-basis tracking category pivoting is also available via the `xero__using_journal_cash_line_tracking_category` variable. ([#73](https://github.com/fivetran/dbt_xero/pull/73))
+
+# dbt_xero v1.4.0
+
+[PR #73](https://github.com/fivetran/dbt_xero/pull/73) includes the following updates:
+
+## Schema/Data Changes (--full-refresh required after upgrading)
+**1 total change • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| All models | `source_relation` column (when using a single stripe schema) | Empty string (`''`) | `<database>.<schema>` |  |
+
+## Under the Hood
+- Migrates the `union_connections`, `apply_source_relation`, and `partition_by_source_relation` macros to the `dbt_fivetran_utils` package.
+- Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_xero/#source-casing-for-case-sensitive-destinations) section of the README for details.
+>>>>>>> bb28ec2dfa25b8b40f8e027b02f01a9888c7eaf0
 
 # dbt_xero v1.3.0
 

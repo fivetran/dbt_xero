@@ -25,7 +25,6 @@
 ## Under the Hood
 - Migrates the `union_connections`, `apply_source_relation`, and `partition_by_source_relation` macros to the `dbt_fivetran_utils` package.
 - Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_xero/#source-casing-for-case-sensitive-destinations) section of the README for details.
->>>>>>> bb28ec2dfa25b8b40f8e027b02f01a9888c7eaf0
 
 # dbt_xero v1.3.0
 

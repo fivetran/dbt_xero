@@ -103,48 +103,7 @@ vars:
 
 #### Optional: Incorporate unioned sources into DAG
 
-<<<<<<< HEAD
-By default, this package defines one single-connection source, called `xero`, which will be disabled if you are unioning multiple connections. This means that your DAG will not include your Xero sources, though the package will run successfully.
-
-To properly incorporate all of your Xero connections into your project's DAG:
-1. Define each of your sources in a `.yml` file in your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_xero.yml` [file](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml).
-
-```yml
-# a .yml file in your root project
-
-version: 2
-
-sources:
-  - name: <name> # ex: Should match name in xero_sources
-    schema: <schema_name>
-    database: <database_name>
-    loader: fivetran
-    config:
-      loaded_at_field: _fivetran_synced
-      freshness: # feel free to adjust to your liking
-        warn_after: {count: 72, period: hour}
-        error_after: {count: 168, period: hour}
-
-    tables: # copy and paste from xero/models/staging/src_xero.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
-```
-
-2. In the above `.yml` file, remove the `and var('xero_sources', []) == []` condition from the `enabled` config for the following source tables (if you have the tables in your schemas):
-- [`invoice_line_item_has_tracking_category`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L191)
-- [`journal_line_has_tracking_category`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L206)
-- [`tracking_category`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L223)
-- [`tracking_category_option`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L243)
-- [`tracking_category_has_option`](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml#L266)
-
-3. Set the `has_defined_sources` variable (scoped to the `xero` package) to `True` in your root project, like such:
-```yml
-# dbt_project.yml
-vars:
-  xero:
-    has_defined_sources: true
-```
-=======
 If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore) and are unioning multiple Xero connections, you can define your sources in a property `.yml` file, [using this as a template](https://github.com/fivetran/dbt_xero/blob/main/models/staging/src_xero.yml). Set the variable `has_defined_sources: true` under the Xero namespace in your `dbt_project.yml`. Otherwise, your Xero connections won't appear in your DAG. See the `union_connections` macro [documentation](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#optional-union-connections-defined-sources-configuration) for full configuration details.
->>>>>>> bb28ec2dfa25b8b40f8e027b02f01a9888c7eaf0
 
 ### (Optional) Additional configurations
 
@@ -189,8 +148,8 @@ The following variables are **disabled by default** because they depend on optio
 config-version: 2
 
 vars:
-    xero__using_journal_cash: true                                  # default is false; enables cash-basis journal staging and xero__cash_general_ledger
-    xero__using_journal_cash_line_tracking_category: true           # default is false; enables tracking category pivoting on cash journal lines (also requires xero__using_tracking_categories: true)
+    xero__using_journal_cash: true                                  # default is true; disable if journal_cash source tables are unavailable
+    xero__using_journal_cash_line_tracking_category: true           # default is true; enables tracking category pivoting on cash journal lines (also requires xero__using_tracking_categories: true)
 ```
 
 #### Changing the Build Schema

@@ -26,7 +26,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: xero__invoice_line_items
@@ -105,7 +105,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: xero__general_ledger
@@ -170,11 +170,11 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: xero__cash_general_ledger
-    description: Each record represents a cash-basis journal line item in Xero. One row per cash journal line entry. Enabled when the `xero__using_journal_cash` variable is set to true.
+    description: Each record represents a cash-basis journal line item in Xero. One row per cash journal line entry. Disable by setting the `xero__using_journal_cash` variable to false.
     columns:
       - name: journal_id
         description: Xero identifier for the cash journal entry.
@@ -221,7 +221,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: xero__balance_sheet_report
@@ -244,5 +244,5 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.

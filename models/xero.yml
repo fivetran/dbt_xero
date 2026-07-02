@@ -224,6 +224,8 @@ models:
         description: The identifier for the related bank transaction, if the source transaction is a cash receipt or payment.
       - name: credit_note_id
         description: The identifier for the related credit note, if the source transaction is a credit note.
+      - name: payment_id
+        description: The identifier for the related payment, if the source transaction is a payment (e.g. ACCRECPAYMENT, ACCPAYPAYMENT, ARCREDITPAYMENT, APCREDITPAYMENT, APPREPAYMENT, APOVERPAYMENT, ARPREPAYMENT, AROVERPAYMENT).
       - name: contact_id
         description: The identifier for the contact associated with the source transaction.
       - name: contact_name

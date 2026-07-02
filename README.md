@@ -138,7 +138,7 @@ vars:
     xero__using_invoice_line_item_tracking_category: false          # default is true
     xero__using_journal_line_tracking_category: false               # default is true
     xero__using_tracking_categories: false                          # default is true
-    xero__using_journal_cash: false                                 # default is true
+    xero__using_journal_cash: false                                 # will disable both journal_cash and journal_cash_line sources; default is true
     xero__using_journal_cash_line_tracking_category: false          # default is true
 ```
 

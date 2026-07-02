@@ -84,7 +84,7 @@ with journals as (
         case when journals.source_type in ('CASHREC','CASHPAID') then journals.source_id end as bank_transaction_id,
         case when journals.source_type in ('TRANSFER') then journals.source_id end as bank_transfer_id,
         case when journals.source_type in ('MANJOURNAL') then journals.source_id end as manual_journal_id,
-        case when journals.source_type in ('APPREPAYMENT', 'APOVERPAYMENT', 'ACCPAYPAYMENT', 'ACCRECPAYMENT', 'ARCREDITPAYMENT', 'APCREDITPAYMENT') then journals.source_id end as payment_id,
+        case when journals.source_type in ('APPREPAYMENT', 'APOVERPAYMENT', 'ARPREPAYMENT', 'AROVERPAYMENT', 'ACCPAYPAYMENT', 'ACCRECPAYMENT', 'ARCREDITPAYMENT', 'APCREDITPAYMENT') then journals.source_id end as payment_id,
         case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
 
         {% if using_tracking_categories and pivoted_columns|length > 0 %}

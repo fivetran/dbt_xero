@@ -20,7 +20,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
 
@@ -36,7 +36,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
 
@@ -74,7 +74,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__invoice
@@ -119,7 +119,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__journal_line
@@ -154,7 +154,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__journal
@@ -179,7 +179,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
 
@@ -197,7 +197,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__invoice_line_item_has_tracking_category
@@ -214,7 +214,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__journal_line_has_tracking_category 
@@ -233,7 +233,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__tracking_category 
@@ -250,7 +250,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__tracking_category_option
@@ -275,7 +275,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__tracking_category_has_option
@@ -290,7 +290,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__journal_cash
@@ -315,7 +315,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__journal_cash_line
@@ -350,7 +350,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: stg_xero__journal_cash_line_has_tracking_category
@@ -375,5 +375,5 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.

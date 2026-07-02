@@ -85,13 +85,14 @@ with journals as (
 
         case when journals.source_type in ('ACCPAY', 'ACCREC') then journals.source_id end as invoice_id,
         case when journals.source_type in ('CASHREC','CASHPAID') then journals.source_id end as bank_transaction_id,
-        case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
+        case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id,
+        case when journals.source_type in ('ACCRECPAYMENT','ACCPAYPAYMENT','ARCREDITPAYMENT','APCREDITPAYMENT','APPREPAYMENT','APOVERPAYMENT','ARPREPAYMENT','AROVERPAYMENT') then journals.source_id end as payment_id
 
         {% if using_tracking_categories and pivoted_columns|length > 0 %}
             {%- set accounts_columns = ['account_class', 'account_code', 'account_id', 'account_name', 'account_type'] %}
             {%- set journals_columns = ['accounting_basis', 'created_date_utc', 'journal_date', 'journal_id', 'journal_number', 'reference', 'source_id', 'source_relation', 'source_type'] %}
             {%- set journal_lines_columns = ['description', 'gross_amount', 'journal_line_id', 'net_amount', 'tax_amount', 'tax_name', 'tax_type'] %}
-            {%- set new_columns = ['invoice_id', 'bank_transaction_id', 'credit_note_id'] %}
+            {%- set new_columns = ['invoice_id', 'bank_transaction_id', 'credit_note_id', 'payment_id'] %}
             {%- set joined_columns = accounts_columns + journals_columns + journal_lines_columns + new_columns %}
 
             {% for col in pivoted_columns %}

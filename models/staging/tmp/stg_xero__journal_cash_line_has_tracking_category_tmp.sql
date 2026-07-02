@@ -1,4 +1,4 @@
-{{ config(enabled=var('xero__using_journal_cash_line_tracking_category', true)) }}
+{{ config(enabled=(var('xero__using_journal_cash', true) and var('xero__using_journal_cash_line_tracking_category', true))) }}
 
 {% if var('union_schemas', []) | length > 0 or var('union_databases', []) | length > 0 %}
 

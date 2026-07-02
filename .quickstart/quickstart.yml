@@ -45,12 +45,4 @@ supported_vars:
     value: "2019-01-01"
     description: "Start date for the window of data to transform (YYYY-MM-DD format)"
     display_name: "Date Range Start"
-  xero__using_journal_cash:
-    type: boolean
-    description: "Enable cash-basis journal staging models and the xero__cash_general_ledger end model. Requires the journal_cash and journal_cash_line source tables."
-    display_name: "Enable Cash-Basis Journals"
-  xero__using_journal_cash_line_tracking_category:
-    type: boolean
-    description: "Enable pivoting of tracking categories onto cash journal lines. Requires xero__using_journal_cash and xero__using_tracking_categories to also be true."
-    display_name: "Enable Cash Journal Tracking Categories"
 

@@ -6,10 +6,10 @@
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ---------- | ----------- | -------- | -------- | ----- |
-| `xero__cash_general_ledger` | New model | N/A | New end model | Cash-basis general ledger; one row per cash journal line. Only materialized when `xero__using_journal_cash: true`. |
+| `xero__cash_general_ledger` | New model | N/A | New end model | Cash-basis general ledger; one row per cash journal line. Enabled by default; disable by setting `xero__using_journal_cash: false`. |
 
 ## Feature Update
-- Adds cash-basis journal support. Staging models for three new Xero source tables (`journal_cash`, `journal_cash_line`, `journal_cash_line_has_tracking_category`) and a new `xero__cash_general_ledger` end model are now available. These are disabled by default and require enabling the new `xero__using_journal_cash` variable. Cash-basis tracking category pivoting is also available via the `xero__using_journal_cash_line_tracking_category` variable. ([#73](https://github.com/fivetran/dbt_xero/pull/73))
+- Adds cash-basis journal support. Staging models for three new Xero source tables (`journal_cash`, `journal_cash_line`, `journal_cash_line_has_tracking_category`) and a new `xero__cash_general_ledger` end model are now available, enabled by default. Disable by setting `xero__using_journal_cash: false`. Cash-basis tracking category pivoting is also available via the `xero__using_journal_cash_line_tracking_category` variable. ([#73](https://github.com/fivetran/dbt_xero/pull/73))
 
 # dbt_xero v1.4.0
 

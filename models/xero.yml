@@ -218,6 +218,16 @@ models:
         description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
       - name: accounting_basis
         description: The accounting basis of the journal entry. Always 'cash' for this model.
+      - name: invoice_id
+        description: The identifier for the related invoice, if the source transaction is an invoice.
+      - name: bank_transaction_id
+        description: The identifier for the related bank transaction, if the source transaction is a cash receipt or payment.
+      - name: credit_note_id
+        description: The identifier for the related credit note, if the source transaction is a credit note.
+      - name: contact_id
+        description: The identifier for the contact associated with the source transaction.
+      - name: contact_name
+        description: The name of the contact associated with the source transaction.
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.

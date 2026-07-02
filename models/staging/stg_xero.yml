@@ -370,6 +370,8 @@ models:
         description: Value(s) of the tracking category (tracking categories can have multiple values).
       - name: tracking_category_option_id
         description: Xero identifier for the tracking category option.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.

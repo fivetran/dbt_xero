@@ -25,6 +25,32 @@ with journals as (
     select *
     from {{ ref('stg_xero__account') }}
 
+), invoices as (
+
+    select *
+    from {{ ref('stg_xero__invoice') }}
+
+{% if var('xero__using_bank_transaction', True) %}
+), bank_transactions as (
+
+    select *
+    from {{ ref('stg_xero__bank_transaction') }}
+
+{% endif %}
+
+{% if var('xero__using_credit_note', True) %}
+), credit_notes as (
+
+    select *
+    from {{ ref('stg_xero__credit_note') }}
+
+{% endif %}
+
+), contacts as (
+
+    select *
+    from {{ ref('stg_xero__contact') }}
+
 {% if using_tracking_categories %}
 ), pivoted_tracking_categories as (
 
@@ -55,13 +81,18 @@ with journals as (
         journal_lines.tax_name,
         journal_lines.tax_type,
         accounts.account_class,
-        'cash' as accounting_basis
+        'cash' as accounting_basis,
+
+        case when journals.source_type in ('ACCPAY', 'ACCREC') then journals.source_id end as invoice_id,
+        case when journals.source_type in ('CASHREC','CASHPAID') then journals.source_id end as bank_transaction_id,
+        case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
 
         {% if using_tracking_categories and pivoted_columns|length > 0 %}
             {%- set accounts_columns = ['account_class', 'account_code', 'account_id', 'account_name', 'account_type'] %}
             {%- set journals_columns = ['accounting_basis', 'created_date_utc', 'journal_date', 'journal_id', 'journal_number', 'reference', 'source_id', 'source_relation', 'source_type'] %}
             {%- set journal_lines_columns = ['description', 'gross_amount', 'journal_line_id', 'net_amount', 'tax_amount', 'tax_name', 'tax_type'] %}
-            {%- set joined_columns = accounts_columns + journals_columns + journal_lines_columns %}
+            {%- set new_columns = ['invoice_id', 'bank_transaction_id', 'credit_note_id'] %}
+            {%- set joined_columns = accounts_columns + journals_columns + journal_lines_columns + new_columns %}
 
             {% for col in pivoted_columns %}
                 , pivoted_tracking_categories.{{ col }} {{ 'as pivoted_' ~ col if col in joined_columns }}
@@ -84,7 +115,53 @@ with journals as (
         and journals.source_relation = pivoted_tracking_categories.source_relation
     {% endif %}
 
+), first_contact as (
+
+    select
+        joined.*,
+        {% if fivetran_utils.enabled_vars_one_true(['xero__using_bank_transaction','xero__using_credit_note']) %}
+        coalesce(
+            invoices.contact_id
+            {% if var('xero__using_bank_transaction', True) %}
+                , bank_transactions.contact_id
+            {% endif %}
+
+            {% if var('xero__using_credit_note', True) %}
+            , credit_notes.contact_id
+            {% endif %}
+        )
+        {% else %}
+        invoices.contact_id
+        {% endif %}
+
+        as contact_id
+    from joined
+    left join invoices
+        on joined.invoice_id = invoices.invoice_id
+        and joined.source_relation = invoices.source_relation
+    {% if var('xero__using_bank_transaction', True) %}
+    left join bank_transactions
+        on joined.bank_transaction_id = bank_transactions.bank_transaction_id
+        and joined.source_relation = bank_transactions.source_relation
+    {% endif %}
+
+    {% if var('xero__using_credit_note', True) %}
+    left join credit_notes
+        on joined.credit_note_id = credit_notes.credit_note_id
+        and joined.source_relation = credit_notes.source_relation
+    {% endif %}
+
+), second_contact as (
+
+    select
+        first_contact.*,
+        contacts.contact_name
+    from first_contact
+    left join contacts
+        on first_contact.contact_id = contacts.contact_id
+        and first_contact.source_relation = contacts.source_relation
+
 )
 
 select *
-from joined
+from second_contact

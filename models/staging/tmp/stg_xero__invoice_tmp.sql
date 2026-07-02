@@ -1,3 +1,5 @@
+{{ config(enabled=var('xero__using_invoice', True)) }}
+
 {% if var('union_schemas', []) | length > 0 or var('union_databases', []) | length > 0 %}
 
 {{

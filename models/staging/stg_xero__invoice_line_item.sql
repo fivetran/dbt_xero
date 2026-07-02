@@ -1,7 +1,8 @@
+{{ config(enabled=var('xero__using_invoice_line_item', True)) }}
 
 with base as (
 
-    select * 
+    select *
     from {{ ref('stg_xero__invoice_line_item_tmp') }}
 
 ),

@@ -125,9 +125,9 @@ with journals as (
     select
         joined.*,
         {%- set contact_cols = [] -%}
-        {%- if var('xero__using_invoice', True) -%}{%- do contact_cols.append('invoices.contact_id') -%}{%- endif -%}
-        {%- if var('xero__using_bank_transaction', True) -%}{%- do contact_cols.append('bank_transactions.contact_id') -%}{%- endif -%}
-        {%- if var('xero__using_credit_note', True) -%}{%- do contact_cols.append('credit_notes.contact_id') -%}{%- endif -%}
+        {%- do contact_cols.append('invoices.contact_id') if var('xero__using_invoice', True) -%}
+        {%- do contact_cols.append('bank_transactions.contact_id') if var('xero__using_bank_transaction', True) -%}
+        {%- do contact_cols.append('credit_notes.contact_id') if var('xero__using_credit_note', True) -%}
         {% if contact_cols | length > 1 %}
         coalesce({{ contact_cols | join(', ') }})
         {% elif contact_cols | length == 1 %}

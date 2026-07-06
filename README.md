@@ -132,6 +132,8 @@ By default, all variables are assumed to be `true`. You only need to add variabl
 config-version: 2
 
 vars:
+    xero__using_invoice: false                          # default is true
+    xero__using_invoice_line_item: false                # default is true
     xero__using_credit_note: false                      # default is true
     xero__using_bank_transaction: false                 # default is true
     xero__using_invoice_line_item_tracking_category: false  # default is true

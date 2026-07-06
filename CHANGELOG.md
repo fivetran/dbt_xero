@@ -1,3 +1,10 @@
+# dbt_xero v1.4.1
+
+[PR #79](https://github.com/fivetran/dbt_xero/pull/79) includes the following updates:
+
+## Feature Update
+- Adds the `xero__using_invoice` and `xero__using_invoice_line_item` variables (both default `true`) so you can run the package without `invoice` or `invoice_line_item` data. See [Disabling and Enabling Models](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details.
+
 # dbt_xero v1.4.0
 
 [PR #73](https://github.com/fivetran/dbt_xero/pull/73) includes the following updates:

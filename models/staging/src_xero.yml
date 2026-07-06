@@ -40,6 +40,8 @@ sources:
       - name: invoice_line_item
         identifier: "{{ var('xero_invoice_line_item_identifier', 'invoice_line_item')}}"
         description: Each record in this able represents an invoice line item in Xero.
+        config:
+          enabled: "{{ var('xero__using_invoice_line_item', true) and var('xero_sources', []) == [] }}"       
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -71,6 +73,8 @@ sources:
       - name: invoice
         identifier: "{{ var('xero_invoice_identifier', 'invoice')}}"
         description: Each record in this table represents an invoice in Xero.
+        config:
+          enabled: "{{ var('xero__using_invoice', true) and var('xero_sources', []) == [] }}"       
         columns:
           - name: invoice_id
             description: Xero identifier for the invoice
@@ -169,6 +173,8 @@ sources:
       - name: bank_transaction
         identifier: "{{ var('xero_bank_transaction_identifier', 'bank_transaction')}}"
         description: Each record represents a bank transaction in Xero.
+        config:
+          enabled: "{{ var('xero__using_bank_transaction', true) and var('xero_sources', []) == [] }}"       
         columns:
           - name: bank_transaction_id
             description: Xero identifier for the bank transaction.
@@ -178,6 +184,8 @@ sources:
       - name: credit_note
         identifier: "{{ var('xero_credit_note_identifier', 'credit_note')}}"
         description: Each record represents a credit note in Xero.
+        config:
+          enabled: "{{ var('xero__using_credit_note', true) and var('xero_sources', []) == [] }}"       
         columns:
           - name: credit_note_id
             description: Xero identifier for the credit note.

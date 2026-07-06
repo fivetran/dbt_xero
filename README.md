@@ -5,7 +5,7 @@ This dbt package transforms data from Fivetran's Xero connector into analytics-r
 
 ## Resources
 
-- Number of materialized models¹: 35
+- Number of materialized models¹: 42
 - Connector documentation
   - [Xero connector documentation](https://fivetran.com/docs/connectors/applications/xero)
   - [Xero ERD](https://fivetran.com/docs/connectors/applications/xero#schemainformation)
@@ -138,6 +138,8 @@ vars:
     xero__using_invoice_line_item_tracking_category: false          # default is true
     xero__using_journal_line_tracking_category: false               # default is true
     xero__using_tracking_categories: false                          # default is true
+    xero__using_invoice: false                          # default is true
+    xero__using_invoice_line_item: false                # default is true
     xero__using_journal_cash: false                                 # will disable both journal_cash and journal_cash_line sources; default is true
     xero__using_journal_cash_line_tracking_category: false          # default is true
 ```

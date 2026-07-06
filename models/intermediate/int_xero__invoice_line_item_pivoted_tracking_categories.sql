@@ -1,5 +1,7 @@
 {{ config(enabled=(var('xero__using_invoice_line_item_tracking_category', True)
-        and var('xero__using_tracking_categories', True))) }}
+        and var('xero__using_tracking_categories', True)
+        and var('xero__using_invoice', True)
+        and var('xero__using_invoice_line_item', True))) }}
 
 {% set pivot_values = dbt_utils.get_column_values(
     ref('int_xero__tracking_categories_with_options'),

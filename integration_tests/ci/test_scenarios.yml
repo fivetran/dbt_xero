@@ -26,6 +26,8 @@ test_scenarios:
       xero__using_tracking_categories: false
       xero__using_journal_cash: false
       xero__using_journal_cash_line_tracking_category: false
+      xero__using_invoice: false
+      xero__using_invoice_line_item: false
     include_incremental: false
 
   - name: "MDLS"

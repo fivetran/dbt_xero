@@ -6,15 +6,20 @@
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ---------- | ----------- | -------- | -------- | ----- |
-| `xero__cash_general_ledger` | New model | N/A | New end model | Cash-basis general ledger; one row per cash journal line. Enabled by default; disable by setting `xero__using_journal_cash: false`. |
+| `xero__cash_general_ledger` | New model | N/A | New end model | Cash-basis general ledger; one row per cash journal line. Mirrors the structure of `xero__general_ledger` with an `accounting_basis` column set to `'cash'`. Enabled by default; disable by setting `xero__using_journal_cash: false`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
 | `xero__general_ledger` | Bug fix | `payment_id` excluded `ARPREPAYMENT`, `AROVERPAYMENT` | Now includes all prepayment and overpayment source types | Aligns AR prepayment/overpayment handling with AP counterparts already present.<br><br>**Possible breaking change**: Rows with `ARPREPAYMENT` or `AROVERPAYMENT` source types previously had a `NULL` `payment_id` and will now be populated. |
-| `stg_xero__journal_cash`<br>`stg_xero__journal_cash_tmp` | New staging models | N/A | | Cash-basis journal header data from the `journal_cash` source table. |
-| `stg_xero__journal_cash_line`<br>`stg_xero__journal_cash_line_tmp` | New staging models | N/A | | Cash-basis journal line data from the `journal_cash_line` source table. |
-| `stg_xero__journal_cash_line_has_tracking_category`<br>`stg_xero__journal_cash_line_has_tracking_category_tmp` | New staging models | N/A | | Tracking category associations for cash journal lines. Enabled when `xero__using_journal_cash_line_tracking_category` is `true`. |
-| `int_xero__journal_cash_line_pivoted_tracking_categories` | New intermediate model | N/A | | Pivots tracking categories across cash journal lines. Enabled when both `xero__using_journal_cash_line_tracking_category` and `xero__using_tracking_categories` are `true`. |
+| `stg_xero__journal_cash`<br>`stg_xero__journal_cash_tmp` | New staging models | N/A | | Cash-basis journal header data from the `journal_cash` source table. Enabled by default; disable by setting `xero__using_journal_cash: false`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
+| `stg_xero__journal_cash_line`<br>`stg_xero__journal_cash_line_tmp` | New staging models | N/A | | Cash-basis journal line data from the `journal_cash_line` source table. Enabled by default; disable by setting `xero__using_journal_cash: false`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
+| `stg_xero__journal_cash_line_has_tracking_category`<br>`stg_xero__journal_cash_line_has_tracking_category_tmp` | New staging models | N/A | | Tracking category associations for cash journal lines. Enabled when `xero__using_journal_cash_line_tracking_category` is `true`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
+| `int_xero__journal_cash_line_pivoted_tracking_categories` | New intermediate model | N/A | | Pivots tracking categories across cash journal lines. Enabled by default; disable by setting `xero__using_journal_cash_line_tracking_category`/`xero__using_tracking_categories` to `false`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
+
+
+# dbt_xero v1.4.1
+
+[PR #79](https://github.com/fivetran/dbt_xero/pull/79) includes the following updates:
 
 ## Feature Update
-- Adds cash-basis journal support via three new staging models (`stg_xero__journal_cash`, `stg_xero__journal_cash_line`, `stg_xero__journal_cash_line_has_tracking_category`) and the new `xero__cash_general_ledger` end model. The end model includes `contact_id`, `contact_name`, and `payment_id` resolution, mirrors the structure of `xero__general_ledger`, and adds an `accounting_basis` column set to `'cash'`. All models are enabled by default; disable by setting `xero__using_journal_cash: false`. Cash-basis tracking category pivoting is also available via `xero__using_journal_cash_line_tracking_category`.
+- Adds the `xero__using_invoice` and `xero__using_invoice_line_item` variables (both default `true`) so you can run the package without `invoice` or `invoice_line_item` data. See [Disabling and Enabling Models](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details.
 
 # dbt_xero v1.4.0
 

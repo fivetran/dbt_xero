@@ -12,8 +12,7 @@
 | `stg_xero__journal_cash_line`<br>`stg_xero__journal_cash_line_tmp` | New staging models | N/A | | Cash-basis journal line data from the `journal_cash_line` source table. Enabled by default; disable by setting `xero__using_journal_cash: false`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
 | `stg_xero__journal_cash_line_has_tracking_category`<br>`stg_xero__journal_cash_line_has_tracking_category_tmp` | New staging models | N/A | | Tracking category associations for cash journal lines. Enabled when `xero__using_journal_cash_line_tracking_category` is `true`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
 | `int_xero__journal_cash_line_pivoted_tracking_categories` | New intermediate model | N/A | | Pivots tracking categories across cash journal lines. Enabled by default; disable by setting `xero__using_journal_cash_line_tracking_category`/`xero__using_tracking_categories` to `false`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
-
-
+ 
 # dbt_xero v1.4.1
 
 [PR #79](https://github.com/fivetran/dbt_xero/pull/79) includes the following updates:

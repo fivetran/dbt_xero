@@ -25,10 +25,13 @@ with journals as (
     select *
     from {{ ref('stg_xero__account') }}
 
+{% if var('xero__using_invoice', True) %}
 ), invoices as (
 
     select *
     from {{ ref('stg_xero__invoice') }}
+
+{% endif %}
 
 {% if var('xero__using_bank_transaction', True) %}
 ), bank_transactions as (
@@ -120,26 +123,25 @@ with journals as (
 
     select
         joined.*,
-        {% if fivetran_utils.enabled_vars_one_true(['xero__using_bank_transaction','xero__using_credit_note']) %}
-        coalesce(
-            invoices.contact_id
-            {% if var('xero__using_bank_transaction', True) %}
-                , bank_transactions.contact_id
-            {% endif %}
-
-            {% if var('xero__using_credit_note', True) %}
-            , credit_notes.contact_id
-            {% endif %}
-        )
+        {%- set contact_cols = [] -%}
+        {%- do contact_cols.append('invoices.contact_id') if var('xero__using_invoice', True) -%}
+        {%- do contact_cols.append('bank_transactions.contact_id') if var('xero__using_bank_transaction', True) -%}
+        {%- do contact_cols.append('credit_notes.contact_id') if var('xero__using_credit_note', True) -%}
+        {% if contact_cols | length > 1 %}
+        coalesce({{ contact_cols | join(', ') }})
+        {% elif contact_cols | length == 1 %}
+        {{ contact_cols[0] }}
         {% else %}
-        invoices.contact_id
+        cast(null as {{ dbt.type_string() }})
         {% endif %}
 
         as contact_id
     from joined
+    {% if var('xero__using_invoice', True) %}
     left join invoices
         on joined.invoice_id = invoices.invoice_id
         and joined.source_relation = invoices.source_relation
+    {% endif %}
     {% if var('xero__using_bank_transaction', True) %}
     left join bank_transactions
         on joined.bank_transaction_id = bank_transactions.bank_transaction_id

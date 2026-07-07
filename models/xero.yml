@@ -174,7 +174,7 @@ models:
           sources, this will be an empty string.
 
   - name: xero__cash_general_ledger
-    description: Each record represents a cash-basis journal line item in Xero. One row per cash journal line entry. Disable by setting the `xero__using_journal_cash` variable to false.
+    description: Each record represents a cash-basis journal line item in Xero. To disable this model, set the `xero__using_journal_cash` variable to `false`.
     columns:
       - name: journal_id
         description: Xero identifier for the cash journal entry.

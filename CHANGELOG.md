@@ -1,6 +1,8 @@
 
 # dbt_xero v1.5.0
 
+[PR #78](https://github.com/fivetran/dbt_xero/pull/78) includes the following updates:
+
 ## Schema/Data Change
 **6 total changes • 1 possible breaking change**
 

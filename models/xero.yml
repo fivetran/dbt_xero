@@ -151,6 +151,8 @@ models:
         description: The type of the tax rate.
       - name: account_class
         description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
+      - name: accounting_basis
+        description: The accounting basis of the journal entry. Always 'accrual' for this model.
       - name: invoice_id
         description: Source ID where it can be joined to the invoice table.
       - name: bank_transaction_id
@@ -219,17 +221,28 @@ models:
       - name: accounting_basis
         description: The accounting basis of the journal entry. Always 'cash' for this model.
       - name: invoice_id
-        description: The identifier for the related invoice, if the source transaction is an invoice.
+        description: >
+          The identifier for the related invoice, if the source transaction is an invoice (ACCPAY, ACCREC).
+          In practice, this may be null in cash journals as these accrual-basis source types do not appear in the cash journal API.
+          Let us know if you'd like this field adjusted to better suit your cash-basis reporting needs.
       - name: bank_transaction_id
         description: The identifier for the related bank transaction, if the source transaction is a cash receipt or payment.
       - name: credit_note_id
-        description: The identifier for the related credit note, if the source transaction is a credit note.
+        description: >
+          The identifier for the related credit note, if the source transaction is a credit note (ACCPAYCREDIT, ACCRECCREDIT).
+          In practice, this may be null in cash journals as these accrual-basis source types do not appear in the cash journal API.
+          Let us know if you'd like this field adjusted to better suit your cash-basis reporting needs.
       - name: payment_id
         description: The identifier for the related payment, if the source transaction is a payment (e.g. ACCRECPAYMENT, ACCPAYPAYMENT, ARCREDITPAYMENT, APCREDITPAYMENT, APPREPAYMENT, APOVERPAYMENT, ARPREPAYMENT, AROVERPAYMENT).
       - name: contact_id
-        description: The identifier for the contact associated with the source transaction.
+        description: >
+          The identifier for the contact associated with the source transaction, where resolvable.
+          May be null for payment source types (e.g. ACCRECPAYMENT, ACCPAYPAYMENT) as the package does not currently include a payment staging model.
+          Let us know if you'd like this field adjusted to better suit your cash-basis reporting needs.
       - name: contact_name
-        description: The name of the contact associated with the source transaction.
+        description: >
+          The name of the contact associated with the source transaction, where resolvable. Null when contact_id is null.
+          Let us know if you'd like this field adjusted to better suit your cash-basis reporting needs.
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.

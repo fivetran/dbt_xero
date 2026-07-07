@@ -4,11 +4,12 @@
 [PR #78](https://github.com/fivetran/dbt_xero/pull/78) includes the following updates:
 
 ## Schema/Data Change
-**6 total changes • 1 possible breaking change**
+**7 total changes • 1 possible breaking change**
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ---------- | ----------- | -------- | -------- | ----- |
 | `xero__cash_general_ledger` | New model | N/A | New end model | Cash-basis general ledger; one row per cash journal line. Mirrors the structure of `xero__general_ledger` with an `accounting_basis` column set to `'cash'`. Enabled by default; disable by setting `xero__using_journal_cash: false`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
+| `xero__general_ledger` | New column | N/A | `accounting_basis` | Always `'accrual'`. Mirrors the `accounting_basis` column in `xero__cash_general_ledger` to support unioning both models. |
 | `xero__general_ledger` | Bug fix | `payment_id` excluded `ARPREPAYMENT`, `AROVERPAYMENT` | Now includes all prepayment and overpayment source types | Aligns AR prepayment/overpayment handling with AP counterparts already present.<br><br>**Possible breaking change**: Rows with `ARPREPAYMENT` or `AROVERPAYMENT` source types previously had a `NULL` `payment_id` and will now be populated. |
 | `stg_xero__journal_cash`<br>`stg_xero__journal_cash_tmp` | New staging models | N/A | | Cash-basis journal header data from the `journal_cash` source table. Enabled by default; disable by setting `xero__using_journal_cash: false`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |
 | `stg_xero__journal_cash_line`<br>`stg_xero__journal_cash_line_tmp` | New staging models | N/A | | Cash-basis journal line data from the `journal_cash_line` source table. Enabled by default; disable by setting `xero__using_journal_cash: false`. See [README](https://github.com/fivetran/dbt_xero/blob/main/README.md#disabling-and-enabling-models) for details. |

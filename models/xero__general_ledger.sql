@@ -81,6 +81,7 @@ with journals as (
         journal_lines.tax_name,
         journal_lines.tax_type,
         accounts.account_class,
+        'accrual' as accounting_basis,
 
         case when journals.source_type in ('ACCPAY', 'ACCREC') then journals.source_id end as invoice_id,
         case when journals.source_type in ('CASHREC','CASHPAID') then journals.source_id end as bank_transaction_id,

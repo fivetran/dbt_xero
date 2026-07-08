@@ -1,4 +1,4 @@
-# dbt_xero v1.5.0-a1
+# dbt_xero v1.6.0-a1
 
 [PR #80](https://github.com/fivetran/dbt_xero/pull/80) is a pre-release that includes the following update:
 

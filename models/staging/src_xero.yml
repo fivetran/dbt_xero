@@ -279,3 +279,78 @@ sources:
             description: Xero identifier for the tracking category option.
           - name: _fivetran_synced
             description: Timestamp when the record was last synced by Fivetran.
+
+      - name: journal_cash
+        identifier: "{{ var('xero_journal_cash_identifier', 'journal_cash')}}"
+        description: Each record represents a cash-basis journal entry in Xero (paymentsOnly=true).
+        config:
+          enabled: "{{ var('xero__using_journal_cash', true) and var('xero_sources', []) == [] }}"
+        columns:
+          - name: journal_id
+            description: Xero identifier for the cash journal entry.
+          - name: created_date_utc
+            description: The created date of the cash journal entry.
+          - name: journal_date
+            description: The date the cash journal was posted.
+          - name: journal_number
+            description: Xero generated journal number.
+          - name: reference
+            description: The associated reference to the journal, if present.
+          - name: source_id
+            description: The identifier for the source transaction.
+          - name: source_type
+            description: The journal source type.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+
+      - name: journal_cash_line
+        identifier: "{{ var('xero_journal_cash_line_identifier', 'journal_cash_line')}}"
+        description: Each record represents a line item within a cash-basis journal entry in Xero.
+        config:
+          enabled: "{{ var('xero__using_journal_cash', true) and var('xero_sources', []) == [] }}"
+        columns:
+          - name: journal_line_id
+            description: Xero identifier for the cash journal line.
+          - name: journal_id
+            description: The Xero identifier for the related cash journal entry.
+          - name: account_code
+            description: Customer defined alpha numeric account code e.g 200 or SALES
+          - name: account_id
+            description: The Xero identifier for the related account.
+          - name: account_name
+            description: The name of the related account.
+          - name: account_type
+            description: The type of the related account.
+          - name: description
+            description: The description from the source transaction line item.
+          - name: gross_amount
+            description: Gross amount of journal line (NetAmount + TaxAmount).
+          - name: net_amount
+            description: Net amount of journal line. This will be a positive value for a debit and negative for a credit.
+          - name: tax_amount
+            description: Total tax on a journal line.
+          - name: tax_name
+            description: The name of the tax rate.
+          - name: tax_type
+            description: The type of the tax rate.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"
+
+      - name: journal_cash_line_has_tracking_category
+        identifier: "{{ var('xero_journal_cash_line_has_tracking_category_identifier', 'journal_cash_line_has_tracking_category')}}"
+        description: Tracking category details for cash journal lines.
+        config:
+          enabled: "{{ var('xero__using_journal_cash', true) and var('xero__using_journal_cash_line_tracking_category', true) and var('xero_sources', []) == [] }}"
+        columns:
+          - name: journal_id
+            description: Xero identifier for the cash journal.
+          - name: journal_line_id
+            description: Xero identifier for the cash journal line.
+          - name: tracking_category_id
+            description: Xero identifier for the tracking category.
+          - name: option
+            description: Value(s) of the tracking category (tracking categories can have multiple values).
+          - name: tracking_category_option_id
+            description: Xero identifier for the tracking category option.
+          - name: _fivetran_synced
+            description: "{{ doc('_fivetran_synced') }}"

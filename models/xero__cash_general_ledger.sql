@@ -1,22 +1,24 @@
+{{ config(enabled=var('xero__using_journal_cash', true)) }}
+
 {%- set using_tracking_categories = (
-    var('xero__using_journal_line_tracking_category', True)
+    var('xero__using_journal_cash_line_tracking_category', True)
     and var('xero__using_tracking_categories', True)
 ) -%}
 
 {% set pivoted_columns = xero.get_pivoted_tracking_category_columns(
-    model_name='int_xero__journal_line_pivoted_tracking_categories',
+    model_name='int_xero__journal_cash_line_pivoted_tracking_categories',
     id_fields=['journal_id', 'journal_line_id', 'source_relation']
 ) if using_tracking_categories else [] %}
 
 with journals as (
 
     select *
-    from {{ ref('stg_xero__journal') }}
+    from {{ ref('stg_xero__journal_cash') }}
 
 ), journal_lines as (
 
     select *
-    from {{ ref('stg_xero__journal_line') }}
+    from {{ ref('stg_xero__journal_cash_line') }}
 
 ), accounts as (
 
@@ -28,6 +30,7 @@ with journals as (
 
     select *
     from {{ ref('stg_xero__invoice') }}
+
 {% endif %}
 
 {% if var('xero__using_bank_transaction', True) %}
@@ -55,12 +58,12 @@ with journals as (
 ), pivoted_tracking_categories as (
 
     select *
-    from {{ ref('int_xero__journal_line_pivoted_tracking_categories') }}
+    from {{ ref('int_xero__journal_cash_line_pivoted_tracking_categories') }}
 {% endif %}
 
 ), joined as (
 
-    select 
+    select
         journals.journal_id,
         journals.created_date_utc,
         journals.journal_date,
@@ -81,26 +84,21 @@ with journals as (
         journal_lines.tax_name,
         journal_lines.tax_type,
         accounts.account_class,
-        'accrual' as accounting_basis,
+        'cash' as accounting_basis,
 
         case when journals.source_type in ('ACCPAY', 'ACCREC') then journals.source_id end as invoice_id,
         case when journals.source_type in ('CASHREC','CASHPAID') then journals.source_id end as bank_transaction_id,
-        case when journals.source_type in ('TRANSFER') then journals.source_id end as bank_transfer_id,
-        case when journals.source_type in ('MANJOURNAL') then journals.source_id end as manual_journal_id,
-        case when journals.source_type in ('APPREPAYMENT', 'APOVERPAYMENT', 'ARPREPAYMENT', 'AROVERPAYMENT', 'ACCPAYPAYMENT', 'ACCRECPAYMENT', 'ARCREDITPAYMENT', 'APCREDITPAYMENT') then journals.source_id end as payment_id,
-        case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id
+        case when journals.source_type in ('ACCPAYCREDIT','ACCRECCREDIT') then journals.source_id end as credit_note_id,
+        case when journals.source_type in ('ACCRECPAYMENT','ACCPAYPAYMENT','ARCREDITPAYMENT','APCREDITPAYMENT','APPREPAYMENT','APOVERPAYMENT','ARPREPAYMENT','AROVERPAYMENT') then journals.source_id end as payment_id
 
         {% if using_tracking_categories and pivoted_columns|length > 0 %}
-            -- Create a list of all the columns in this cte so we can check for conflicts with the pivoted tracking category columns
             {%- set accounts_columns = ['account_class', 'account_code', 'account_id', 'account_name', 'account_type'] %}
-            {%- set journals_columns = ['created_date_utc', 'journal_date', 'journal_id', 'journal_number', 'reference', 'source_id', 'source_relation', 'source_type'] %}
+            {%- set journals_columns = ['accounting_basis', 'created_date_utc', 'journal_date', 'journal_id', 'journal_number', 'reference', 'source_id', 'source_relation', 'source_type'] %}
             {%- set journal_lines_columns = ['description', 'gross_amount', 'journal_line_id', 'net_amount', 'tax_amount', 'tax_name', 'tax_type'] %}
-            {%- set new_columns = ['invoice_id', 'credit_note_id', 'payment_id', 'bank_transaction_id', 'manual_journal_id', 'bank_transfer_id'] %}
+            {%- set new_columns = ['invoice_id', 'bank_transaction_id', 'credit_note_id', 'payment_id'] %}
             {%- set joined_columns = accounts_columns + journals_columns + journal_lines_columns + new_columns %}
 
-            -- Dynamically pivoted tracking category columns
             {% for col in pivoted_columns %}
-                -- add a prefix if there is a duplicate name
                 , pivoted_tracking_categories.{{ col }} {{ 'as pivoted_' ~ col if col in joined_columns }}
             {% endfor %}
         {% endif %}
@@ -112,7 +110,7 @@ with journals as (
     left join accounts
         on accounts.account_id = journal_lines.account_id
         and accounts.source_relation = journal_lines.source_relation
-    
+
     {% if using_tracking_categories %}
     left join pivoted_tracking_categories
         on journal_lines.journal_line_id = pivoted_tracking_categories.journal_line_id
@@ -141,30 +139,30 @@ with journals as (
     from joined
     {% if var('xero__using_invoice', True) %}
     left join invoices
-        on (joined.invoice_id = invoices.invoice_id
-        and joined.source_relation = invoices.source_relation)
+        on joined.invoice_id = invoices.invoice_id
+        and joined.source_relation = invoices.source_relation
     {% endif %}
     {% if var('xero__using_bank_transaction', True) %}
     left join bank_transactions
-        on (joined.bank_transaction_id = bank_transactions.bank_transaction_id
-        and joined.source_relation = bank_transactions.source_relation)
+        on joined.bank_transaction_id = bank_transactions.bank_transaction_id
+        and joined.source_relation = bank_transactions.source_relation
     {% endif %}
 
     {% if var('xero__using_credit_note', True) %}
-    left join credit_notes 
-        on (joined.credit_note_id = credit_notes.credit_note_id
-        and joined.source_relation = credit_notes.source_relation)
+    left join credit_notes
+        on joined.credit_note_id = credit_notes.credit_note_id
+        and joined.source_relation = credit_notes.source_relation
     {% endif %}
 
 ), second_contact as (
 
-    select 
+    select
         first_contact.*,
         contacts.contact_name
     from first_contact
-    left join contacts 
-        on (first_contact.contact_id = contacts.contact_id
-        and first_contact.source_relation = contacts.source_relation)
+    left join contacts
+        on first_contact.contact_id = contacts.contact_id
+        and first_contact.source_relation = contacts.source_relation
 
 )
 

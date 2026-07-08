@@ -20,6 +20,11 @@ table_variables:
     - _tracking_category
     - _tracking_category_option
     - _tracking_category_has_option
+  xero__using_journal_cash:
+    - _journal_cash
+    - _journal_cash_line
+  xero__using_journal_cash_line_tracking_category:
+    - _journal_cash_line_has_tracking_category
 
   _fivetran_quickstart_contact:
     - _contact
@@ -34,7 +39,8 @@ public_models: [
   "xero__balance_sheet_report",
   "xero__profit_and_loss_report",
   "xero__invoice_line_items",
-  "xero__general_ledger"
+  "xero__general_ledger",
+  "xero__cash_general_ledger"
 ]
 
 supported_vars:

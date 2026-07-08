@@ -5,7 +5,7 @@ This dbt package transforms data from Fivetran's Xero connector into analytics-r
 
 ## Resources
 
-- Number of materialized models¹: 35
+- Number of materialized models¹: 42
 - Connector documentation
   - [Xero connector documentation](https://fivetran.com/docs/connectors/applications/xero)
   - [Xero ERD](https://fivetran.com/docs/connectors/applications/xero#schemainformation)
@@ -39,6 +39,7 @@ By default, this package materializes the following final tables:
 | [xero__profit_and_loss_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__profit_and_loss_report.sql) | Summarizes monthly profit and loss by account with net amounts to track revenue, expenses, and profitability trends over time at the account level. <br></br>**Example Analytics Questions:**<ul><li>What are monthly revenue and expense trends by account class (revenue vs expense)?</li><li>Which expense accounts are growing fastest month-over-month?</li><li>What is the net profit or loss for each month across all revenue and expense accounts?</li></ul>|
 | [xero__balance_sheet_report](https://github.com/fivetran/dbt_xero/blob/main/models/xero__balance_sheet_report.sql) | Shows the monthly balance sheet position for each account to track assets, liabilities, and equity over time and understand financial health. <br></br>**Example Analytics Questions:**<ul><li>What is the current balance for each asset, liability, and equity account?</li><li>How have account balances changed month-over-month across different account classes?</li><li>What is the total asset value versus total liability value for each reporting period?</li></ul>|
 | [xero__invoice_line_items](https://github.com/fivetran/dbt_xero/blob/main/models/xero__invoice_line_items.sql) | Provides detailed invoice line item data enriched with account, contact, and invoice information including amounts, taxes, and payment status to analyze billing and revenue. <br></br>**Example Analytics Questions:**<ul><li>Which customers or contacts generate the highest invoice amounts and line item volumes?</li><li>What are the most common products or services sold based on line item descriptions?</li><li>How do discount rates and tax amounts vary across different invoice line items or customers?</li></ul>|
+| [xero__cash_general_ledger](https://github.com/fivetran/dbt_xero/blob/main/models/xero__cash_general_ledger.sql) | Tracks every cash-basis journal line item with debits, credits, and account classifications using only payment-confirmed entries from Xero's cash-basis journals. <br></br>**Example Analytics Questions:**<ul><li>What is the net cash received or paid by account class for a given period?</li><li>Which accounts have the highest cash transaction volumes?</li><li>How do cash journal entries by source type (ACCRECPAYMENT, ACCPAYPAYMENT) contribute to cash flow?</li></ul>|
 
 ¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 
@@ -132,13 +133,15 @@ By default, all variables are assumed to be `true`. You only need to add variabl
 config-version: 2
 
 vars:
+    xero__using_credit_note: false                                  # default is true
+    xero__using_bank_transaction: false                             # default is true
+    xero__using_invoice_line_item_tracking_category: false          # default is true
+    xero__using_journal_line_tracking_category: false               # default is true
+    xero__using_tracking_categories: false                          # default is true
     xero__using_invoice: false                          # default is true
     xero__using_invoice_line_item: false                # default is true
-    xero__using_credit_note: false                      # default is true
-    xero__using_bank_transaction: false                 # default is true
-    xero__using_invoice_line_item_tracking_category: false  # default is true
-    xero__using_journal_line_tracking_category: false # default is true
-    xero__using_tracking_categories: false                # default is true
+    xero__using_journal_cash: false                                 # will disable both journal_cash and journal_cash_line sources; default is true
+    xero__using_journal_cash_line_tracking_category: false          # default is true
 ```
 
 #### Changing the Build Schema

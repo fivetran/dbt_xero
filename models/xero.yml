@@ -26,7 +26,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: xero__invoice_line_items
@@ -105,7 +105,7 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: xero__general_ledger
@@ -151,6 +151,8 @@ models:
         description: The type of the tax rate.
       - name: account_class
         description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
+      - name: accounting_basis
+        description: The accounting basis of the journal entry. Always 'accrual' for this model.
       - name: invoice_id
         description: Source ID where it can be joined to the invoice table.
       - name: bank_transaction_id
@@ -170,7 +172,81 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
+          sources, this will be an empty string.
+
+  - name: xero__cash_general_ledger
+    description: Each record represents a cash-basis journal line item in Xero. To disable this model, set the `xero__using_journal_cash` variable to `false`.
+    columns:
+      - name: journal_id
+        description: Xero identifier for the cash journal entry.
+        tests:
+          - not_null
+      - name: journal_line_id
+        description: Xero identifier for the cash journal line.
+      - name: created_date_utc
+        description: The created date of the cash journal entry.
+      - name: journal_date
+        description: The date the cash journal was posted.
+      - name: journal_number
+        description: Xero generated journal number.
+      - name: reference
+        description: The associated reference to the journal, if present.
+      - name: source_id
+        description: The identifier for the source transaction.
+      - name: source_type
+        description: The journal source type.
+      - name: account_code
+        description: Customer defined alpha numeric account code e.g 200 or SALES
+      - name: account_id
+        description: The Xero identifier for the related account.
+      - name: account_name
+        description: The name of the related account.
+      - name: account_type
+        description: The type of the related account.
+      - name: description
+        description: The description from the source transaction line item.
+      - name: gross_amount
+        description: Gross amount of journal line (NetAmount + TaxAmount).
+      - name: net_amount
+        description: Net amount of journal line. This will be a positive value for a debit and negative for a credit.
+      - name: tax_amount
+        description: Total tax on a journal line.
+      - name: tax_name
+        description: The name of the tax rate.
+      - name: tax_type
+        description: The type of the tax rate.
+      - name: account_class
+        description: The class of account, e.g. ASSET, EQUITY, EXPENSE, LIABILITY, REVENUE
+      - name: accounting_basis
+        description: The accounting basis of the journal entry. Always 'cash' for this model.
+      - name: invoice_id
+        description: >
+          The identifier for the related invoice, if the source transaction is an invoice (ACCPAY, ACCREC).
+          In practice, this may be null in cash journals as these accrual-basis source types do not appear in the cash journal API.
+          Let us know if you'd like this field adjusted to better suit your cash-basis reporting needs.
+      - name: bank_transaction_id
+        description: The identifier for the related bank transaction, if the source transaction is a cash receipt or payment.
+      - name: credit_note_id
+        description: >
+          The identifier for the related credit note, if the source transaction is a credit note (ACCPAYCREDIT, ACCRECCREDIT).
+          In practice, this may be null in cash journals as these accrual-basis source types do not appear in the cash journal API.
+          Let us know if you'd like this field adjusted to better suit your cash-basis reporting needs.
+      - name: payment_id
+        description: The identifier for the related payment, if the source transaction is a payment (e.g. ACCRECPAYMENT, ACCPAYPAYMENT, ARCREDITPAYMENT, APCREDITPAYMENT, APPREPAYMENT, APOVERPAYMENT, ARPREPAYMENT, AROVERPAYMENT).
+      - name: contact_id
+        description: >
+          The identifier for the contact associated with the source transaction, where resolvable.
+          May be null for payment source types (e.g. ACCRECPAYMENT, ACCPAYPAYMENT) as the package does not currently include a payment staging model.
+          Let us know if you'd like this field adjusted to better suit your cash-basis reporting needs.
+      - name: contact_name
+        description: >
+          The name of the contact associated with the source transaction, where resolvable. Null when contact_id is null.
+          Let us know if you'd like this field adjusted to better suit your cash-basis reporting needs.
+      - name: source_relation
+        description: >
+          The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.
 
   - name: xero__balance_sheet_report
@@ -193,5 +269,5 @@ models:
       - name: source_relation
         description: >
           The source where this data was pulled from. If you are making use of the `union_schemas` variable, this will be the source schema.
-          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioining together multiple
+          If you are making use of the `union_databases` variable, this will be the source database. If you are not unioning together multiple
           sources, this will be an empty string.

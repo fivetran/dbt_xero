@@ -1,0 +1,9 @@
+journal_line_id,account_code,account_id,account_name,account_type,description,gross_amount,journal_id,net_amount,tax_amount,tax_name,tax_type
+aa11bb22-cc33-4444-5555-666677778881,1200,aaa1b2c3-d4e5-6789-abcd-ef1234567001,Accounts Receivable,CURRENT,Invoice payment received,1100.50,c1a2b3d4-e5f6-7890-abcd-ef1234567890,1000.25,100.25,GST on Income,OUTPUT2
+aa11bb22-cc33-4444-5555-666677778882,0900,bbb1b2c3-d4e5-6789-abcd-ef1234567002,Business Bank Account,BANK,Invoice payment received,-1100.00,c1a2b3d4-e5f6-7890-abcd-ef1234567890,-1100.00,0.00,,
+bb22cc33-dd44-5555-6666-777788889991,2100,ccc1b2c3-d4e5-6789-abcd-ef1234567003,Accounts Payable,CURRENT,Supplier payment,-550.00,d2b3c4e5-f6a7-8901-bcde-f01234567891,-500.00,-50.00,GST on Expenses,INPUT2
+bb22cc33-dd44-5555-6666-777788889992,0900,bbb1b2c3-d4e5-6789-abcd-ef1234567002,Business Bank Account,BANK,Supplier payment,550.00,d2b3c4e5-f6a7-8901-bcde-f01234567891,550.00,0.00,,
+cc33dd44-ee55-6666-7777-888899990001,1200,aaa1b2c3-d4e5-6789-abcd-ef1234567001,Accounts Receivable,CURRENT,Customer payment received,2200.00,e3c4d5f6-a7b8-9012-cdef-012345678902,2000.00,200.00,GST on Income,OUTPUT2
+cc33dd44-ee55-6666-7777-888899990002,0900,bbb1b2c3-d4e5-6789-abcd-ef1234567002,Business Bank Account,BANK,Customer payment received,-2200.00,e3c4d5f6-a7b8-9012-cdef-012345678902,-2200.00,0.00,,
+dd44ee55-ff66-7777-8888-999900001111,2100,ccc1b2c3-d4e5-6789-abcd-ef1234567003,Accounts Payable,CURRENT,Vendor payment,-330.00,f4d5e6a7-b8c9-0123-defa-123456789013,-300.00,-30.00,GST on Expenses,INPUT2
+dd44ee55-ff66-7777-8888-999900001112,0900,bbb1b2c3-d4e5-6789-abcd-ef1234567002,Business Bank Account,BANK,Vendor payment,330.00,f4d5e6a7-b8c9-0123-defa-123456789013,330.00,0.00,,

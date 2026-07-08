@@ -3,10 +3,15 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
+-- account_name is included in the grain because the `Retained Earnings` and `Current Year Earnings`
+-- roll-up rows both have a null account_id; keying on account_id alone collapses them into one key
+-- and produces a many-to-many diff.
+
 with prod as (
 
-    select 
+    select
         date_month,
+        account_name,
         case when account_id is null then '' else account_id end as account_id,
         source_relation,
         net_amount
@@ -15,8 +20,9 @@ with prod as (
 
 dev as (
 
-    select 
+    select
         date_month,
+        account_name,
         case when account_id is null then '' else account_id end as account_id,
         source_relation,
         net_amount
@@ -26,6 +32,7 @@ dev as (
 diffed as (
     select
         coalesce(prod.date_month, dev.date_month) as date_month,
+        coalesce(prod.account_name, dev.account_name) as account_name,
         coalesce(prod.account_id, dev.account_id) as account_id,
         coalesce(prod.source_relation, dev.source_relation) as source_relation,
         prod.net_amount as prod_net_amount,
@@ -33,6 +40,7 @@ diffed as (
     from prod
     full outer join dev
         on prod.date_month = dev.date_month
+        and prod.account_name = dev.account_name
         and prod.account_id = dev.account_id
         and prod.source_relation = dev.source_relation
 ),

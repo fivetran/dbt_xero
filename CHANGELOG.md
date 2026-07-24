@@ -1,3 +1,14 @@
+# dbt_xero v1.6.0
+
+[PR #82](https://github.com/fivetran/dbt_xero/pull/82) is a pre-release that includes the following update:
+
+## Schema/Data Change
+**1 total change • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| [`xero__balance_sheet_report`](https://fivetran.github.io/dbt_xero/#!/model/model.xero.xero__balance_sheet_report) (possible breaking change) | Data Change | `Retained Earnings` vs. `Current Year Earnings` split anchored to the runtime `current_date`. | Split anchored to each report month's (`date_month`) fiscal year. | Historical months now reconcile with the native Xero balance sheet and are stable across runs. |
+
 # dbt_xero v1.6.0-a1
 
 [PR #80](https://github.com/fivetran/dbt_xero/pull/80) is a pre-release that includes the following update:
@@ -8,10 +19,6 @@
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | --- | --- | ----- |
 | [`xero__balance_sheet_report`](https://fivetran.github.io/dbt_xero/#!/model/model.xero.xero__balance_sheet_report) (possible breaking change) | Data Change | `Retained Earnings` vs. `Current Year Earnings` split anchored to the runtime `current_date`. | Split anchored to each report month's (`date_month`) fiscal year. | Historical months now reconcile with the native Xero balance sheet and are stable across runs. |
-
-## Under the Hood
-- Updates the `consistency_balance_sheet_report` validation test to key on `account_name`. Expect it to flag `xero__balance_sheet_report` against the prior release, since the change above intentionally alters historical values.
-
 
 # dbt_xero v1.5.0
 

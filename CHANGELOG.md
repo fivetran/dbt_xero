@@ -1,6 +1,6 @@
 # dbt_xero v1.6.0
 
-[PR #82](https://github.com/fivetran/dbt_xero/pull/82) is a pre-release that includes the following update:
+[PR #82](https://github.com/fivetran/dbt_xero/pull/82) includes the following update:
 
 ## Schema/Data Change
 **1 total change • 1 possible breaking change**

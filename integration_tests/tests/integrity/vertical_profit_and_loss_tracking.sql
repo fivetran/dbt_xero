@@ -53,7 +53,7 @@ with calendar as (
         journal_line.account_id,
         journal.source_relation,
 
-        {% if using_tracking %}
+        {% if using_tracking and tracking_cols %}
         {{ dbt_utils.star(
             from=ref('int_xero__journal_line_pivoted_tracking_categories'),
             relation_alias='pivoted_tracking_categories',

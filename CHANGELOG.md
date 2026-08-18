@@ -1,3 +1,11 @@
+# dbt_xero v1.6.1
+
+[PR #83](https://github.com/fivetran/dbt_xero/pull/83) includes the following updates:
+
+## Feature Updates
+- Adds DuckDB as a supported destination.
+
+
 # dbt_xero v1.6.0
 
 [PR #82](https://github.com/fivetran/dbt_xero/pull/82) includes the following update:

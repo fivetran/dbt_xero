@@ -14,7 +14,8 @@ schema_variable_name: "xero_schema"
 include_databricks_sql: false
 include_sqlserver: false
 include_duckdb: true
-include_dbt_compile: false
+include_dbt_compile: true
+include_dbt_v2_strict: true
 
 test_scenarios:
   - name: "Default"

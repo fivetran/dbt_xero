@@ -1,4 +1,5 @@
 version: 1.6.3
+pr_number: 87
 under_the_hood:
 - description: Documents the `_fivetran_synced` column in the `stg_xero__invoice_line_item_has_tracking_category`
     and `stg_xero__journal_line_has_tracking_category` models. Both models already

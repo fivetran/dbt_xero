@@ -31,6 +31,12 @@ models:
 
   - name: xero__invoice_line_items
     description: Each record represents an invoice line item, enriched with account, contact and invoice information.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - line_item_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -110,6 +116,13 @@ models:
 
   - name: xero__general_ledger
     description: Each record represents a journal line item. This ledger is used to create the balance sheet and profit and loss.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journal_id
+              - journal_line_id
     columns:
       - name: journal_line_id
         description: Xero identifier for the journal line.
@@ -177,6 +190,13 @@ models:
 
   - name: xero__cash_general_ledger
     description: Each record represents a cash-basis journal line item in Xero. To disable this model, set the `xero__using_journal_cash` variable to `false`.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journal_id
+              - journal_line_id
     columns:
       - name: journal_id
         description: Xero identifier for the cash journal entry.
@@ -251,6 +271,13 @@ models:
 
   - name: xero__balance_sheet_report
     description: Each record represents the state of the balance sheet for a given account on a given month.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - date_month
+              - account_name
     columns:
       - name: date_month
         description: The month a given record is reporting on.

@@ -1,3 +1,10 @@
+# dbt_xero v1.6.2
+
+[PR #86](https://github.com/fivetran/dbt_xero/pull/86) includes the following updates:
+
+## Bug Fix
+- `dbt compile` no longer fails on a new schema. The `int_xero__journal_line_pivoted_tracking_categories`, `int_xero__journal_cash_line_pivoted_tracking_categories`, and `int_xero__invoice_line_item_pivoted_tracking_categories` models now look up tracking category names only during `dbt run` and `dbt build`, and query them once instead of twice.
+
 # dbt_xero v1.6.1
 
 [PR #83](https://github.com/fivetran/dbt_xero/pull/83) includes the following updates:

@@ -2,6 +2,12 @@ version: 2
 models:
   - name: stg_xero__account
     description: Each record in this table represents an account in Xero.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - account_id
     columns:
       - name: account_id
         description: Xero identifier for the account.
@@ -26,6 +32,12 @@ models:
 
   - name: stg_xero__contact
     description: Each record in this table represents a contact in Xero.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
     columns:
       - name: contact_id
         description: Xero identifier for the contact.
@@ -42,6 +54,12 @@ models:
 
   - name: stg_xero__invoice_line_item
     description: Each record in this able represents an invoice line item in Xero.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - line_item_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -79,6 +97,12 @@ models:
 
   - name: stg_xero__invoice
     description: Each record in this table represents an invoice in Xero.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - invoice_id
     columns:
       - name: invoice_id
         description: Xero identifier for the invoice
@@ -124,6 +148,12 @@ models:
 
   - name: stg_xero__journal_line
     description: Each record represents a journal line in Xero.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journal_line_id
     columns:
       - name: journal_line_id
         description: Xero identifier for the journal line.
@@ -159,6 +189,12 @@ models:
 
   - name: stg_xero__journal
     description: Each record represents a journal in Xero
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journal_id
     columns:
       - name: journal_id
         description: Xero identifier for the journal entry
@@ -185,6 +221,12 @@ models:
 
   - name: stg_xero__organization
     description: Each record represents an organization in Xero.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - organisation_id
     columns:
       - name: organisation_id
         description: Xero identifier for the organisation.
@@ -202,6 +244,15 @@ models:
 
   - name: stg_xero__invoice_line_item_has_tracking_category
     description: Tracking category details for invoice line items.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - invoice_id
+              - line_item_id
+              - tracking_category_id
+              - tracking_option_name
     columns:
       - name: invoice_id
         description: Xero identifier for the invoice.
@@ -219,6 +270,15 @@ models:
 
   - name: stg_xero__journal_line_has_tracking_category 
     description: Tracking category details for journal lines.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journal_id
+              - journal_line_id
+              - tracking_category_id
+              - tracking_category_option_id
     columns:
       - name: journal_id
         description: Xero identifier for the journal.
@@ -238,6 +298,12 @@ models:
 
   - name: stg_xero__tracking_category 
     description: Tracking category metadata, including name and status.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - tracking_category_id
     columns:
       - name: tracking_category_id
         description: Xero identifier for the tracking category.
@@ -255,6 +321,12 @@ models:
 
   - name: stg_xero__tracking_category_option
     description: Individual options (values) within a Xero tracking category.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - tracking_option_id
     columns:
       - name: tracking_option_id
         description: Xero identifier for the tracking category option.
@@ -280,6 +352,13 @@ models:
 
   - name: stg_xero__tracking_category_has_option
     description: Mapping table between Xero tracking categories and their associated options.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - tracking_category_id
+              - tracking_option_id
     columns:
       - name: tracking_category_id
         description: Xero identifier for the tracking category.
@@ -295,6 +374,12 @@ models:
 
   - name: stg_xero__journal_cash
     description: Each record represents a cash-basis journal entry in Xero (paymentsOnly=true).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journal_id
     columns:
       - name: journal_id
         description: Xero identifier for the cash journal entry.
@@ -320,6 +405,12 @@ models:
 
   - name: stg_xero__journal_cash_line
     description: Each record represents a line item within a cash-basis journal entry in Xero.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journal_line_id
     columns:
       - name: journal_line_id
         description: Xero identifier for the cash journal line.
@@ -355,6 +446,15 @@ models:
 
   - name: stg_xero__journal_cash_line_has_tracking_category
     description: Tracking category details for cash journal lines.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journal_id
+              - journal_line_id
+              - tracking_category_id
+              - tracking_category_option_id
     columns:
       - name: journal_id
         description: Xero identifier for the cash journal.

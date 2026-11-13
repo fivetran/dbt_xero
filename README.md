@@ -15,7 +15,7 @@ This dbt package transforms data from Fivetran's Xero connector into analytics-r
   - [DAG](https://fivetran.github.io/dbt_xero/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_xero/blob/main/CHANGELOG.md)
 - dbt Core™ supported versions
-  - `>=1.3.0, <3.0.0`
+  - `>=1.10.0, <3.0.0`
 
 ## What does this dbt package do?
 This package enables you to produce modeled tables, provide analytics-ready models, and generate comprehensive data dictionaries. It creates enriched models with metrics focused on profit and loss reports, general ledgers, and balance sheet reports.
@@ -65,7 +65,7 @@ Include the following xero package version in your `packages.yml` file:
 ```yaml
 packages:
   - package: fivetran/xero
-    version: [">=1.6.0", "<1.7.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.7.0", "<1.8.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/xero_source` in your `packages.yml` since this package has been deprecated.
 

@@ -1,3 +1,10 @@
+# dbt_xero v1.6.3
+
+[PR #87](https://github.com/fivetran/dbt_xero/pull/87) includes the following updates:
+
+## Under the Hood
+- Documents the `_fivetran_synced` column in the `stg_xero__invoice_line_item_has_tracking_category` and `stg_xero__journal_line_has_tracking_category` models. Both models already returned this column; it is now described in the package documentation.
+
 # dbt_xero v1.6.2
 
 [PR #86](https://github.com/fivetran/dbt_xero/pull/86) includes the following updates:

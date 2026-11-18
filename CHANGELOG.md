@@ -1,3 +1,14 @@
+# dbt_xero v1.7.0
+
+[PR #88](https://github.com/fivetran/dbt_xero/pull/88) includes the following updates:
+
+## Feature Update
+- Raises the minimum dbt version to 1.10.0.
+- Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_xero/issues/new/choose).
+
+## Under the Hood
+- Documents the `_fivetran_synced` column in the `stg_xero__invoice_line_item_has_tracking_category` and `stg_xero__journal_line_has_tracking_category` models. Both models already returned this column; it is now described in the package documentation.
+
 # dbt_xero v1.6.2
 
 [PR #86](https://github.com/fivetran/dbt_xero/pull/86) includes the following updates:

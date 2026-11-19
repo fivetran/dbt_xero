@@ -7,7 +7,7 @@
 - Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_xero/issues/new/choose).
 
 ## Under the Hood
-- Documents the `_fivetran_synced` column in the `stg_xero__invoice_line_item_has_tracking_category` and `stg_xero__journal_line_has_tracking_category` models. Both models already returned this column; it is now described in the package documentation.
+- Updates yml column documentation to match model output.
 
 # dbt_xero v1.6.2
 

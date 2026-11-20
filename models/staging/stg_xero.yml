@@ -11,7 +11,7 @@ models:
     columns:
       - name: account_id
         description: Xero identifier for the account.
-        tests:
+        data_tests:
           - not_null
       - name: account_name
         description: The name of the account.
@@ -41,7 +41,7 @@ models:
     columns:
       - name: contact_id
         description: Xero identifier for the contact.
-        tests:
+        data_tests:
           - not_null
       - name: contact_name
         description: The name of the contact.
@@ -79,7 +79,7 @@ models:
         description: The line amount reflects the discounted price if a DiscountRate has been used.
       - name: line_item_id
         description: Xero identifier for the line item.
-        tests:
+        data_tests:
           - not_null
       - name: quantity
         description: The quantity of the line item.
@@ -106,7 +106,7 @@ models:
     columns:
       - name: invoice_id
         description: Xero identifier for the invoice
-        tests:
+        data_tests:
           - not_null
       - name: contact_id
         description: The Xero identifier for the associated contact.
@@ -157,7 +157,7 @@ models:
     columns:
       - name: journal_line_id
         description: Xero identifier for the journal line.
-        tests:
+        data_tests:
           - not_null
       - name: account_code
         description: Customer defined alpha numeric account code e.g 200 or SALES
@@ -198,7 +198,7 @@ models:
     columns:
       - name: journal_id
         description: Xero identifier for the journal entry
-        tests:
+        data_tests:
           - not_null
       - name: created_date_utc
         description: The created date of the journal entry
@@ -230,7 +230,7 @@ models:
     columns:
       - name: organisation_id
         description: Xero identifier for the organisation.
-        tests:
+        data_tests:
           - not_null
       - name: financial_year_end_month
         description: Calendar Month e.g. 1-12
@@ -387,7 +387,7 @@ models:
     columns:
       - name: journal_id
         description: Xero identifier for the cash journal entry.
-        tests:
+        data_tests:
           - not_null
       - name: created_date_utc
         description: The created date of the cash journal entry.
@@ -418,7 +418,7 @@ models:
     columns:
       - name: journal_line_id
         description: Xero identifier for the cash journal line.
-        tests:
+        data_tests:
           - not_null
       - name: account_code
         description: Customer defined alpha numeric account code e.g 200 or SALES
@@ -462,11 +462,11 @@ models:
     columns:
       - name: journal_id
         description: Xero identifier for the cash journal.
-        tests:
+        data_tests:
           - not_null
       - name: journal_line_id
         description: Xero identifier for the cash journal line.
-        tests:
+        data_tests:
           - not_null
       - name: tracking_category_id
         description: Xero identifier for the tracking category.

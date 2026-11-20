@@ -6,7 +6,7 @@ models:
     columns:
       - name: profit_and_loss_id
         description: Unique identifier for each record in the profit and loss report model.
-        tests:
+        data_tests:
           - unique  
           - not_null
       - name: date_month
@@ -56,7 +56,7 @@ models:
         description: The line amount reflects the discounted price if a DiscountRate has been used.
       - name: line_item_id
         description: Xero identifier for the line item.
-        tests:
+        data_tests:
           - not_null
       - name: quantity
         description: The quantity of the line item.
@@ -128,7 +128,7 @@ models:
         description: Xero identifier for the journal line.
       - name: journal_id
         description: Xero identifier for the journal entry
-        tests:
+        data_tests:
           - not_null
       - name: created_date_utc
         description: The created date of the journal entry
@@ -200,7 +200,7 @@ models:
     columns:
       - name: journal_id
         description: Xero identifier for the cash journal entry.
-        tests:
+        data_tests:
           - not_null
       - name: journal_line_id
         description: Xero identifier for the cash journal line.

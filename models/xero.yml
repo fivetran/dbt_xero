@@ -278,6 +278,7 @@ models:
               - source_relation
               - date_month
               - account_name
+              - account_id
     columns:
       - name: date_month
         description: The month a given record is reporting on.
